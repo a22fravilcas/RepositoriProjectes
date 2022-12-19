@@ -17,6 +17,8 @@ public class TestM05 {
         // TODO code application logic here
         
         //Prueba
+        
+        System.out.println("Hello World!");
     }
     
 }
