@@ -15,5 +15,7 @@ public class ProjecteLoteria {
 
     }
     
-    static void NumeroPremiat
+    static void NumeroPremiat(){
+        
+    }
 }
