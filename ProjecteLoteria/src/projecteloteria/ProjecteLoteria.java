@@ -10,10 +10,19 @@ public class ProjecteLoteria {
     static Random rndm = new Random();
     
     public static void main(String[] args) {
+        int array_NumerosPremiats [] = new int [1807];
+        int array_Premis [] = new int [1807];
+        NumeroPremiat(array_NumerosPremiats);
         
     }
     
-    static void NumeroPremiat(){
+    public static void NumeroPremiat (int premis []){
+        for (int i=0;i!=premis.length;i++){
+            premis[i] = rndm.nextInt(99999);
+        }
+    }
+    
+    public static void CompletarPremis (int array_Premis []){
         
     }
 }
