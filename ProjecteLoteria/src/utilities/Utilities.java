@@ -6,7 +6,6 @@
 package utilities;
 
 import java.util.Scanner;
-
 /**
  * Llibreria d'utilitats
  *
@@ -136,6 +135,8 @@ public class Utilities {
         //Tornar el resultat de la funció
         return result;
     }
+    
+    
 
 // </editor-fold>
 }
