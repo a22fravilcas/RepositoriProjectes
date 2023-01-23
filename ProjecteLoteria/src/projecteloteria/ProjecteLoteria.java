@@ -11,23 +11,30 @@ public class ProjecteLoteria {
     static final int TOTALPREMIS = 1807;
     static int indexnummatch;
                 
-
+    /**
+     * 
+     * @param args 
+     */
     public static void main(String[] args) {   
         
         
         int array_NumerosPremiats[] = new int[TOTALPREMIS];
+        //Crida a funcio NumeroPremiat
         NumeroPremiat(array_NumerosPremiats);
         
         
         long array_Premis[] = new long[TOTALPREMIS];
+        //Crida a funcio CompletarPremis
         CompletarPremis(array_Premis);
         
+        //Crida a funcio externa per verificar el numero de l'usuari
         int numeroUsuari = Utilities.demanaNumEnter("Introdueix el teu numero de loteria. "
                                                     + "El numero ha de ser de cinc digits");
         
-        
+        //Crida a funcio TrobarNumeroPremiat
         boolean NumeroTrobat = TrobarNumeroPremiat(array_NumerosPremiats, numeroUsuari);
         
+        //If per saber si el numero escollit te premi principal.
         if (!NumeroTrobat) {
             long premiTrobat = TrobarPremi(indexnummatch, array_Premis);
             System.out.println("Enhorabona, has aconeguit un premi principal. El teu premi es de " +  premiTrobat + " €.");
