@@ -23,7 +23,7 @@ public class ProjecteLoteria {
         NumeroPremiat(array_NumerosPremiats);
         
         
-        long array_Premis[] = new long[TOTALPREMIS];
+        int array_Premis[] = new int[TOTALPREMIS];
         //Crida a funcio CompletarPremis
         CompletarPremis(array_Premis);
         
@@ -35,7 +35,7 @@ public class ProjecteLoteria {
         boolean NumeroTrobat = TrobarNumeroPremiat(array_NumerosPremiats, numeroUsuari);
         
         //If per saber si el numero escollit te premi principal.
-        if (!NumeroTrobat) {
+        if (NumeroTrobat) {
             long premiTrobat = TrobarPremi(indexnummatch, array_Premis);
             System.out.println("Enhorabona, has aconeguit un premi principal. El teu premi es de " +  premiTrobat + " €.");
         } else {
@@ -58,8 +58,8 @@ public class ProjecteLoteria {
      * 
      * @param array_Premis 
      */
-    //Funcio que assigna el valor a l'array de premis
-    public static void CompletarPremis(long array_Premis[]) {
+    //Funcio que assigna el valor a l'array de premis WIP
+    public static void CompletarPremis(int array_Premis[]) {
 
         final int TOTALPADREO = 1807;
         final int PREMIOPADREO = 1000;
@@ -67,10 +67,8 @@ public class ProjecteLoteria {
         array_Premis[0] = 4000000;
         array_Premis[1] = 1250000;
         array_Premis[2] = 500000;
-
         array_Premis[3] = 200000;
         array_Premis[4] = 200000;
-
         array_Premis[5] = 60000;
         array_Premis[6] = 60000;
         array_Premis[7] = 60000;
@@ -118,11 +116,44 @@ public class ProjecteLoteria {
      * @return 
      */
     //Funcio que troba el premi corresponent al numero premiat
-    public static long TrobarPremi(int indexnummatch, long[] premis){
+    public static int TrobarPremi(int indexnummatch, int[] premis){
         
-        long valorPremi = premis[indexnummatch];
+        int valorPremi = premis[indexnummatch];
         
         return valorPremi;
     }
     
+    /**
+     * 
+     * @param numeroUsuari
+     * @param premis
+     * @return 
+     */
+    public static boolean UltimaXifraGordo(int numeroUsuari, int[] premis){
+        boolean xifraIgual = false;
+        
+        int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
+        
+        int[] primerPremi = Utilities.intToArray(premis[0]);
+        
+        if (ArrayUsuari[5] == primerPremi[5]) {
+            xifraIgual = true;
+        }
+        
+        return xifraIgual;
+    }
+    
+    public static boolean UltimesDosXifresGordo(int numeroUsuari, int[] premis){
+        boolean xifresIguals = false;
+        
+        int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
+        
+        int[] primerPremi = Utilities.intToArray(premis[0]);
+        
+        if (ArrayUsuari[5] == primerPremi[5] && ArrayUsuari[4] == primerPremi[4]) {
+            xifresIguals = true;
+        }
+        
+        return xifresIguals;
+    }
 }
