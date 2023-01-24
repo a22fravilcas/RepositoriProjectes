@@ -136,7 +136,19 @@ public class Utilities {
         return result;
     }
     
-    
+    public static int[] intToArray(int testnumber){
+        int[] intArray;
+        
+        String num = Integer.toString(testnumber);
+        
+        intArray= new int[num.length()];
+        
+        for (int i = 0; i < intArray.length; i++) {
+            intArray[i] = num.charAt(i);
+        }
+   
+        return intArray;
+    }
 
 // </editor-fold>
 }
