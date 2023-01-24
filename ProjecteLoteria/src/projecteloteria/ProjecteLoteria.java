@@ -143,6 +143,12 @@ public class ProjecteLoteria {
         return xifraIgual;
     }
     
+    /**
+     * 
+     * @param numeroUsuari
+     * @param premis
+     * @return 
+     */
     public static boolean UltimesDosXifresGordo(int numeroUsuari, int[] premis){
         boolean xifresIguals = false;
         
