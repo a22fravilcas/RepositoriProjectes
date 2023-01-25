@@ -162,12 +162,12 @@ public class ProjecteLoteria {
 
         return xifresIguals;
     }
-    
+
     /**
-     * 
+     *
      * @param numeroUsuari
      * @param premis
-     * @return 
+     * @return
      */
     //Funcio que comprova si les tres ultimes xifres del numero de l'usuari son iguals a les del gordo
     public static boolean UltimesTresXifresGordo(int numeroUsuari, int[] premis) {
@@ -185,7 +185,14 @@ public class ProjecteLoteria {
 
         return xifresIguals;
     }
-    
+
+    /**
+     * 
+     * @param numeroUsuari
+     * @param premis
+     * @return 
+     */
+    //Funcio que comprova si les tres ultimes xifres del numero de l'usuari son iguals a les del segon premi
     public static boolean UltimesTresXifresSegonPremi(int numeroUsuari, int[] premis) {
         boolean xifresIguals = false;
 
