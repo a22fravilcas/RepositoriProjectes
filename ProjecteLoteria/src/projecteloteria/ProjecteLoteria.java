@@ -35,10 +35,14 @@ public class ProjecteLoteria {
         //If per saber si el numero escollit te premi principal.
         if (NumeroTrobat) {
             long premiTrobat = TrobarPremi(indexnummatch, array_Premis);
-            System.out.println("Enhorabona, has aconeguit un premi principal. El teu premi es de " + premiTrobat + " €.");
+            System.out.println("Enhorabona, has aconeguit un premi principal. El teu premi es de " + premiTrobat + "€.");
         } else {
             System.out.println("El teu numero no correspon a cap premi principal.");
         }
+        
+        boolean UltimaXifraGordo = UltimaXifraGordo(numeroUsuari, array_Premis);
+        boolean UltimesDosXifresGordo = UltimesDosXifresGordo(numeroUsuari, array_Premis);
+        boolean UltimesTresXifresGordo = UltimesTresXifresGordo(numeroUsuari, array_Premis);
     }
 
     /**
