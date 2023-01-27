@@ -10,6 +10,7 @@ public class ProjecteLoteria {
     static Random rndm = new Random();
     static final int TOTALPREMIS = 1807;
     static int indexnummatch;
+    static int PREMI_ACUMULAT;
 
     /**
      *
@@ -24,7 +25,8 @@ public class ProjecteLoteria {
         int array_Premis[] = new int[TOTALPREMIS];
         //Crida a funcio CompletarPremis
         CompletarPremis(array_Premis);
-
+        boolean AltreNumero=true; //boolean per permetre al usuari introduir diversos numeros   
+        while(AltreNumero){
         //Crida a funcio externa per verificar el numero de l'usuari
         int numeroUsuari = Utilities.demanaNumEnter("Introdueix el teu numero de loteria. "
                 + "El numero ha de ser de cinc digits");
@@ -34,7 +36,8 @@ public class ProjecteLoteria {
 
         //If per saber si el numero escollit te premi principal.
         if (NumeroTrobat) {
-            long premiTrobat = TrobarPremi(indexnummatch, array_Premis);
+            int premiTrobat = TrobarPremi(indexnummatch, array_Premis);
+            PREMI_ACUMULAT=premiTrobat;
             System.out.println("Enhorabona, has aconeguit un premi principal. El teu premi es de " + premiTrobat + "€.");
         } else {
             System.out.println("El teu numero no correspon a cap premi principal.");
@@ -44,7 +47,7 @@ public class ProjecteLoteria {
         boolean UltimesDosXifresGordo = UltimesDosXifresGordo(numeroUsuari, array_Premis);
         boolean UltimesTresXifresGordo = PrimeresTresXifresGordo(numeroUsuari, array_Premis);
     }
-
+    }
     /**
      *
      * @param premis
