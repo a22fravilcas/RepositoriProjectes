@@ -37,7 +37,6 @@ public class ProjecteLoteria {
         //If per saber si el numero escollit te premi principal.
         if (NumeroTrobat) {
             int premiTrobat = TrobarPremi(indexnummatch, array_Premis);
-            PREMI_ACUMULAT=premiTrobat;
             System.out.println("Enhorabona, has aconeguit un premi principal. El teu premi es de " + premiTrobat + "€.");
         } else {
             System.out.println("El teu numero no correspon a cap premi principal.");
@@ -46,6 +45,10 @@ public class ProjecteLoteria {
         boolean UltimaXifraGordo = UltimaXifraGordo(numeroUsuari, array_Premis);
         boolean UltimesDosXifresGordo = UltimesDosXifresGordo(numeroUsuari, array_Premis);
         boolean UltimesTresXifresGordo = PrimeresTresXifresGordo(numeroUsuari, array_Premis);
+        boolean AproxPrim=AproximacioPrimerPremi(numeroUsuari, array_Premis);
+        boolean AproxSeg=AproximacioSegonPremi(numeroUsuari, array_Premis);
+        boolean AproxTerc=AproximacioTercerPremi(numeroUsuari, array_Premis);
+        
     }
     }
     /**
@@ -123,7 +126,7 @@ public class ProjecteLoteria {
     public static int TrobarPremi(int indexnummatch, int[] premis) {
 
         int valorPremi = premis[indexnummatch];
-
+        PREMI_ACUMULAT+=valorPremi;
         return valorPremi;
     }
     
@@ -136,7 +139,7 @@ public class ProjecteLoteria {
     //Funcio que comprova si les tres ultimes xifres del numero de l'usuari son iguals a les del gordo
     public static boolean PrimeresTresXifresGordo(int numeroUsuari, int[] premis) {
         boolean xifresIguals = false;
-
+        int premi=100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
 
         int[] primerPremi = Utilities.intToArray(premis[0]);
@@ -145,6 +148,7 @@ public class ProjecteLoteria {
                 && ArrayUsuari[1] == primerPremi[1]
                 && ArrayUsuari[2] == primerPremi[2]) {
             xifresIguals = true;
+            PREMI_ACUMULAT+=premi;
         }
 
         return xifresIguals;
@@ -159,7 +163,7 @@ public class ProjecteLoteria {
     //Funcio que comprova si les tres ultimes xifres del numero de l'usuari son iguals a les del segon premi
     public static boolean PrimeresTresXifresSegonPremi(int numeroUsuari, int[] premis) {
         boolean xifresIguals = false;
-
+        int premi=100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
 
         int[] primerPremi = Utilities.intToArray(premis[1]);
@@ -168,6 +172,7 @@ public class ProjecteLoteria {
                 && ArrayUsuari[1] == primerPremi[1]
                 && ArrayUsuari[2] == primerPremi[2]) {
             xifresIguals = true;
+            PREMI_ACUMULAT+=premi;
         }
 
         return xifresIguals;
@@ -182,7 +187,7 @@ public class ProjecteLoteria {
     //Funcio que comprova si les tres ultimes xifres del numero de l'usuari son iguals a les del segon premi
     public static boolean PrimeresTresXifresTercerPremi(int numeroUsuari, int[] premis) {
         boolean xifresIguals = false;
-
+        int premi=100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
 
         int[] primerPremi = Utilities.intToArray(premis[2]);
@@ -191,6 +196,7 @@ public class ProjecteLoteria {
                 && ArrayUsuari[1] == primerPremi[1]
                 && ArrayUsuari[2] == primerPremi[2]) {
             xifresIguals = true;
+            PREMI_ACUMULAT+=premi;
         }
 
         return xifresIguals;
@@ -205,7 +211,7 @@ public class ProjecteLoteria {
     //Funcio que comprova si les tres ultimes xifres del numero de l'usuari son iguals a les del segon premi
     public static boolean PrimeresTresXifresQuartPremi1(int numeroUsuari, int[] premis) {
         boolean xifresIguals = false;
-
+        int premi=100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
 
         int[] primerPremi = Utilities.intToArray(premis[3]);
@@ -214,6 +220,7 @@ public class ProjecteLoteria {
                 && ArrayUsuari[1] == primerPremi[1]
                 && ArrayUsuari[2] == primerPremi[2]) {
             xifresIguals = true;
+            PREMI_ACUMULAT+=premi;
         }
 
         return xifresIguals;
@@ -228,7 +235,7 @@ public class ProjecteLoteria {
     //Funcio que comprova si les tres ultimes xifres del numero de l'usuari son iguals a les del segon premi
     public static boolean PrimeresTresXifresQuartPremi2(int numeroUsuari, int[] premis) {
         boolean xifresIguals = false;
-
+        int premi=100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
 
         int[] primerPremi = Utilities.intToArray(premis[4]);
@@ -237,6 +244,7 @@ public class ProjecteLoteria {
                 && ArrayUsuari[1] == primerPremi[1]
                 && ArrayUsuari[2] == primerPremi[2]) {
             xifresIguals = true;
+            PREMI_ACUMULAT+=premi;
         }
 
         return xifresIguals;
@@ -251,13 +259,14 @@ public class ProjecteLoteria {
     //Funcio que comprova si les dues ultimes xifres del numero de l'usuari son iguals a les del gordo
     public static boolean UltimesDosXifresGordo(int numeroUsuari, int[] premis) {
         boolean xifresIguals = false;
-
+        int premi=100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
 
         int[] primerPremi = Utilities.intToArray(premis[0]);
 
         if (ArrayUsuari[5] == primerPremi[5] && ArrayUsuari[4] == primerPremi[4]) {
             xifresIguals = true;
+            PREMI_ACUMULAT+=premi;
         }
 
         return xifresIguals;
@@ -272,13 +281,14 @@ public class ProjecteLoteria {
     //Funcio que comprova si les dues ultimes xifres del numero de l'usuari son iguals a les del gordo
     public static boolean UltimesDosXifresSegonPremi(int numeroUsuari, int[] premis) {
         boolean xifresIguals = false;
-
+        int premi=100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
 
         int[] primerPremi = Utilities.intToArray(premis[1]);
 
         if (ArrayUsuari[5] == primerPremi[5] && ArrayUsuari[4] == primerPremi[4]) {
             xifresIguals = true;
+            PREMI_ACUMULAT+=premi;
         }
 
         return xifresIguals;
@@ -293,13 +303,14 @@ public class ProjecteLoteria {
     //Funcio que comprova si les dues ultimes xifres del numero de l'usuari son iguals a les del gordo
     public static boolean UltimesDosXifresTercerPremi(int numeroUsuari, int[] premis) {
         boolean xifresIguals = false;
-
+        int premi=100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
 
         int[] primerPremi = Utilities.intToArray(premis[2]);
 
         if (ArrayUsuari[5] == primerPremi[5] && ArrayUsuari[4] == primerPremi[4]) {
             xifresIguals = true;
+            PREMI_ACUMULAT+=premi;
         }
 
         return xifresIguals;
@@ -315,20 +326,51 @@ public class ProjecteLoteria {
     //Funcio que comprova si l'ultima xifra del numero de l'usuari es igual al del gordo
     public static boolean UltimaXifraGordo(int numeroUsuari, int[] premis) {
         boolean xifraIgual = false;
-
+        int reintegrament=20;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
 
         int[] primerPremi = Utilities.intToArray(premis[0]);
 
         if (ArrayUsuari[5] == primerPremi[5]) {
             xifraIgual = true;
+            PREMI_ACUMULAT+=reintegrament;
         }
 
         return xifraIgual;
     }
-
-    
-
+    //Funcio que comproba si el numero del usuari es aproximacio al primer premi (+-1)
+    public static boolean AproximacioPrimerPremi (int numeroUsuari, int[] premis){
+        boolean result=false;
+        int premiAprox=200;
+        if (numeroUsuari+1==premis[0] ||numeroUsuari-1==premis[0] ){
+            result=true;
+            PREMI_ACUMULAT+=premiAprox;
+        }
+        
+        return result;
+    }
+    //Funcio que comproba si el numero del usuari es aproximacio al segon premi (+-1)
+    public static boolean AproximacioSegonPremi (int numeroUsuari, int[] premis){
+        boolean result=false;
+        int premiAprox=1250;
+        if (numeroUsuari+1==premis[1] ||numeroUsuari-1==premis[1] ){
+            result=true;
+            PREMI_ACUMULAT+=premiAprox;
+        }
+        
+        return result;
+     }
+    //Funcio que comproba si el numero del usuari es aproximacio al tercer premi (+-1)
+    public static boolean AproximacioTercerPremi (int numeroUsuari, int[] premis){
+        boolean result=false;
+        int premiAprox=960;
+        if (numeroUsuari+1==premis[2] ||numeroUsuari-1==premis[2] ){
+            result=true;
+            PREMI_ACUMULAT+=premiAprox;
+        }
+        
+        return result;
+     }  
 }
 
     
