@@ -27,6 +27,7 @@ public class ProjecteLoteria {
         boolean AltreNumero=true; //boolean per permetre al usuari introduir diversos numeros   
         System.out.println(array_NumerosPremiats[0]);//print per poder probar numeros, no estara en versio final
         while(AltreNumero){
+            boolean premiat=false;
             PREMI_ACUMULAT=0;
         //Crida a funcio externa per verificar el numero de l'usuari
         int numeroUsuari = Utilities.demanaNumEnter("Introdueix el teu numero de loteria. "
@@ -36,22 +37,36 @@ public class ProjecteLoteria {
 
         //If per saber si el numero escollit te premi principal.
         if (NumeroTrobat) {
+             premiat=true;
             int premiTrobat = TrobarPremi(indexnummatch, array_Premis);
             System.out.println("Enhorabona, has aconeguit un premi principal. El teu premi es de " + premiTrobat +   "€.");
         } else {
             System.out.println("El teu numero no correspon a cap premi principal.");
         }
+        boolean AproxSeg=false, AproxTerc=false, PrimerTresXifresTercer=false, PrimerTresXifresQuart1=false,
+                PrimerTresXifresQuart2=false, UltimaXifraGordo=false, UltimesDosXifresGordo=false;
         
-        boolean UltimaXifraGordo = UltimaXifraGordo(numeroUsuari, array_NumerosPremiats);
-        boolean UltimesDosXifresGordo = UltimesDosXifresGordo(numeroUsuari, array_NumerosPremiats);
         boolean PrimerTresXifresGordo = PrimeresTresXifresGordo(numeroUsuari, array_NumerosPremiats);
+        if (PrimerTresXifresGordo=false){
+            UltimesDosXifresGordo = UltimesDosXifresGordo(numeroUsuari, array_NumerosPremiats);
+            if (UltimesDosXifresGordo=false)
+               UltimaXifraGordo = UltimaXifraGordo(numeroUsuari, array_NumerosPremiats);
+        }
+        
         boolean PrimerTresXifresSegon = PrimeresTresXifresSegonPremi(numeroUsuari, array_NumerosPremiats);
-        boolean PrimerTresXifresTercer = PrimeresTresXifresTercerPremi(numeroUsuari, array_NumerosPremiats);
-        boolean PrimerTresXifresQuart1 = PrimeresTresXifresQuartPremi1(numeroUsuari, array_NumerosPremiats);
-        boolean PrimerTresXifresQuart2 = PrimeresTresXifresQuartPremi2(numeroUsuari, array_NumerosPremiats);
+        if (PrimerTresXifresSegon=false){
+             PrimerTresXifresTercer = PrimeresTresXifresTercerPremi(numeroUsuari, array_NumerosPremiats);
+             if (PrimerTresXifresTercer=false){
+                PrimerTresXifresQuart1 = PrimeresTresXifresQuartPremi1(numeroUsuari, array_NumerosPremiats);
+                PrimerTresXifresQuart2 = PrimeresTresXifresQuartPremi2(numeroUsuari, array_NumerosPremiats);}}
+        
         boolean AproxPrim = AproximacioPrimerPremi(numeroUsuari, array_NumerosPremiats);
-        boolean AproxSeg = AproximacioSegonPremi(numeroUsuari, array_NumerosPremiats);
-        boolean AproxTerc = AproximacioTercerPremi(numeroUsuari, array_NumerosPremiats);
+            if (AproxPrim=false){
+                 AproxSeg = AproximacioSegonPremi(numeroUsuari, array_NumerosPremiats);
+                if (AproxSeg=false) 
+                    AproxTerc = AproximacioTercerPremi(numeroUsuari, array_NumerosPremiats);}
+            
+        if (premiat=false){
         System.out.println("Enhorabona, has aconseguit :"+PREMI_ACUMULAT+"€");
         System.out.println("Vols desglosar el teu premmi?");
         if (scan.next().equals("Si")){
@@ -74,7 +89,7 @@ public class ProjecteLoteria {
             if (AproxSeg){
                 System.out.println("Per aconseguir l'aproximacio del segon premi has aconseguir 1250€");}
             if (AproxTerc){
-                System.out.println("Per aconseguir l'aproximacio del tercer premi has aconseguir 960€");}
+                System.out.println("Per aconseguir l'aproximacio del tercer premi has aconseguir 960€");}}
             
         }
         System.out.println("Tens un altre numero?");
@@ -102,7 +117,6 @@ public class ProjecteLoteria {
     //Funcio que assigna el valor a l'array de premis WIP
     public static void CompletarPremis(int array_Premis[]) {
 
-        final int TOTAL_PREMIS = 1807;
         final int CINQUE_PREMI = 6000;
         final int PEDREA_PREMI = 1000;
         
@@ -113,7 +127,7 @@ public class ProjecteLoteria {
         array_Premis[3] = 20000;
         array_Premis[4] = 20000;
 
-        for (int i = 5; i < TOTAL_PREMIS; i++) {
+        for (int i = 5; i < TOTALPREMIS; i++) {
             if (i>=13){
                 array_Premis[i] = PEDREA_PREMI;
             }
