@@ -264,7 +264,7 @@ public class ProjecteLoteria {
 
         int[] primerPremi = Utilities.intToArray(premis[0]);
 
-        if (ArrayUsuari[5] == primerPremi[5] && ArrayUsuari[4] == primerPremi[4]) {
+        if (ArrayUsuari[4] == primerPremi[4] && ArrayUsuari[3] == primerPremi[3]) {
             xifresIguals = true;
             PREMI_ACUMULAT+=premi;
         }
@@ -286,7 +286,7 @@ public class ProjecteLoteria {
 
         int[] primerPremi = Utilities.intToArray(premis[1]);
 
-        if (ArrayUsuari[5] == primerPremi[5] && ArrayUsuari[4] == primerPremi[4]) {
+        if (ArrayUsuari[4] == primerPremi[4] && ArrayUsuari[3] == primerPremi[3]) {
             xifresIguals = true;
             PREMI_ACUMULAT+=premi;
         }
@@ -308,7 +308,7 @@ public class ProjecteLoteria {
 
         int[] primerPremi = Utilities.intToArray(premis[2]);
 
-        if (ArrayUsuari[5] == primerPremi[5] && ArrayUsuari[4] == primerPremi[4]) {
+        if (ArrayUsuari[4] == primerPremi[4] && ArrayUsuari[3] == primerPremi[3]) {
             xifresIguals = true;
             PREMI_ACUMULAT+=premi;
         }
@@ -331,7 +331,7 @@ public class ProjecteLoteria {
 
         int[] primerPremi = Utilities.intToArray(premis[0]);
 
-        if (ArrayUsuari[5] == primerPremi[5]) {
+        if (ArrayUsuari[4] == primerPremi[4]) {
             xifraIgual = true;
             PREMI_ACUMULAT+=reintegrament;
         }
