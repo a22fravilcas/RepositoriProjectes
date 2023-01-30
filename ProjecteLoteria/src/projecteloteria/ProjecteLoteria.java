@@ -27,6 +27,7 @@ public class ProjecteLoteria {
         boolean AltreNumero=true; //boolean per permetre al usuari introduir diversos numeros   
         System.out.println(array_NumerosPremiats[0]);//print per poder probar numeros, no estara en versio final
         while(AltreNumero){
+            PREMI_ACUMULAT=0;
         //Crida a funcio externa per verificar el numero de l'usuari
         int numeroUsuari = Utilities.demanaNumEnter("Introdueix el teu numero de loteria. "
                 + "El numero ha de ser de cinc digits");
@@ -41,21 +42,21 @@ public class ProjecteLoteria {
             System.out.println("El teu numero no correspon a cap premi principal.");
         }
         
-        boolean UltimaXifraGordo = UltimaXifraGordo(numeroUsuari, array_Premis);
-        boolean UltimesDosXifresGordo = UltimesDosXifresGordo(numeroUsuari, array_Premis);
-        boolean PrimerTresXifresGordo = PrimeresTresXifresGordo(numeroUsuari, array_Premis);
-        boolean PrimerTresXifresSegon = PrimeresTresXifresSegonPremi(numeroUsuari, array_Premis);
-        boolean PrimerTresXifresTercer = PrimeresTresXifresTercerPremi(numeroUsuari, array_Premis);
-        boolean PrimerTresXifresQuart1 = PrimeresTresXifresQuartPremi1(numeroUsuari, array_Premis);
-        boolean PrimerTresXifresQuart2 = PrimeresTresXifresQuartPremi2(numeroUsuari, array_Premis);
-        boolean AproxPrim = AproximacioPrimerPremi(numeroUsuari, array_Premis);
-        boolean AproxSeg = AproximacioSegonPremi(numeroUsuari, array_Premis);
-        boolean AproxTerc = AproximacioTercerPremi(numeroUsuari, array_Premis);
+        boolean UltimaXifraGordo = UltimaXifraGordo(numeroUsuari, array_NumerosPremiats);
+        boolean UltimesDosXifresGordo = UltimesDosXifresGordo(numeroUsuari, array_NumerosPremiats);
+        boolean PrimerTresXifresGordo = PrimeresTresXifresGordo(numeroUsuari, array_NumerosPremiats);
+        boolean PrimerTresXifresSegon = PrimeresTresXifresSegonPremi(numeroUsuari, array_NumerosPremiats);
+        boolean PrimerTresXifresTercer = PrimeresTresXifresTercerPremi(numeroUsuari, array_NumerosPremiats);
+        boolean PrimerTresXifresQuart1 = PrimeresTresXifresQuartPremi1(numeroUsuari, array_NumerosPremiats);
+        boolean PrimerTresXifresQuart2 = PrimeresTresXifresQuartPremi2(numeroUsuari, array_NumerosPremiats);
+        boolean AproxPrim = AproximacioPrimerPremi(numeroUsuari, array_NumerosPremiats);
+        boolean AproxSeg = AproximacioSegonPremi(numeroUsuari, array_NumerosPremiats);
+        boolean AproxTerc = AproximacioTercerPremi(numeroUsuari, array_NumerosPremiats);
         System.out.println("Enhorabona, has aconseguit :"+PREMI_ACUMULAT+"€");
         System.out.println("Vols desglosar el teu premmi?");
         if (scan.next().equals("Si")){
             if (UltimaXifraGordo)
-                System.out.println("Per aconseguir l'ultima xifra del gordo has aconseguit el reintegramnt del teu numero (20€)");
+                System.out.println("Per aconseguir l'ultima xifra del gordo has aconseguit el reintegrament del teu numero (20€)");
             if (UltimesDosXifresGordo)
                 System.out.println("Per aconseguir les dues ultimes xifres del gordo has aconseguit 100€");
             if (PrimerTresXifresGordo)
@@ -71,9 +72,9 @@ public class ProjecteLoteria {
             if (AproxPrim){
                 System.out.println("Per aconseguir l'aproximacio del gordo has aconseguir 2000€");}
             if (AproxSeg){
-                System.out.println("Per aconseguir l'aproximacio del segon premi has aconseguir 1250");}
+                System.out.println("Per aconseguir l'aproximacio del segon premi has aconseguir 1250€");}
             if (AproxTerc){
-                System.out.println("Per aconseguir l'aproximacio del tercer premi has aconseguir 960");}
+                System.out.println("Per aconseguir l'aproximacio del tercer premi has aconseguir 960€");}
             
         }
         System.out.println("Tens un altre numero?");
@@ -373,7 +374,7 @@ public class ProjecteLoteria {
     //Funcio que comproba si el numero del usuari es aproximacio al primer premi (+-1)
     public static boolean AproximacioPrimerPremi (int numeroUsuari, int[] premis){
         boolean result=false;
-        int premiAprox=200;
+        int premiAprox=2000;
         if ((numeroUsuari+1)==premis[0] || (numeroUsuari-1)==premis[0] ){
             result=true;
             PREMI_ACUMULAT+=premiAprox;
