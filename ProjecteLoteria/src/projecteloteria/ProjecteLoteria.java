@@ -25,7 +25,7 @@ public class ProjecteLoteria {
         //Crida a funcio CompletarPremis
         CompletarPremis(array_Premis);
         boolean AltreNumero=true; //boolean per permetre al usuari introduir diversos numeros   
-        System.out.println(array_NumerosPremiats[0]);
+        System.out.println(array_NumerosPremiats[0]);//print per poder probar numeros, no estara en versio final
         while(AltreNumero){
         //Crida a funcio externa per verificar el numero de l'usuari
         int numeroUsuari = Utilities.demanaNumEnter("Introdueix el teu numero de loteria. "
