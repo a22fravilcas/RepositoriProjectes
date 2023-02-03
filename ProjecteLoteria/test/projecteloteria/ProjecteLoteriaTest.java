@@ -1,40 +1,38 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
  */
 package projecteloteria;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
- * @author ausias
+ * @author rexru
  */
 public class ProjecteLoteriaTest {
     
     public ProjecteLoteriaTest() {
     }
     
-    @BeforeAll
+    @BeforeClass
     public static void setUpClass() {
-        System.out.println("Inici del test de ProjecteLoteria");
     }
     
-    @AfterAll
+    @AfterClass
     public static void tearDownClass() {
-        System.out.println("Final del test de ProjecteLoteria");
     }
     
-    @BeforeEach
+    @Before
     public void setUp() {
     }
     
-    @AfterEach
+    @After
     public void tearDown() {
     }
 
@@ -56,10 +54,12 @@ public class ProjecteLoteriaTest {
     @Test
     public void testNumeroPremiat() {
         System.out.println("NumeroPremiat");
-        int[] premis = null;
+        int[] premis = new int [1807];
         ProjecteLoteria.NumeroPremiat(premis);
+        int longitud_premis = 1807;
+        int resultat = premis.length;
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals("Longitut buida", longitud_premis, resultat);
     }
 
     /**
@@ -68,10 +68,10 @@ public class ProjecteLoteriaTest {
     @Test
     public void testCompletarPremis() {
         System.out.println("CompletarPremis");
-        int[] array_Premis = null;
+        int[] array_Premis = new int [1807];
         ProjecteLoteria.CompletarPremis(array_Premis);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+      
     }
 
     /**
@@ -80,13 +80,14 @@ public class ProjecteLoteriaTest {
     @Test
     public void testTrobarNumeroPremiat() {
         System.out.println("TrobarNumeroPremiat");
-        int[] array_NumerosPremiats = null;
+        int[] premis = new int [1807];
+        ProjecteLoteria.NumeroPremiat(premis);
         int numeroUsuari = 0;
         boolean expResult = false;
-        boolean result = ProjecteLoteria.TrobarNumeroPremiat(array_NumerosPremiats, numeroUsuari);
+        boolean result = ProjecteLoteria.TrobarNumeroPremiat(premis, numeroUsuari);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+       
     }
 
     /**
