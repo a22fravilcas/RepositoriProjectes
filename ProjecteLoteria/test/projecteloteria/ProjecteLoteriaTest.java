@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static projecteloteria.ProjecteLoteria.TOTALPREMIS;
 
 /**
  *
@@ -22,10 +23,12 @@ public class ProjecteLoteriaTest {
     
     @BeforeClass
     public static void setUpClass() {
+        System.out.println("Inici del test de ProjecteLoteria");
     }
     
     @AfterClass
     public static void tearDownClass() {
+        System.out.println("Final del test de ProjecteLoteria");
     }
     
     @Before
@@ -44,8 +47,6 @@ public class ProjecteLoteriaTest {
         System.out.println("main");
         String[] args = null;
         ProjecteLoteria.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -53,13 +54,31 @@ public class ProjecteLoteriaTest {
      */
     @Test
     public void testNumeroPremiat() {
+        
         System.out.println("NumeroPremiat");
-        int[] premis = new int [1807];
-        ProjecteLoteria.NumeroPremiat(premis);
-        int longitud_premis = 1807;
-        int resultat = premis.length;
-        // TODO review the generated test code and remove the default call to fail.
-        assertEquals("Longitut buida", longitud_premis, resultat);
+        
+    }
+    
+    /**
+     * Test of NumeroPremiatAmanyat method, of class ProjecteLoteria.
+     */
+    @Test
+    public void testNumeroPremiatAmanyat() {
+        final int NUMERO_PRIMER_PREMI = 0;
+        final int NUMERO_SEGON_PREMI = 1;
+        final int NUMERO_TERCER_PREMI = 2;
+        final int NUMERO1_QUART_PREMI = 3; //Primer número del quart premi
+        final int NUMERO2_QUART_PREMI = 4; //Segon número del quart premi
+        
+        System.out.println("NumeroPremiatAmanyat");
+        
+        int array_NumerosPremiats[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiats);
+        assertEquals("Número Primer Premi", NUMERO_PRIMER_PREMI, array_NumerosPremiats[0]);
+        assertEquals("Número Segon Premi", NUMERO_SEGON_PREMI, array_NumerosPremiats[1]);
+        assertEquals("Número Tercer Premi", NUMERO_TERCER_PREMI, array_NumerosPremiats[2]);
+        assertEquals("Número 1 Quart Premi", NUMERO1_QUART_PREMI, array_NumerosPremiats[3]);
+        assertEquals("Número 2 Quart Premi", NUMERO2_QUART_PREMI, array_NumerosPremiats[4]);
     }
 
     /**
@@ -284,5 +303,7 @@ public class ProjecteLoteriaTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    
     
 }

@@ -6,11 +6,14 @@ import java.util.Scanner;
 
 public class ProjecteLoteria {
 
-    static Scanner scan = new Scanner(System.in);
-    static Random rndm = new Random();
-    static final int TOTALPREMIS = 1807;
-    static int indexnummatch;
-    static int PREMI_ACUMULAT;
+    public static Scanner scan = new Scanner(System.in);
+    public static Random rndm = new Random();
+    public static final int TOTALPREMIS = 1807;
+    public static int indexnummatch;
+    public static int PREMI_ACUMULAT;
+    public static int NUMERO_PREMIS_AMANYATS = 5; /*Quantitat de números amanysats que implementem
+    per fer els jocs de proves. Són els 5 primers premis (encara que hi hagin 4 primers premis,
+    hi ha dos números premiats com a quart, de manera que hem de controlar els 5 primers números)*/
 
     /**
      *
@@ -118,14 +121,64 @@ public class ProjecteLoteria {
 
     /**
      *
-     * @param premis
+     * @param numeros_premiats
      */
     //Funcio que genera un array de numeros possibles premiats
-    public static void NumeroPremiat(int premis[]) {
-        for (int i = 0; i != premis.length; i++) {
-            premis[i] = rndm.nextInt(100000);
+    public static void NumeroPremiat(int numeros_premiats[]) {
+        for (int i = 0; i != numeros_premiats.length; i++) {
+            /*While per a què els números s'afegeixen mentre no estiguin repetits. Per a això,
+            utilizem un boolean per saber si és repetit o no i recorrem l'array de premis*/ 
+            boolean repetit = false;
+            int numero_a_afegir = rndm.nextInt(100000);
+            for (int j=0;j<numeros_premiats.length;j++){
+                if (numeros_premiats[j]==numero_a_afegir){
+                    repetit = true;
+                }
+            }
+            while (repetit == true){
+                numero_a_afegir = rndm.nextInt(100000);
+                repetit = false;
+                for (int j=0;j<numeros_premiats.length;j++){
+                    if (numeros_premiats[j] == numero_a_afegir) {
+                        repetit = true;
+                    }
+                }
+            }
+            numeros_premiats[i] = numero_a_afegir;
         }
     }
+    
+    public static void NumeroPremiatAmanyat(int numeros_premiats[]) {
+        /*Fem un for en els 5 primers premis per tindre'ls amanyats de cara als jocs de proves.
+        Implementem que aquests números siguin els matsixos que l "i" del for i així ens simplifica
+        el programa
+        */
+        for (int i=0;i<numeros_premiats.length;i++){
+            if (i<NUMERO_PREMIS_AMANYATS){
+                numeros_premiats[i] = i;
+            }
+            else{
+                //Repetim el procés per afegir randoms com en la funció anterior
+                boolean repetit = false;
+                int numero_a_afegir = rndm.nextInt(100000);
+                for (int j = 0; j < numeros_premiats.length; j++) {
+                    if (numeros_premiats[j] == numero_a_afegir) {
+                        repetit = true;
+                    }
+                }
+                while (repetit == true) {
+                    numero_a_afegir = rndm.nextInt(100000);
+                    repetit = false;
+                    for (int j = 0; j < numeros_premiats.length; j++) {
+                        if (numeros_premiats[j] == numero_a_afegir) {
+                            repetit = true;
+                        }
+                    }
+                }
+                numeros_premiats[i] = numero_a_afegir;
+            }
+        }
+    }   
 
     /**
      *
