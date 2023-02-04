@@ -183,7 +183,7 @@ public class ProjecteLoteria {
 
     public static void NumeroPremiatAmanyat(int numeros_premiats[]) {
         //Fiquem tots els premis amanyats en ordre, així és més fàcil
-        for (int i = 0; i < numeros_premiats.length; i++) {
+        for (int i = numeros_premiats.length-1; i >=0; i++) {
             numeros_premiats[i] = i;
         }
     }
