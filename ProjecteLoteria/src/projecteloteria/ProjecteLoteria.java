@@ -198,6 +198,16 @@ public class ProjecteLoteria {
         for (int i = numeros_premiats.length - 1; i >= 0; i++) {
 
             numeros_premiats[i] = i;
+            
+            if (i < 10) {
+                String.format("%05d", i);
+            } else if (i < 100) {
+                String.format("%04d", i);
+            } else if (i < 1000) {
+                String.format("%03d", i);
+            } else if (i < 10000) {
+                String.format("%02d", i);
+            }
         }
     }
 
