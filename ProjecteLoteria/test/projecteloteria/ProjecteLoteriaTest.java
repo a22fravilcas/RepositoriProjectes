@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static projecteloteria.ProjecteLoteria.TIPUS_PREMIS_SECUNDARIS;
 import static projecteloteria.ProjecteLoteria.TOTALPREMIS;
 
 /**
@@ -17,6 +18,11 @@ import static projecteloteria.ProjecteLoteria.TOTALPREMIS;
  * @author rexru
  */
 public class ProjecteLoteriaTest {
+    
+    
+    static int array_PremisPrincipals[] = new int[TOTALPREMIS];
+    
+    static final int PREMI_ECONOMIC_GORDO = 400000;
     
     public ProjecteLoteriaTest() {
     }
@@ -63,34 +69,46 @@ public class ProjecteLoteriaTest {
      * Test of NumeroPremiatAmanyat method, of class ProjecteLoteria.
      */
     @Test
-    public void testNumeroPremiatAmanyat() {
-        final int NUMERO_PRIMER_PREMI = 0;
-        final int NUMERO_SEGON_PREMI = 1;
-        final int NUMERO_TERCER_PREMI = 2;
-        final int NUMERO1_QUART_PREMI = 3; //Primer número del quart premi
-        final int NUMERO2_QUART_PREMI = 4; //Segon número del quart premi
-        
+    public void testNumeroPremiatAmanyat() {        
         System.out.println("NumeroPremiatAmanyat");
         
-        int array_NumerosPremiats[] = new int[TOTALPREMIS];
-        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiats);
-        assertEquals("Número Primer Premi", NUMERO_PRIMER_PREMI, array_NumerosPremiats[0]);
-        assertEquals("Número Segon Premi", NUMERO_SEGON_PREMI, array_NumerosPremiats[1]);
-        assertEquals("Número Tercer Premi", NUMERO_TERCER_PREMI, array_NumerosPremiats[2]);
-        assertEquals("Número 1 Quart Premi", NUMERO1_QUART_PREMI, array_NumerosPremiats[3]);
-        assertEquals("Número 2 Quart Premi", NUMERO2_QUART_PREMI, array_NumerosPremiats[4]);
+        //Com tots els premis amanyats estan en ordre, recorrem l'array_NumerosPremiats i comprovem que cada número és igual l'índex de l'array
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        for (int i=0;i<array_NumerosPremiatsAmanyat.length;i++){
+            assertEquals(i, array_NumerosPremiatsAmanyat[i]);
+        }
     }
-
+    
     /**
-     * Test of CompletarPremis method, of class ProjecteLoteria.
+     * Test of CompletarPremisPrincipals method, of class ProjecteLoteria.
      */
     @Test
-    public void testCompletarPremis() {
-        System.out.println("CompletarPremis");
-        int[] array_Premis = new int [1807];
-        ProjecteLoteria.CompletarPremisPrincipals(array_Premis);
-        // TODO review the generated test code and remove the default call to fail.
-      
+    public void testCompletarPremisPrincipals() {
+        System.out.println("CompletarPremisPrincipals");
+        ProjecteLoteria.CompletarPremisPrincipals(array_PremisPrincipals);
+    }
+    
+    /**
+     * Test of CompletarPremisSecundaris method, of class ProjecteLoteria.
+     */
+    @Test
+    public void testCompletarPremisSecundaris() {
+        System.out.println("CompletarPremisSecundaris");
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+    }
+    
+    /**
+     * Test of TrobarPremi method, of class ProjecteLoteria.
+     */
+    @Test
+    public void testTrobarPremi() {
+        System.out.println("TrobarPremi");
+        int indexnummatch = 0; //Índex gordo
+        int expResult = PREMI_ECONOMIC_GORDO; 
+        int result = ProjecteLoteria.TrobarPremi(indexnummatch, array_PremisPrincipals);
+        assertEquals(expResult, result);
     }
 
     /**
@@ -99,29 +117,13 @@ public class ProjecteLoteriaTest {
     @Test
     public void testTrobarNumeroPremiat() {
         System.out.println("TrobarNumeroPremiat");
-        int[] premis = new int [1807];
-        ProjecteLoteria.NumeroPremiat(premis);
-        int numeroUsuari = 0;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.TrobarNumeroPremiat(premis, numeroUsuari);
+        int numeroUsuari = 00000; //Provem el gordo del sorteig amanyat, és el dècim 00000
+        boolean expResult = true;
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        boolean result = ProjecteLoteria.TrobarNumeroPremiat(array_NumerosPremiatsAmanyat, array_PremisPrincipals, numeroUsuari);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
        
-    }
-
-    /**
-     * Test of TrobarPremi method, of class ProjecteLoteria.
-     */
-    @Test
-    public void testTrobarPremi() {
-        System.out.println("TrobarPremi");
-        int indexnummatch = 0;
-        int[] premis = null;
-        int expResult = 0;
-        int result = ProjecteLoteria.TrobarPremi(indexnummatch, premis);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -130,13 +132,14 @@ public class ProjecteLoteriaTest {
     @Test
     public void testPrimeresTresXifresGordo() {
         System.out.println("PrimeresTresXifresGordo");
-        int numeroUsuari = 0;
-        int[] premis = null;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.PrimeresTresXifresGordo(numeroUsuari, premis);
+        int numeroUsuari = 00001; //Provem aquest número per comprovar que detecta les tres primeres xifres del gordo
+        boolean expResult = true;
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        boolean result = ProjecteLoteria.PrimeresTresXifresGordo(numeroUsuari, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -145,13 +148,14 @@ public class ProjecteLoteriaTest {
     @Test
     public void testPrimeresTresXifresSegonPremi() {
         System.out.println("PrimeresTresXifresSegonPremi");
-        int numeroUsuari = 0;
-        int[] premis = null;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.PrimeresTresXifresSegonPremi(numeroUsuari, premis);
+        int numeroUsuari = 00000; //Tornem a provar amb el número del gordo ja que el 00001 és el segon premi i per tan coincideixen les tres primeres xifres
+        boolean expResult = true;
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        boolean result = ProjecteLoteria.PrimeresTresXifresSegonPremi(numeroUsuari, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -160,13 +164,14 @@ public class ProjecteLoteriaTest {
     @Test
     public void testPrimeresTresXifresTercerPremi() {
         System.out.println("PrimeresTresXifresTercerPremi");
-        int numeroUsuari = 0;
-        int[] premis = null;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.PrimeresTresXifresTercerPremi(numeroUsuari, premis);
+        int numeroUsuari = 00000; //Tornem a provar amb el número del gordo ja que el 00002 és el tercer premi i per tan coincideixen les tres primeres xifres
+        boolean expResult = true;
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        boolean result = ProjecteLoteria.PrimeresTresXifresTercerPremi(numeroUsuari, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -175,13 +180,14 @@ public class ProjecteLoteriaTest {
     @Test
     public void testPrimeresTresXifresQuartPremi1() {
         System.out.println("PrimeresTresXifresQuartPremi1");
-        int numeroUsuari = 0;
-        int[] premis = null;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.PrimeresTresXifresQuartPremi1(numeroUsuari, premis);
+        int numeroUsuari = 00000; //Tornem a provar amb el número del gordo ja que el 00004 és el primer quart premi i per tan coincideixen les tres primeres xifres
+        boolean expResult = true;
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        boolean result = ProjecteLoteria.PrimeresTresXifresQuartPremi1(numeroUsuari, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -190,13 +196,14 @@ public class ProjecteLoteriaTest {
     @Test
     public void testPrimeresTresXifresQuartPremi2() {
         System.out.println("PrimeresTresXifresQuartPremi2");
-        int numeroUsuari = 0;
-        int[] premis = null;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.PrimeresTresXifresQuartPremi2(numeroUsuari, premis);
+        int numeroUsuari = 00000; //Tornem a provar amb el número del gordo ja que el 00005 és el segon quart premi i per tan coincideixen les tres primeres xifres
+        boolean expResult = true;
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        boolean result = ProjecteLoteria.PrimeresTresXifresQuartPremi2(numeroUsuari, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -205,13 +212,14 @@ public class ProjecteLoteriaTest {
     @Test
     public void testUltimesDosXifresGordo() {
         System.out.println("UltimesDosXifresGordo");
-        int numeroUsuari = 0;
-        int[] premis = null;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.UltimesDosXifresGordo(numeroUsuari, premis);
+        int numeroUsuari = 10000; //Provem aquest número per comprovar que detecta les últimes dos xifres del gordo
+        boolean expResult = true;
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        boolean result = ProjecteLoteria.UltimesDosXifresGordo(numeroUsuari, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -220,13 +228,14 @@ public class ProjecteLoteriaTest {
     @Test
     public void testUltimesDosXifresSegonPremi() {
         System.out.println("UltimesDosXifresSegonPremi");
-        int numeroUsuari = 0;
-        int[] premis = null;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.UltimesDosXifresSegonPremi(numeroUsuari, premis);
+        int numeroUsuari = 10001; //Provem aquest número per comprovar que detecta les últimes dos xifres del segon premi
+        boolean expResult = true;
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        boolean result = ProjecteLoteria.UltimesDosXifresSegonPremi(numeroUsuari, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -235,13 +244,14 @@ public class ProjecteLoteriaTest {
     @Test
     public void testUltimesDosXifresTercerPremi() {
         System.out.println("UltimesDosXifresTercerPremi");
-        int numeroUsuari = 0;
-        int[] premis = null;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.UltimesDosXifresTercerPremi(numeroUsuari, premis);
+        int numeroUsuari = 10002; //Provem aquest número per comprovar que detecta les últimes dos xifres del tercer premi
+        boolean expResult = true;
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        boolean result = ProjecteLoteria.UltimesDosXifresTercerPremi(numeroUsuari, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -250,13 +260,14 @@ public class ProjecteLoteriaTest {
     @Test
     public void testUltimaXifraGordo() {
         System.out.println("UltimaXifraGordo");
-        int numeroUsuari = 0;
-        int[] premis = null;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.UltimaXifraGordo(numeroUsuari, premis);
+        int numeroUsuari = 10000; //Provem aquest número per comprovar que detecta l'última xifra del gordo
+        boolean expResult = true;
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        boolean result = ProjecteLoteria.UltimaXifraGordo(numeroUsuari, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -265,13 +276,17 @@ public class ProjecteLoteriaTest {
     @Test
     public void testAproximacioPrimerPremi() {
         System.out.println("AproximacioPrimerPremi");
-        int numeroUsuari = 0;
-        int[] premis = null;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.AproximacioPrimerPremi(numeroUsuari, premis);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //int numeroUsuari1 = 99999; //Aquest és l'aproximació per sota del gordo (00000)
+        int numeroUsuari2 = 00001; //Aquest és l'aproximació per sobra del gordo (00000)
+        boolean expResult = true;
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        //boolean result1 = ProjecteLoteria.AproximacioPrimerPremi(numeroUsuari1, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
+        boolean result2 = ProjecteLoteria.AproximacioPrimerPremi(numeroUsuari2, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
+        //assertEquals(expResult, result1);
+        assertEquals(expResult, result2);
     }
 
     /**
@@ -280,30 +295,36 @@ public class ProjecteLoteriaTest {
     @Test
     public void testAproximacioSegonPremi() {
         System.out.println("AproximacioSegonPremi");
-        int numeroUsuari = 0;
-        int[] premis = null;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.AproximacioSegonPremi(numeroUsuari, premis);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int numeroUsuari1 = 00000; //Aquest és l'aproximació per sota del segon premi (00001)
+        int numeroUsuari2 = 00002; //Aquest és l'aproximació per sobra del segon premi (00001)
+        boolean expResult = true;
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        boolean result1 = ProjecteLoteria.AproximacioSegonPremi(numeroUsuari1, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
+        boolean result2 = ProjecteLoteria.AproximacioSegonPremi(numeroUsuari2, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
+        assertEquals(expResult, result1);
+        assertEquals(expResult, result2);
     }
 
     /**
-     * Test of AproximacioTercerPremi method, of class ProjecteLoteria.
+     * Test of AproximacioSegonPremi method, of class ProjecteLoteria.
      */
     @Test
     public void testAproximacioTercerPremi() {
-        System.out.println("AproximacioTercerPremi");
-        int numeroUsuari = 0;
-        int[] premis = null;
-        boolean expResult = false;
-        boolean result = ProjecteLoteria.AproximacioTercerPremi(numeroUsuari, premis);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("AproximacioSegonPremi");
+        int numeroUsuari1 = 00000; //Aquest és l'aproximació per sota del segon premi (00001)
+        int numeroUsuari2 = 00002; //Aquest és l'aproximació per sobra del segon premi (00001)
+        boolean expResult = true;
+        ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
+        int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
+        boolean result1 = ProjecteLoteria.AproximacioSegonPremi(numeroUsuari1, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
+        boolean result2 = ProjecteLoteria.AproximacioSegonPremi(numeroUsuari2, array_NumerosPremiatsAmanyat, array_PremisSecundaris);
+        assertEquals(expResult, result1);
+        assertEquals(expResult, result2);
     }
-
-    
     
 }
