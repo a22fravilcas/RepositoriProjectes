@@ -43,14 +43,13 @@ public class ProjecteLoteria {
         System.out.println(array_NumerosPremiats[0]);
         System.out.println(array_NumerosPremiats[1]);//print per poder probar numeros, no estara en versio final
         while (AltreNumero) {
-            boolean premiat = false;
             PREMI_ACUMULAT = 0;
             //Crida a funcio externa per verificar el numero de l'usuari
             int numeroUsuari = Utilities.demanaNumEnter("Introdueix el teu numero de loteria. "
                     + "El numero ha de ser de cinc digits: ");
             //Crida a funcio TrobarNumeroPremiat
-            premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, numeroUsuari);
-            if (premiat) {
+           boolean  premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, numeroUsuari);
+            if (premiat){
                 int premiTrobat = TrobarPremi(indexnummatch, array_PremisPrincipals);
                 System.out.println("Enhorabona, has aconeguit un premi principal. El teu premi es de " + premiTrobat + "€.");
             } else {
@@ -62,20 +61,24 @@ public class ProjecteLoteria {
 
             TresXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris,
                     UltimesDosXifresGordo, UltimaXifraGordo);
-
+            //cridem a les funcions que decideixen quins premis secundaris sumar
             PrimTresXifSegon(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris,
                     PrimerTresXifresTercer, PrimerTresXifresQuart1, PrimerTresXifresQuart2);
-
-            AproxPrim(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris, AproxSeg, AproxTerc);
+                   
+             AproxPrim(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris, AproxSeg, AproxTerc);
+             //cridem a la funcio que decideix quina aproximacio sumar
+            
 
             DesglosarPremi(array_PremisSecundaris);
-
+            //funcio per mostrar els premis obtinguts al usuari
+            
             System.out.println("Tens un altre numero?");
             if (scan.next().equals("No")) {
+                //tanquem el bucle depenent de la entrada del usuari
                 AltreNumero = false;
             }
         }
-        scan.close();
+        scan.close(); //deixem descansar al nostre estimat escaner <3
     }
 
     
@@ -90,7 +93,8 @@ public class ProjecteLoteria {
      */
     public static void TresXifresGordo(int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[] array_PremisSecundaris,
             boolean UltimesDosXifresGordo, boolean UltimaXifraGordo) {
-        if (numeroUsuari != array_NumerosPremiats[0]) {
+        //com aquests premis no son compatibles, revisem desde el que te mes prioritat per assignar algun d'ells, cridan a les funcions que el donen
+        if (numeroUsuari!=array_NumerosPremiats[0]){
             boolean PrimeresTresXifresGordo = PrimeresTresXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
             if (PrimeresTresXifresGordo == false) {
                 UltimesDosXifresGordo = UltimesDosXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
@@ -113,7 +117,8 @@ public class ProjecteLoteria {
      */
     public static void PrimTresXifSegon(int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[] array_PremisSecundaris,
             boolean PrimerTresXifresTercer, boolean PrimerTresXifresQuart1, boolean PrimerTresXifresQuart2) {
-        if (numeroUsuari != array_NumerosPremiats[1]) {
+        //com aquests premis no son compatibles, revisem desde el que te mes prioritat per assignar algun d'ells, cridan a les funcions que el donen
+        if (numeroUsuari!=array_NumerosPremiats[1]){
             boolean PrimeresTresXifresSegon = PrimeresTresXifresSegonPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
             if (PrimeresTresXifresSegon == false && numeroUsuari != array_NumerosPremiats[2]) {
                 PrimerTresXifresTercer = PrimeresTresXifresTercerPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
@@ -138,7 +143,7 @@ public class ProjecteLoteria {
      * @return
      */
     public static void AproxPrim(int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[] array_PremisSecundaris, boolean AproxSeg, boolean AproxTerc) {
-
+        //com aquests premis no son compatibles, revisem desde el que te mes prioritat per assignar algun d'ells, cridan a les funcions que el donen
         boolean AproxPrim = AproximacioPrimerPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
         if (AproxPrim == false) {
             AproxSeg = AproximacioSegonPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
@@ -200,7 +205,7 @@ public class ProjecteLoteria {
      *
      * @param array_PremisPrincipals
      */
-    //Funcio que assigna el valor a l'array de premis WIP
+    //Funcio que assigna el valor a l'array de premis 
     public static void CompletarPremisPrincipals(int[] array_PremisPrincipals) {
 
         final int CINQUE_PREMI = 6000;
@@ -218,8 +223,8 @@ public class ProjecteLoteria {
         array_PremisPrincipals[3] = QUARTICINQUEPREMI;
         array_PremisPrincipals[4] = QUARTICINQUEPREMI;
 
-        for (int i = PARTICIOPREMISGORDOS; i < TOTALPREMIS; i++) {
-            if (i >= PARTICIOPREMISPEDREA) {
+        for (int i = 5; i < TOTALPREMIS; i++) { //bucle per assignar els premis quue es repeteixen en molts numeros
+            if (i >= 13) {
                 array_PremisPrincipals[i] = PEDREA_PREMI;
             } else {
                 array_PremisPrincipals[i] = CINQUE_PREMI;
@@ -270,7 +275,7 @@ public class ProjecteLoteria {
      */
     //Funcio que troba el premi corresponent al numero premiat
     public static int TrobarPremi(int indexnummatch, int[] premis) {
-
+        //amb l'index del numeroPremiat del usuari, busquem el premi corresponent
         int valorPremi = premis[indexnummatch];
         PREMI_ACUMULAT += valorPremi;
         return valorPremi;
@@ -310,7 +315,7 @@ public class ProjecteLoteria {
         boolean xifresIguals = false;
         final int PREMI = 100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
-
+        //transformem el numero del usuari en un array per poder fer le seguents operacions mes facils
         int[] primerPremi = Utilities.intToArray(premis[0]);
 
         if (ArrayUsuari[0] == primerPremi[0]
@@ -336,7 +341,7 @@ public class ProjecteLoteria {
         boolean xifresIguals = false;
         final int PREMI = 100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
-
+        //transformem el numero del usuari en un array per poder fer le seguents operacions mes facils
         int[] primerPremi = Utilities.intToArray(premis[1]);
 
         if (ArrayUsuari[0] == primerPremi[0]
@@ -362,7 +367,7 @@ public class ProjecteLoteria {
         boolean xifresIguals = false;
         final int PREMI = 100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
-
+        //transformem el numero del usuari en un array per poder fer le seguents operacions mes facils
         int[] primerPremi = Utilities.intToArray(premis[2]);
 
         if (ArrayUsuari[0] == primerPremi[0]
@@ -388,7 +393,7 @@ public class ProjecteLoteria {
         boolean xifresIguals = false;
         final int PREMI = 100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
-
+        //transformem el numero del usuari en un array per poder fer le seguents operacions mes facils
         int[] primerPremi = Utilities.intToArray(premis[3]);
 
         if (ArrayUsuari[0] == primerPremi[0]
@@ -414,7 +419,7 @@ public class ProjecteLoteria {
         boolean xifresIguals = false;
         final int PREMI = 100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
-
+        //transformem el numero del usuari en un array per poder fer le seguents operacions mes facils
         int[] primerPremi = Utilities.intToArray(premis[4]);
 
         if (ArrayUsuari[0] == primerPremi[0]
@@ -440,7 +445,7 @@ public class ProjecteLoteria {
         boolean xifresIguals = false;
         final int PREMI = 100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
-
+        //transformem el numero del usuari en un array per poder fer le seguents operacions mes facils
         int[] primerPremi = Utilities.intToArray(premis[0]);
 
         if (ArrayUsuari[4] == primerPremi[4] && ArrayUsuari[3] == primerPremi[3]) {
@@ -464,7 +469,7 @@ public class ProjecteLoteria {
         boolean xifresIguals = false;
         final int PREMI = 100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
-
+        //transformem el numero del usuari en un array per poder fer le seguents operacions mes facils
         int[] primerPremi = Utilities.intToArray(premis[1]);
 
         if (ArrayUsuari[4] == primerPremi[4] && ArrayUsuari[3] == primerPremi[3]) {
@@ -488,7 +493,7 @@ public class ProjecteLoteria {
         boolean xifresIguals = false;
         final int PREMI = 100;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
-
+        //transformem el numero del usuari en un array per poder fer le seguents operacions mes facils
         int[] primerPremi = Utilities.intToArray(premis[2]);
 
         if (ArrayUsuari[4] == primerPremi[4] && ArrayUsuari[3] == primerPremi[3]) {
@@ -512,7 +517,7 @@ public class ProjecteLoteria {
         boolean xifraIgual = false;
         final int REINTEGRAMENT = 20;
         int[] ArrayUsuari = Utilities.intToArray(numeroUsuari);
-
+        //transformem el numero del usuari en un array per poder fer le seguents operacions mes facils
         int[] primerPremi = Utilities.intToArray(premis[0]);
 
         if (ArrayUsuari[4] == primerPremi[4]) {
@@ -532,10 +537,11 @@ public class ProjecteLoteria {
         final int APROXINFERIOR = 99999;
         int aproximacio_primer_premi_per_sota = premis[0] - 1;
         int aproximacio_primer_premi_per_sobra = premis[0] + 1;
-        if (premis[0] == APROXSUPERIOR) {
-            aproximacio_primer_premi_per_sota = APROXINFERIOR;
-        } else if (premis[0] == APROXINFERIOR) {
-            aproximacio_primer_premi_per_sobra = APROXSUPERIOR;
+        if (premis[0] == 00000) { 
+            aproximacio_primer_premi_per_sota = 99999;
+            //en els cassos extrems, tanquem la volta de numeros manualment
+        } else if (premis[0] == 99999) {
+            aproximacio_primer_premi_per_sobra = 00000;
         }
 
         if (numeroUsuari == aproximacio_primer_premi_per_sota || numeroUsuari == aproximacio_primer_premi_per_sobra) {
@@ -555,10 +561,11 @@ public class ProjecteLoteria {
         final int APROXINFERIOR = 99999;
         int aproximacio_segon_premi_per_sota = premis[1] - 1;
         int aproximacio_segon_premi_per_sobre = premis[1] + 1;
-        if (premis[1] == APROXSUPERIOR) {
-            aproximacio_segon_premi_per_sota = APROXINFERIOR;
-        } else if (premis[1] == APROXINFERIOR) {
-            aproximacio_segon_premi_per_sobre = APROXSUPERIOR;
+        if (premis[1] == 00000) {
+            aproximacio_segon_premi_per_sota = 99999;
+            //en els cassos extrems, tanquem la volta de numeros manualment
+        } else if (premis[1] == 99999) {
+            aproximacio_segon_premi_per_sobre = 00000;
         }
 
         if (numeroUsuari == aproximacio_segon_premi_per_sota || numeroUsuari == aproximacio_segon_premi_per_sobre) {
@@ -578,10 +585,11 @@ public class ProjecteLoteria {
         final int APROXINFERIOR = 99999;
         int aproximacio_tercer_premi_per_sota = premis[2] - 1;
         int aproximacio_tercer_premi_per_sobra = premis[2] + 1;
-        if (premis[2] == APROXSUPERIOR) {
-            aproximacio_tercer_premi_per_sota = APROXINFERIOR;
-        } else if (premis[0] == APROXINFERIOR) {
-            aproximacio_tercer_premi_per_sobra = APROXSUPERIOR;
+        if (premis[2] == 00000) {
+            aproximacio_tercer_premi_per_sota = 99999;
+            //en els cassos extrems, tanquem la volta de numeros manualment
+        } else if (premis[0] == 99999) {
+            aproximacio_tercer_premi_per_sobra = 00000;
         }
 
         if (numeroUsuari == aproximacio_tercer_premi_per_sota || numeroUsuari == aproximacio_tercer_premi_per_sobra) {
@@ -605,7 +613,7 @@ public class ProjecteLoteria {
                     System.out.println(array_PremisSecundaris[i].missatge_premi);
                 }
             }
-            if (noSecundaris) {
+            if (noSecundaris) { //si no hi han premis secundaris os diem tambe
                 System.out.println("No tens ningun premi secundari");
             }
         }
