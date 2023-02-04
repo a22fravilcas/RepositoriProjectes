@@ -21,7 +21,6 @@ public class ProjecteLoteria {
     public static class PremiSecundari {
 
         String nom;
-        int premi;
         boolean toca;
         String missatge_premi;
     }
@@ -41,7 +40,8 @@ public class ProjecteLoteria {
         CompletarPremisPrincipals(array_PremisPrincipals);
         CompletarPremisSecundaris(array_PremisSecundaris);
         boolean AltreNumero = true; //boolean per permetre al usuari introduir diversos numeros   
-        System.out.println(array_NumerosPremiats[0]);//print per poder probar numeros, no estara en versio final
+        System.out.println(array_NumerosPremiats[0]);
+        System.out.println(array_NumerosPremiats[1]);//print per poder probar numeros, no estara en versio final
         while (AltreNumero) {
             boolean premiat = false;
             PREMI_ACUMULAT = 0;
@@ -50,24 +50,30 @@ public class ProjecteLoteria {
                     + "El numero ha de ser de cinc digits: ");
             //Crida a funcio TrobarNumeroPremiat
             premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, numeroUsuari);
-
+            if (premiat){
+                int premiTrobat = TrobarPremi(indexnummatch, array_PremisPrincipals);
+                System.out.println("Enhorabona, has aconeguit un premi principal. El teu premi es de " + premiTrobat + "€.");
+            }
+            else{
+               System.out.println("El teu numero no correspon a cap premi principal.");
+            }
             //If per saber si el numero escollit te premi principal.
             boolean AproxSeg = false, AproxTerc = false, PrimerTresXifresTercer = false, PrimerTresXifresQuart1 = false,
                     PrimerTresXifresQuart2 = false, UltimaXifraGordo = false, UltimesDosXifresGordo = false;
 
-            boolean TXG = TresXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris,
+            TresXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris,
                     UltimesDosXifresGordo, UltimaXifraGordo);
 
-            boolean PTXS = PrimTresXifSegon(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris,
+            PrimTresXifSegon(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris,
                     PrimerTresXifresTercer, PrimerTresXifresQuart1, PrimerTresXifresQuart2);
 
-            boolean AP = AproxPrim(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris, AproxSeg, AproxTerc);
+             AproxPrim(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris, AproxSeg, AproxTerc);
 
-            if (premiat == false) {
+            
 
-                DesglosarPremi(array_PremisSecundaris);
+            DesglosarPremi(array_PremisSecundaris);
 
-            }
+            
             System.out.println("Tens un altre numero?");
             if (scan.next().equals("No")) {
                 AltreNumero = false;
@@ -85,19 +91,17 @@ public class ProjecteLoteria {
      * @param UltimaXifraGordo
      * @return
      */
-    public static boolean TresXifresGordo(int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[] array_PremisSecundaris,
+    public static void TresXifresGordo(int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[] array_PremisSecundaris,
             boolean UltimesDosXifresGordo, boolean UltimaXifraGordo) {
-        boolean result = false;
-
-        boolean PrimeresTresXifresGordo = PrimeresTresXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
-        if (PrimeresTresXifresGordo == false) {
-            UltimesDosXifresGordo = UltimesDosXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
-            if (UltimesDosXifresGordo == false) {
-                UltimaXifraGordo = UltimaXifraGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+        if (numeroUsuari!=array_NumerosPremiats[0]){
+            boolean PrimeresTresXifresGordo = PrimeresTresXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+            if (PrimeresTresXifresGordo == false) {
+                UltimesDosXifresGordo = UltimesDosXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+                if (UltimesDosXifresGordo == false) {
+                    UltimaXifraGordo = UltimaXifraGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+                }
             }
         }
-
-        return result;
     }
 
     /**
@@ -110,20 +114,21 @@ public class ProjecteLoteria {
      * @param PrimerTresXifresQuart2
      * @return
      */
-    public static boolean PrimTresXifSegon(int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[] array_PremisSecundaris,
+    public static void PrimTresXifSegon(int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[] array_PremisSecundaris,
             boolean PrimerTresXifresTercer, boolean PrimerTresXifresQuart1, boolean PrimerTresXifresQuart2) {
-        boolean result = false;
-
-        boolean PrimeresTresXifresSegon = PrimeresTresXifresSegonPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
-        if (PrimeresTresXifresSegon == false) {
-            PrimerTresXifresTercer = PrimeresTresXifresTercerPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
-            if (PrimerTresXifresTercer == false) {
-                PrimerTresXifresQuart1 = PrimeresTresXifresQuartPremi1(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
-                PrimerTresXifresQuart2 = PrimeresTresXifresQuartPremi2(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+        if (numeroUsuari!=array_NumerosPremiats[1]){
+            boolean PrimeresTresXifresSegon = PrimeresTresXifresSegonPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+            if (PrimeresTresXifresSegon == false && numeroUsuari!=array_NumerosPremiats[2] ) {
+                PrimerTresXifresTercer = PrimeresTresXifresTercerPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+                if (PrimerTresXifresTercer == false && numeroUsuari!=array_NumerosPremiats[3]) {
+                    PrimerTresXifresQuart1 = PrimeresTresXifresQuartPremi1(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+                    if (PrimerTresXifresQuart1 == false && numeroUsuari!=array_NumerosPremiats[4]) {
+                         PrimerTresXifresQuart2 = PrimeresTresXifresQuartPremi2(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+                    }
+                }
             }
-        }
 
-        return false;
+        }
     }
 
     /**
@@ -135,8 +140,7 @@ public class ProjecteLoteria {
      * @param AproxTerc
      * @return
      */
-    public static boolean AproxPrim(int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[] array_PremisSecundaris, boolean AproxSeg, boolean AproxTerc) {
-        boolean result = false;
+    public static void AproxPrim(int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[] array_PremisSecundaris, boolean AproxSeg, boolean AproxTerc) {
 
         boolean AproxPrim = AproximacioPrimerPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
         if (AproxPrim == false) {
@@ -146,7 +150,6 @@ public class ProjecteLoteria {
             }
         }
 
-        return result;
     }
 
     /**
@@ -242,13 +245,10 @@ public class ProjecteLoteria {
         }
         //Ara afegim tots els registres dels premis secundaris
         array_PremisSecundaris[0].nom = "AproximacioPrimerPremi";
-        array_PremisSecundaris[0].premi = 2000;
         array_PremisSecundaris[0].missatge_premi = "Per aconseguir l'aproximacio del gordo has aconseguir 2000€";
         array_PremisSecundaris[1].nom = "AproximacioSegonPremi";
-        array_PremisSecundaris[1].premi = 1250;
         array_PremisSecundaris[1].missatge_premi = "Per aconseguir l'aproximacio del segon premi has aconseguir 1250€";
         array_PremisSecundaris[2].nom = "AproximacioTercerPremi";
-        array_PremisSecundaris[2].premi = 960;
         array_PremisSecundaris[2].missatge_premi = "Per aconseguir l'aproximacio del tercer premi has aconseguir 960€";
         array_PremisSecundaris[3].nom = "PrimeresTresXifresGordo";
         array_PremisSecundaris[3].missatge_premi = "Per aconseguir les tres primeres xifres del gordo has aconseguit 100€";
@@ -267,13 +267,9 @@ public class ProjecteLoteria {
         array_PremisSecundaris[10].nom = "UltimesDosXifresTercerPremi";
         array_PremisSecundaris[10].missatge_premi = "Per aconseguir les dues ultimes xifres del tercer premi has aconseguit 100€";
         array_PremisSecundaris[11].nom = "UltimaXifraGordo";
-        array_PremisSecundaris[11].premi = 20;
         array_PremisSecundaris[11].missatge_premi = "Per aconseguir l'ultima xifra del gordo has aconseguit el reintegrament del teu numero (20€)";
 
         //Ara recorrem la porció de l'array entre PrimeresTresXifresGordo i UltimesDosXifresTercer premi per afegir el premi de 100€
-        for (int i = 3; i <= 10; i++) {
-            array_PremisSecundaris[i].premi = 100;
-        }
     }
 
     /**
@@ -303,16 +299,12 @@ public class ProjecteLoteria {
         while (result == false && i < TOTALPREMIS) {
             if (array_NumerosPremiats[i] == numeroUsuari) {
                 result = true;
-                indexnummatch = i;
-                int premiTrobat = TrobarPremi(indexnummatch, array_Premis);
-                System.out.println("Enhorabona, has aconeguit un premi principal. El teu premi es de " + premiTrobat + "€.");
+                indexnummatch = i; 
             }
             i++;
         }
         //Si result segueix sent false vol dir que no ha trobat cap premi principal
-        if (!result) {
-            System.out.println("El teu numero no correspon a cap premi principal.");
-        }
+      
         return result;
     }
 
@@ -545,8 +537,24 @@ public class ProjecteLoteria {
     //Funcio que comproba si el numero del usuari es aproximacio al primer premi (+-1)
     public static boolean AproximacioPrimerPremi(int numeroUsuari, int[] premis, PremiSecundari[] array_PremisSecundaris) {
         boolean result = false;
-        int premiAprox = 2000;
-        if (numeroUsuari == premis[0] + 1 || numeroUsuari == premis[0] - 1) {
+         int premiAprox = 2000;
+        if (numeroUsuari==00000){
+            if (numeroUsuari == premis[0] + 1) {
+                result = true;
+                PREMI_ACUMULAT += premiAprox;
+                array_PremisSecundaris[0].toca = true;
+            }
+
+        }
+        else if (numeroUsuari==99999){
+            if (numeroUsuari == premis[0] - 1) {
+                result = true;
+                PREMI_ACUMULAT += premiAprox;
+                array_PremisSecundaris[0].toca = true;
+            }
+
+        }
+       else if (numeroUsuari == premis[0] + 1 || numeroUsuari == premis[0] - 1) {
             result = true;
             PREMI_ACUMULAT += premiAprox;
             array_PremisSecundaris[0].toca = true;
@@ -559,7 +567,23 @@ public class ProjecteLoteria {
     public static boolean AproximacioSegonPremi(int numeroUsuari, int[] premis, PremiSecundari[] array_PremisSecundaris) {
         boolean result = false;
         int premiAprox = 1250;
-        if (numeroUsuari + 1 == premis[1] || numeroUsuari - 1 == premis[1]) {
+        if (numeroUsuari==00000){
+            if (numeroUsuari == premis[1] + 1) {
+                result = true;
+                PREMI_ACUMULAT += premiAprox;
+                array_PremisSecundaris[1].toca = true;
+            }
+
+        }
+        else if (numeroUsuari==99999){
+            if (numeroUsuari == premis[1] - 1) {
+                result = true;
+                PREMI_ACUMULAT += premiAprox;
+                array_PremisSecundaris[1].toca = true;
+            }
+
+        }
+        else if (numeroUsuari + 1 == premis[1] || numeroUsuari - 1 == premis[1]) {
             result = true;
             PREMI_ACUMULAT += premiAprox;
             array_PremisSecundaris[1].toca = true;
@@ -572,7 +596,23 @@ public class ProjecteLoteria {
     public static boolean AproximacioTercerPremi(int numeroUsuari, int[] premis, PremiSecundari[] array_PremisSecundaris) {
         boolean result = false;
         int premiAprox = 960;
-        if (numeroUsuari + 1 == premis[2] || numeroUsuari - 1 == premis[2]) {
+        if (numeroUsuari==00000){
+            if (numeroUsuari == premis[2] + 1) {
+                result = true;
+                PREMI_ACUMULAT += premiAprox;
+                array_PremisSecundaris[2].toca = true;
+            }
+
+        }
+        else if (numeroUsuari==99999){
+            if (numeroUsuari == premis[2] - 1) {
+                result = true;
+                PREMI_ACUMULAT += premiAprox;
+                array_PremisSecundaris[2].toca = true;
+            }
+
+        }
+        else  if (numeroUsuari + 1 == premis[2] || numeroUsuari - 1 == premis[2]) {
             result = true;
             PREMI_ACUMULAT += premiAprox;
             array_PremisSecundaris[2].toca = true;
@@ -584,13 +624,17 @@ public class ProjecteLoteria {
     public static void DesglosarPremi(PremiSecundari[] array_PremisSecundaris) {
         System.out.println("Enhorabona, has aconseguit :" + PREMI_ACUMULAT + "€");
         System.out.println("Vols desglosar el teu premmi?");
+        boolean noSecundaris=true;
         if (scan.next().equals("Si")) {
             //Recorrem el array de premis secundaris i anem imprimint els premis que han tocat
             for (int i = 0; i < array_PremisSecundaris.length; i++) {
                 if (array_PremisSecundaris[i].toca) {
-                    System.out.println(array_PremisSecundaris[i].missatge_premi);
+                    noSecundaris=false;
+                    System.out.println(array_PremisSecundaris[i].missatge_premi);}
                 }
-            }
+            if (noSecundaris)
+                System.out.println("No tens ningun premi secundari");}
+        
         }
     }
-}
+
