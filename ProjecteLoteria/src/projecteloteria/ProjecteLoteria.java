@@ -12,12 +12,6 @@ public class ProjecteLoteria {
     public static final int TIPUS_PREMIS_SECUNDARIS = 12; //Nombre de diferents tipus de premis secundaris que hi ha
     public static int indexnummatch;
     public static int PREMI_ACUMULAT;
-    public static int NUMERO_PREMIS_AMANYATS = 5;
-
-    /*Quantitat de números amanysats que implementem
-    per fer els jocs de proves. Són els 5 primers premis (encara que hi hagin 4 primers premis,
-    hi ha dos números premiats com a quart, de manera que hem de controlar els 5 primers números)*/
-    //Creem una classe per poder fer registres dels premis secundaris, amb el nom del premi, la quantitat que toca i si toca o no
     public static class PremiSecundari {
 
         String nom;
@@ -197,20 +191,26 @@ public class ProjecteLoteria {
      */
     public static void NumeroPremiatAmanyat(int numeros_premiats[]) {
         //Fiquem tots els premis amanyats en ordre, així és més fàcil
-        for (int i = numeros_premiats.length - 1; i >= 0; i++) {
+        for (int i = 0; i<numeros_premiats.length; i++) {
 
-            numeros_premiats[i] = i;
+            numeros_premiats[i] = i*10;
 
-            if (i < 10) {
-                String.format("%05d", i);
-            } else if (i < 100) {
-                String.format("%04d", i);
-            } else if (i < 1000) {
-                String.format("%03d", i);
-            } else if (i < 10000) {
-                String.format("%02d", i);
+            if (numeros_premiats[i] < 10) {
+                String.format("%05d", numeros_premiats[i]);
+            } else if (numeros_premiats[i] < 100) {
+                String.format("%04d", numeros_premiats[i]);
+            } else if (numeros_premiats[i] < 1000) {
+                String.format("%03d", numeros_premiats[i]);
+            } else if (numeros_premiats[i] < 10000) {
+                String.format("%02d", numeros_premiats[i]);
             }
+            
         }
+        numeros_premiats[0] = 18060;
+        numeros_premiats[1] = 18050;
+        numeros_premiats[2] = 18040;
+        numeros_premiats[3] = 18030;
+        numeros_premiats[4] = 18020;
     }
 
     /**
