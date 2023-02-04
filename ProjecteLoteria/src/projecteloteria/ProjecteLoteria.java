@@ -179,7 +179,6 @@ public class ProjecteLoteria {
             }
             numeros_premiats[i] = numero_a_afegir;
         }
-        numeros_premiats[0]=99999;
     }
 
     public static void NumeroPremiatAmanyat(int numeros_premiats[]) {
@@ -557,26 +556,18 @@ public class ProjecteLoteria {
     public static boolean AproximacioTercerPremi(int numeroUsuari, int[] premis, PremiSecundari[] array_PremisSecundaris) {
         boolean result = false;
         int premiAprox = 960;
-        if (numeroUsuari==00000){
-            if (numeroUsuari == premis[2] + 1) {
-                result = true;
-                PREMI_ACUMULAT += premiAprox;
-                array_PremisSecundaris[2].toca = true;
-            }
-
+        int aproximacio_tercer_premi_per_sota = premis[2] - 1;
+        int aproximacio_tercer_premi_per_sobra = premis[2] + 1;
+        if (premis[2] == 00000) {
+            aproximacio_tercer_premi_per_sota = 99999;
+        } else if (premis[0] == 99999) {
+            aproximacio_tercer_premi_per_sobra = 00000;
         }
-        else if (numeroUsuari==99999){
-            if (numeroUsuari == premis[2] - 1) {
-                result = true;
-                PREMI_ACUMULAT += premiAprox;
-                array_PremisSecundaris[2].toca = true;
-            }
 
-        }
-        else  if (numeroUsuari == premis[2]+1 || numeroUsuari == premis[2]-1) {
+        if (numeroUsuari == aproximacio_tercer_premi_per_sota || numeroUsuari == aproximacio_tercer_premi_per_sobra) {
             result = true;
             PREMI_ACUMULAT += premiAprox;
-            array_PremisSecundaris[2].toca = true;
+            array_PremisSecundaris[0].toca = true;
         }
 
         return result;
@@ -584,7 +575,7 @@ public class ProjecteLoteria {
 
     public static void DesglosarPremi(PremiSecundari[] array_PremisSecundaris) {
         System.out.println("Enhorabona, has aconseguit :" + PREMI_ACUMULAT + "€");
-        System.out.println("Vols desglosar el teu premmi?");
+        System.out.println("Vols desglosar el teu premi?");
         boolean noSecundaris = true;
         if (scan.next().equals("Si")) {
             //Recorrem el array de premis secundaris i anem imprimint els premis que han tocat
