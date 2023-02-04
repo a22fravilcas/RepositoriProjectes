@@ -78,6 +78,7 @@ public class ProjecteLoteria {
         scan.close();
     }
 
+    
     /**
      *
      * @param numeroUsuari
