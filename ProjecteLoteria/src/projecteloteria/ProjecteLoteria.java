@@ -180,13 +180,6 @@ public class ProjecteLoteria {
                     }
                 }
             }
-            numeros_premiats[i] = numero_a_afegir;
-        }
-    }
-
-    public static void NumeroPremiatAmanyat(int numeros_premiats[]) {
-        //Fiquem tots els premis amanyats en ordre, així és més fàcil
-        for (int i = numeros_premiats.length - 1; i >= 0; i++) {
             if (i < 10) {
                 String.format("%05d", i);
             } else if (i < 100) {
@@ -196,6 +189,13 @@ public class ProjecteLoteria {
             } else if (i < 10000) {
                 String.format("%02d", i);
             }
+            numeros_premiats[i] = numero_a_afegir;
+        }
+    }
+
+    public static void NumeroPremiatAmanyat(int numeros_premiats[]) {
+        //Fiquem tots els premis amanyats en ordre, així és més fàcil
+        for (int i = numeros_premiats.length - 1; i >= 0; i++) {
 
             numeros_premiats[i] = i;
         }
