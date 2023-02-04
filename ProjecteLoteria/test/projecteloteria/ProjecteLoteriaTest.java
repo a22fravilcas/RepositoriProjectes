@@ -53,10 +53,10 @@ public class ProjecteLoteriaTest {
      * Test of NumeroPremiat method, of class ProjecteLoteria.
      */
     @Test
-    public void testNumeroPremiat() {
-        
+    public void testNumeroPremiat() {        
         System.out.println("NumeroPremiat");
-        
+        int array_NumerosPremiats[] = new int[TOTALPREMIS];
+        ProjecteLoteria.NumeroPremiat(array_NumerosPremiats);
     }
     
     /**
@@ -88,7 +88,7 @@ public class ProjecteLoteriaTest {
     public void testCompletarPremis() {
         System.out.println("CompletarPremis");
         int[] array_Premis = new int [1807];
-        ProjecteLoteria.CompletarPremis(array_Premis);
+        ProjecteLoteria.CompletarPremisPrincipals(array_Premis);
         // TODO review the generated test code and remove the default call to fail.
       
     }
