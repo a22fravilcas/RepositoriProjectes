@@ -1,9 +1,9 @@
 package projecteloteria;
 
+import java.io.IOException;
 import utilities.Utilities;
 import java.util.Random;
 import java.util.Scanner;
-
 public class ProjecteLoteria {
 
     public static Scanner scan = new Scanner(System.in);
@@ -12,6 +12,9 @@ public class ProjecteLoteria {
     public static final int TIPUS_PREMIS_SECUNDARIS = 12; //Nombre de diferents tipus de premis secundaris que hi ha
     public static int indexnummatch;
     public static int PREMI_ACUMULAT;
+    public static String PathIdioma;
+    
+    
     public static class PremiSecundari {
 
         String nom;
@@ -23,8 +26,8 @@ public class ProjecteLoteria {
      *
      * @param args
      */
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws IOException {
+        PathIdioma=EscullirIdioma.ObtenirPath();
         int array_NumerosPremiats[] = new int[TOTALPREMIS];
         //Crida a funcio NumeroPremiat
         NumeroPremiat(array_NumerosPremiats);
@@ -39,15 +42,15 @@ public class ProjecteLoteria {
         while (AltreNumero) {
             PREMI_ACUMULAT = 0;
             //Crida a funcio externa per verificar el numero de l'usuari
-            int numeroUsuari = Utilities.demanaNumEnter("Introdueix el teu numero de loteria. "
-                    + "El numero ha de ser de cinc digits: ");
+            int numeroUsuari = Utilities.demanaNumEnter(Utilities.LlegirLineaConcreta(1, PathIdioma)
+                    + Utilities.LlegirLineaConcreta(2, PathIdioma), Utilities.LlegirLineaConcreta(33, PathIdioma));
             //Crida a funcio TrobarNumeroPremiat
             boolean premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, numeroUsuari);
             if (premiat) {
                 int premiTrobat = TrobarPremi(indexnummatch, array_PremisPrincipals);
-                System.out.println("Enhorabona, has aconeguit un premi principal. El teu premi es de " + premiTrobat + "€.");
+                System.out.println(Utilities.LlegirLineaConcreta(3, PathIdioma) + premiTrobat + "€.");
             } else {
-                System.out.println("El teu numero no correspon a cap premi principal.");
+                System.out.println(Utilities.LlegirLineaConcreta(4, PathIdioma));
             }
             //If per saber si el numero escollit te premi principal.
             boolean AproxSeg = false, AproxTerc = false, PrimerTresXifresTercer = false, PrimerTresXifresQuart1 = false,
@@ -65,7 +68,7 @@ public class ProjecteLoteria {
             DesglosarPremi(array_PremisSecundaris);
             //funcio per mostrar els premis obtinguts al usuari
 
-            System.out.println("Tens un altre numero?");
+            System.out.println(Utilities.LlegirLineaConcreta(5, PathIdioma));
             if (scan.next().equals("No")) {
                 //tanquem el bucle depenent de la entrada del usuari
                 AltreNumero = false;
@@ -245,36 +248,36 @@ public class ProjecteLoteria {
 
     }
 
-    public static void CompletarPremisSecundaris(PremiSecundari[] array_PremisSecundaris) {
+    public static void CompletarPremisSecundaris(PremiSecundari[] array_PremisSecundaris) throws IOException {
         //Primerament recorrem l'array de premis secundaris per crear cada objecte de la classe
         for (int i = 0; i < array_PremisSecundaris.length; i++) {
             array_PremisSecundaris[i] = new PremiSecundari();
         }
         //Ara afegim tots els registres dels premis secundaris
-        array_PremisSecundaris[0].nom = "AproximacioPrimerPremi";
-        array_PremisSecundaris[0].missatge_premi = "Per aconseguir l'aproximacio del gordo has aconseguir 2000€";
-        array_PremisSecundaris[1].nom = "AproximacioSegonPremi";
-        array_PremisSecundaris[1].missatge_premi = "Per aconseguir l'aproximacio del segon premi has aconseguir 1250€";
-        array_PremisSecundaris[2].nom = "AproximacioTercerPremi";
-        array_PremisSecundaris[2].missatge_premi = "Per aconseguir l'aproximacio del tercer premi has aconseguir 960€";
-        array_PremisSecundaris[3].nom = "PrimeresTresXifresGordo";
-        array_PremisSecundaris[3].missatge_premi = "Per aconseguir les tres primeres xifres del gordo has aconseguit 100€";
-        array_PremisSecundaris[4].nom = "PrimeresTresXifresSegonPremi";
-        array_PremisSecundaris[4].missatge_premi = "Per aconseguir les tres primeres xifres del segon premi has aconseguit 100€";
-        array_PremisSecundaris[5].nom = "PrimeresTresXifresTercerPremi";
-        array_PremisSecundaris[5].missatge_premi = "Per aconseguir les tres primeres xifres del tercer premi has aconseguit 100€";
-        array_PremisSecundaris[6].nom = "PrimeresTresXifresQuartPremi1";
-        array_PremisSecundaris[6].missatge_premi = "Per aconseguir les tres primeres xifres d'un quart premi has aconseguit 100€";
-        array_PremisSecundaris[7].nom = "PrimeresTresXifresQuartPremi2";
-        array_PremisSecundaris[7].missatge_premi = "Per aconseguir les tres primeres xifres d'un quart premi has aconseguit 100€";
-        array_PremisSecundaris[8].nom = "UltimesDosXifresGordo";
-        array_PremisSecundaris[8].missatge_premi = "Per aconseguir les dues ultimes xifres del gordo has aconseguit 100€";
-        array_PremisSecundaris[9].nom = "UltimesDosXifresSegonPremi";
-        array_PremisSecundaris[9].missatge_premi = "Per aconseguir les dues ultimes xifres del segon premi has aconseguit 100€";
-        array_PremisSecundaris[10].nom = "UltimesDosXifresTercerPremi";
-        array_PremisSecundaris[10].missatge_premi = "Per aconseguir les dues ultimes xifres del tercer premi has aconseguit 100€";
-        array_PremisSecundaris[11].nom = "UltimaXifraGordo";
-        array_PremisSecundaris[11].missatge_premi = "Per aconseguir l'ultima xifra del gordo has aconseguit el reintegrament del teu numero (20€)";
+        array_PremisSecundaris[0].nom = Utilities.LlegirLineaConcreta(6, PathIdioma);
+        array_PremisSecundaris[0].missatge_premi = Utilities.LlegirLineaConcreta(7, PathIdioma);
+        array_PremisSecundaris[1].nom = Utilities.LlegirLineaConcreta(8, PathIdioma);
+        array_PremisSecundaris[1].missatge_premi = Utilities.LlegirLineaConcreta(9, PathIdioma);
+        array_PremisSecundaris[2].nom = Utilities.LlegirLineaConcreta(10, PathIdioma);
+        array_PremisSecundaris[2].missatge_premi = Utilities.LlegirLineaConcreta(11, PathIdioma);
+        array_PremisSecundaris[3].nom = Utilities.LlegirLineaConcreta(12, PathIdioma);
+        array_PremisSecundaris[3].missatge_premi = Utilities.LlegirLineaConcreta(13, PathIdioma);
+        array_PremisSecundaris[4].nom = Utilities.LlegirLineaConcreta(14, PathIdioma);
+        array_PremisSecundaris[4].missatge_premi = Utilities.LlegirLineaConcreta(15, PathIdioma);
+            array_PremisSecundaris[5].nom = Utilities.LlegirLineaConcreta(16, PathIdioma);
+        array_PremisSecundaris[5].missatge_premi = Utilities.LlegirLineaConcreta(17, PathIdioma);
+        array_PremisSecundaris[6].nom = Utilities.LlegirLineaConcreta(18, PathIdioma);
+        array_PremisSecundaris[6].missatge_premi = Utilities.LlegirLineaConcreta(19, PathIdioma);
+        array_PremisSecundaris[7].nom = Utilities.LlegirLineaConcreta(20, PathIdioma);
+        array_PremisSecundaris[7].missatge_premi = Utilities.LlegirLineaConcreta(21, PathIdioma);
+        array_PremisSecundaris[8].nom = Utilities.LlegirLineaConcreta(22, PathIdioma);
+        array_PremisSecundaris[8].missatge_premi = Utilities.LlegirLineaConcreta(23, PathIdioma);
+        array_PremisSecundaris[9].nom = Utilities.LlegirLineaConcreta(24, PathIdioma);
+        array_PremisSecundaris[9].missatge_premi = Utilities.LlegirLineaConcreta(25, PathIdioma);
+        array_PremisSecundaris[10].nom = Utilities.LlegirLineaConcreta(26, PathIdioma);
+        array_PremisSecundaris[10].missatge_premi = Utilities.LlegirLineaConcreta(27, PathIdioma);
+        array_PremisSecundaris[11].nom =Utilities.LlegirLineaConcreta(28, PathIdioma);
+        array_PremisSecundaris[11].missatge_premi = Utilities.LlegirLineaConcreta(29, PathIdioma);
 
         //Ara recorrem la porció de l'array entre PrimeresTresXifresGordo i UltimesDosXifresTercer premi per afegir el premi de 100€
     }
@@ -637,9 +640,9 @@ public class ProjecteLoteria {
      * 
      * @param array_PremisSecundaris 
      */
-    public static void DesglosarPremi(PremiSecundari[] array_PremisSecundaris) {
-        System.out.println("Enhorabona, has aconseguit :" + PREMI_ACUMULAT + "€");
-        System.out.println("Vols desglosar el teu premi?");
+    public static void DesglosarPremi(PremiSecundari[] array_PremisSecundaris) throws IOException {
+        System.out.println(Utilities.LlegirLineaConcreta(30, PathIdioma) + PREMI_ACUMULAT + "€");
+        System.out.println(Utilities.LlegirLineaConcreta(31, PathIdioma));
         boolean noSecundaris = true;
         if (scan.next().equals("Si")) {
             //Recorrem el array de premis secundaris i anem imprimint els premis que han tocat
@@ -650,7 +653,7 @@ public class ProjecteLoteria {
                 }
             }
             if (noSecundaris) { //si no hi han premis secundaris os diem tambe
-                System.out.println("No tens ningun premi secundari");
+                System.out.println(Utilities.LlegirLineaConcreta(32, PathIdioma));
             }
         }
     }

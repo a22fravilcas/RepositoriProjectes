@@ -30,6 +30,7 @@ import java.util.Scanner;
  *
  */
 public class Utilities {
+   
 // <editor-fold defaultstate="collapsed" desc="Implementació de LlegirInt()">
 
     private static Scanner scan = null;
@@ -39,7 +40,19 @@ public class Utilities {
     public static final String NOM_FTX_CLIENTS = "./clientes.txt";
     public static final String NOM_FTX_CLIENTS_BIN = "./clientes.bin";
     public static final String NOM_FTX_CLIENTS_SEP = "./clientes_sep.txt";
+    
+     public static boolean Sistema(){
+       String OS = null;
+       boolean result=false;
+         if(OS == null) 
+            OS = System.getProperty("os.name"); 
+   
+   
+        result = OS.startsWith("Windows");
+   
 
+       return result;
+    }
     public static void LeerFichero() {
         // Creamos el enlace con el fichero en el disco
         BufferedReader buf = AbrirFicheroLectura(NOM_FITXER, true);
@@ -52,6 +65,16 @@ public class Utilities {
 
         CerrarFichero(buf);
 
+    }
+    public static String LlegirLineaConcreta(int linea, String nomArxiu) throws IOException{
+         
+        String result;
+        BufferedReader br= AbrirFicheroLectura(nomArxiu, false);
+       for(int i = 0; i < linea; ++i){
+            br.readLine();}
+            result = br.readLine();
+       
+        return result;
     }
 
     /**
@@ -374,14 +397,14 @@ public class Utilities {
      * @param missatge
      * @return 
      */
-    public static int demanaNumEnter(String missatge) {
+    public static int demanaNumEnter(String missatge, String error) {
         Scanner scan = new Scanner(System.in);
         int result;
         System.out.println(missatge);
 
         while (!scan.hasNextInt()) {
             scan.next();
-            System.out.println("Ha de ser un numero enter. Torna a intentar-ho.");
+            System.out.println(error);
         }
         result = scan.nextInt();
 
