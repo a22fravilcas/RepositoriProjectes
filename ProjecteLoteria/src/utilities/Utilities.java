@@ -36,6 +36,9 @@ public class Utilities {
     
     public static final String NOM_FITXER_TEXT = "./datos.txt";
     public static final String NOM_FITXER_BIN = "./datos.bin";
+    public static final String PATH_FITXER = "./";
+    public static final String EXTENSIONS_FITXER_TXT = ".txt";
+    public static final String EXTENSIONS_FITXER_BIN = ".bin";
 
     
     public static File crearFichero(String nomFitxer) {
