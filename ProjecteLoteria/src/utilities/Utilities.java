@@ -22,6 +22,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Scanner;
+
 /**
  * Llibreria d'utilitats
  *
@@ -30,29 +31,39 @@ import java.util.Scanner;
  *
  */
 public class Utilities {
-   
+
 // <editor-fold defaultstate="collapsed" desc="Implementació de LlegirInt()">
-
     private static Scanner scan = null;
-    
-    public static final String SEPARADOR = "#SEP#";
-    public static final String NOM_FITXER = "./datos.txt";
-    public static final String NOM_FTX_CLIENTS = "./clientes.txt";
-    public static final String NOM_FTX_CLIENTS_BIN = "./clientes.bin";
-    public static final String NOM_FTX_CLIENTS_SEP = "./clientes_sep.txt";
-    
-     public static boolean Sistema(){
-       String OS = null;
-       boolean result=false;
-         if(OS == null) 
-            OS = System.getProperty("os.name"); 
-   
-   
-        result = OS.startsWith("Windows");
-   
+    public static final String NOM_FITXER_TEXT = "./datos.txt";
+    public static final String NOM_FITXER_BIN = "./datos.bin";
+    public static final String PATH_FITXER = "./";
+    public static final String EXTENSIONS_FITXER_TXT = ".txt";
+    public static final String EXTENSIONS_FITXER_BIN = ".bin";
 
-       return result;
+    public static boolean Sistema() {
+        String OS = null;
+        boolean result = false;
+        if (OS == null) {
+            OS = System.getProperty("os.name");
+        }
+
+        result = OS.startsWith("Windows");
+
+        return result;
     }
+
+    public static File crearFichero(String nomFitxer) {
+        File f = new File(nomFitxer);
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return f;
+    }
+
     public static void LeerFichero() {
         // Creamos el enlace con el fichero en el disco
         BufferedReader buf = AbrirFicheroLectura(NOM_FITXER_TEXT, true);
@@ -66,14 +77,16 @@ public class Utilities {
         CerrarFichero(buf);
 
     }
-    public static String LlegirLineaConcreta(int linea, String nomArxiu) throws IOException{
-         
+
+    public static String LlegirLineaConcreta(int linea, String nomArxiu) throws IOException {
+
         String result;
-        BufferedReader br= AbrirFicheroLectura(nomArxiu, false);
-       for(int i = 0; i < linea; ++i){
-            br.readLine();}
-            result = br.readLine();
-       
+        BufferedReader br = AbrirFicheroLectura(nomArxiu, false);
+        for (int i = 0; i < linea; ++i) {
+            br.readLine();
+        }
+        result = br.readLine();
+
         return result;
     }
 
@@ -333,14 +346,14 @@ public class Utilities {
     public static int LlegirInt(Scanner scan) {
         return LlegirInt(scan, null);
     }
-    
+
     /**
-     * 
+     *
      * @param scan
      * @param missatge
      * @param valorMin
      * @param valorMax
-     * @return 
+     * @return
      */
     public static int LlegirInt(Scanner scan, String missatge, int valorMin, int valorMax) {
         int result = 0;
@@ -350,11 +363,12 @@ public class Utilities {
 
         return result;
     }
+
     /**
-     * 
+     *
      * @param scan
      * @param missatge
-     * @return 
+     * @return
      */
     public static int LlegirInt(Scanner scan, String missatge) {
         boolean dadesCorrectes;
@@ -373,10 +387,11 @@ public class Utilities {
 
         return result;
     }
+
     /**
-     * 
+     *
      * @param testnumber
-     * @return 
+     * @return
      */
     public static int reverseInt(int testnumber) {
         long reversedNum = 0;
@@ -392,10 +407,11 @@ public class Utilities {
         }
         return (int) reversedNum;
     }
+
     /**
-     * 
+     *
      * @param missatge
-     * @return 
+     * @return
      */
     public static int demanaNumEnter(String missatge, String error) {
         Scanner scan = new Scanner(System.in);
@@ -411,18 +427,18 @@ public class Utilities {
         //Tornar el resultat de la funció
         return result;
     }
-    
-    public static int[] intToArray(int testnumber){
+
+    public static int[] intToArray(int testnumber) {
         int[] intArray;
-        
+
         String num = Integer.toString(testnumber);
-        
-        intArray= new int[num.length()];
-        
+
+        intArray = new int[num.length()];
+
         for (int i = 0; i < intArray.length; i++) {
             intArray[i] = num.charAt(i);
         }
-   
+
         return intArray;
     }
 
