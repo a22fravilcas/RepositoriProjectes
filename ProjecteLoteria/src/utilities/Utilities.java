@@ -5,6 +5,22 @@
  */
 package utilities;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.Scanner;
 /**
  * Llibreria d'utilitats
@@ -17,6 +33,243 @@ public class Utilities {
 // <editor-fold defaultstate="collapsed" desc="Implementació de LlegirInt()">
 
     private static Scanner scan = null;
+    
+    public static final String SEPARADOR = "#SEP#";
+    public static final String NOM_FITXER = "./datos.txt";
+    public static final String NOM_FTX_CLIENTS = "./clientes.txt";
+    public static final String NOM_FTX_CLIENTS_BIN = "./clientes.bin";
+    public static final String NOM_FTX_CLIENTS_SEP = "./clientes_sep.txt";
+
+    public static void LeerFichero() {
+        // Creamos el enlace con el fichero en el disco
+        BufferedReader buf = AbrirFicheroLectura(NOM_FITXER, true);
+
+        String linea = LeerLinea(buf);
+        while (linea != null) {
+            System.out.println(linea);
+            linea = LeerLinea(buf);
+        }
+
+        CerrarFichero(buf);
+
+    }
+
+    /**
+     * Funcion que abre un fichero y, opcionalmente, lo crea si no existe
+     *
+     * @param nomFichero Nombre del fichero a abrir
+     * @param crear Si lo que queremos crear en el caso que no exista
+     * @return File con el fichero que se ha abierto o null si no existe o no se
+     * ha podido crear
+     */
+    public static File AbrirFichero(String nomFichero, boolean crear) {
+        File result = null;
+
+        result = new File(nomFichero);
+
+        if (!result.exists()) {
+            if (crear) {
+                try {
+                    result.createNewFile();
+                } catch (IOException ex) {
+                    Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+                    result = null;
+                }
+            } else {
+                result = null;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Abre un fichero para lectura
+     *
+     * @param nomFichero Nombre del fichero
+     * @param crear Indica si queremos crear el fichero o no, en el caso que no
+     * exista
+     * @return BufferedReader apuntando al fichero
+     */
+    public static BufferedReader AbrirFicheroLectura(String nomFichero, boolean crear) {
+        BufferedReader br = null;
+        File f = AbrirFichero(nomFichero, crear);
+
+        if (f != null) {
+            // Declarar el reader para poder leer el fichero¡
+            FileReader reader;
+            try {
+                reader = new FileReader(f);
+                // Buffered reader para poder leer más comodamente
+                br = new BufferedReader(reader);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return br;
+    }
+
+    /**
+     * Abre un fichero para lectura
+     *
+     * @param nomFichero Nombre del fichero
+     * @param crear Indica si queremos crear el fichero o no, en el caso que no
+     * exista
+     * @return BufferedReader apuntando al fichero
+     */
+    public static PrintWriter AbrirFicheroEscritura(String nomFichero, boolean crear, boolean blnAnyadir) {
+        PrintWriter pw = null;
+        File f = AbrirFichero(nomFichero, crear);
+
+        if (f != null) {
+            // Declarar el writer para poder escribir en el fichero¡
+            FileWriter writer;
+            try {
+                writer = new FileWriter(f, blnAnyadir);
+                // PrintWriter para poder escribir más comodamente
+                pw = new PrintWriter(writer);
+            } catch (IOException ex) {
+                Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return pw;
+    }
+
+    /**
+     * Cierra el fichero
+     *
+     * @param br fichero a cerrar
+     */
+    public static void CerrarFichero(BufferedReader br) {
+        try {
+            br.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Cierra el fichero
+     *
+     * @param pw fichero a cerrar
+     */
+    public static void CerrarFichero(PrintWriter pw) {
+        pw.flush();
+        pw.close();
+    }
+
+    /**
+     * Lee una linea del fichero
+     *
+     * @param br BufferedReader con el fichero a leer
+     * @return String
+     */
+    public static String LeerLinea(BufferedReader br) {
+        String linea = null;
+
+        try {
+            linea = br.readLine();
+        } catch (IOException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return linea;
+    }
+
+    /**
+     * Lee una linea del fichero
+     *
+     * @param pw PrintWrite con el fichero a leer
+     * @linea Linea a escribir
+     */
+    public static void EscribirLinea(PrintWriter pw, String linea) {
+        pw.println(linea);
+    }
+
+    public static void EscribirFichero(boolean blnAnyadir) {
+        // Creamos el enlace con el fichero en el disco
+        PrintWriter pw = AbrirFicheroEscritura(NOM_FITXER, true, blnAnyadir);
+
+        String linea = PedirLineaTeclado();
+        while (!linea.equals("")) {
+            EscribirLinea(pw, linea);
+            linea = PedirLineaTeclado();
+        }
+
+        CerrarFichero(pw);
+    }
+
+    public static String PedirLineaTeclado() {
+        return scan.nextLine();
+    }
+
+    public static void BorrarFichero(String filename) {
+        File f = new File(filename);
+        f.delete();
+    }
+
+    public static void RenombrarFichero(String filename_origen, String filename_final) {
+        File f = new File(filename_origen);
+        File f2 = new File(filename_final);
+        f.renameTo(f2);
+    }
+
+    public static DataOutputStream AbrirFicheroEscrituraBinario(String nomFichero, boolean crear, boolean blnAnyadir) {
+        DataOutputStream dos = null;
+        File f = AbrirFichero(nomFichero, crear);
+
+        if (f != null) {
+            // Declarar el writer para poder escribir en el fichero¡
+            FileOutputStream writer;
+            try {
+                writer = new FileOutputStream(f, blnAnyadir);
+                // PrintWriter para poder escribir más comodamente
+                dos = new DataOutputStream(writer);
+            } catch (IOException ex) {
+                Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return dos;
+    }
+
+    public static void CerrarFicheroBinario(DataOutputStream dos) {
+        try {
+            dos.flush();
+            dos.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void CerrarFicheroBinario(DataInputStream dis) {
+        try {
+            dis.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static DataInputStream AbrirFicheroLecturaBinario(String nomFichero, boolean crear) {
+        DataInputStream dis = null;
+        File f = AbrirFichero(nomFichero, crear);
+
+        if (f != null) {
+            // Declarar el writer para poder escribir en el fichero¡
+            FileInputStream reader;
+            try {
+                reader = new FileInputStream(f);
+                // PrintWriter para poder escribir más comodamente
+                dis = new DataInputStream(reader);
+            } catch (IOException ex) {
+                Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return dis;
+    }
 
     /**
      *
