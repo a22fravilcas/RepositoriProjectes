@@ -55,7 +55,7 @@ public class Utilities {
     }
     public static void LeerFichero() {
         // Creamos el enlace con el fichero en el disco
-        BufferedReader buf = AbrirFicheroLectura(NOM_FITXER, true);
+        BufferedReader buf = AbrirFicheroLectura(NOM_FITXER_TEXT, true);
 
         String linea = LeerLinea(buf);
         while (linea != null) {
@@ -80,15 +80,15 @@ public class Utilities {
     /**
      * Funcion que abre un fichero y, opcionalmente, lo crea si no existe
      *
-     * @param nomFichero Nombre del fichero a abrir
+     * @param nomFitxer Nombre del fichero a abrir
      * @param crear Si lo que queremos crear en el caso que no exista
      * @return File con el fichero que se ha abierto o null si no existe o no se
      * ha podido crear
      */
-    public static File AbrirFichero(String nomFichero, boolean crear) {
+    public static File AbrirFichero(String nomFitxer, boolean crear) {
         File result = null;
 
-        result = new File(nomFichero);
+        result = new File(nomFitxer);
 
         if (!result.exists()) {
             if (crear) {
@@ -109,14 +109,14 @@ public class Utilities {
     /**
      * Abre un fichero para lectura
      *
-     * @param nomFichero Nombre del fichero
+     * @param nomFitxer Nombre del fichero
      * @param crear Indica si queremos crear el fichero o no, en el caso que no
      * exista
      * @return BufferedReader apuntando al fichero
      */
-    public static BufferedReader AbrirFicheroLectura(String nomFichero, boolean crear) {
+    public static BufferedReader AbrirFicheroLectura(String nomFitxer, boolean crear) {
         BufferedReader br = null;
-        File f = AbrirFichero(nomFichero, crear);
+        File f = AbrirFichero(nomFitxer, crear);
 
         if (f != null) {
             // Declarar el reader para poder leer el fichero¡
@@ -136,14 +136,14 @@ public class Utilities {
     /**
      * Abre un fichero para lectura
      *
-     * @param nomFichero Nombre del fichero
+     * @param nomFitxer Nombre del fichero
      * @param crear Indica si queremos crear el fichero o no, en el caso que no
      * exista
      * @return BufferedReader apuntando al fichero
      */
-    public static PrintWriter AbrirFicheroEscritura(String nomFichero, boolean crear, boolean blnAnyadir) {
+    public static PrintWriter AbrirFicheroEscritura(String nomFitxer, boolean crear, boolean blnAnyadir) {
         PrintWriter pw = null;
-        File f = AbrirFichero(nomFichero, crear);
+        File f = AbrirFichero(nomFitxer, crear);
 
         if (f != null) {
             // Declarar el writer para poder escribir en el fichero¡
@@ -213,7 +213,7 @@ public class Utilities {
 
     public static void EscribirFichero(boolean blnAnyadir) {
         // Creamos el enlace con el fichero en el disco
-        PrintWriter pw = AbrirFicheroEscritura(NOM_FITXER, true, blnAnyadir);
+        PrintWriter pw = AbrirFicheroEscritura(NOM_FITXER_TEXT, true, blnAnyadir);
 
         String linea = PedirLineaTeclado();
         while (!linea.equals("")) {
@@ -228,8 +228,8 @@ public class Utilities {
         return scan.nextLine();
     }
 
-    public static void BorrarFichero(String filename) {
-        File f = new File(filename);
+    public static void BorrarFichero(String nomFitxer) {
+        File f = new File(nomFitxer);
         f.delete();
     }
 
@@ -239,9 +239,9 @@ public class Utilities {
         f.renameTo(f2);
     }
 
-    public static DataOutputStream AbrirFicheroEscrituraBinario(String nomFichero, boolean crear, boolean blnAnyadir) {
+    public static DataOutputStream AbrirFicheroEscrituraBinario(String nomFitxer, boolean crear, boolean blnAnyadir) {
         DataOutputStream dos = null;
-        File f = AbrirFichero(nomFichero, crear);
+        File f = AbrirFichero(nomFitxer, crear);
 
         if (f != null) {
             // Declarar el writer para poder escribir en el fichero¡
@@ -275,9 +275,9 @@ public class Utilities {
         }
     }
 
-    public static DataInputStream AbrirFicheroLecturaBinario(String nomFichero, boolean crear) {
+    public static DataInputStream AbrirFicheroLecturaBinario(String nomFitxer, boolean crear) {
         DataInputStream dis = null;
-        File f = AbrirFichero(nomFichero, crear);
+        File f = AbrirFichero(nomFitxer, crear);
 
         if (f != null) {
             // Declarar el writer para poder escribir en el fichero¡
