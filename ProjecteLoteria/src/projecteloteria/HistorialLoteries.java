@@ -60,9 +60,9 @@ public class HistorialLoteries {
 
         for (int i = 5; i < TOTALPREMIS; i++) { //bucle per assignar els premis quue es repeteixen en molts numeros
             if (i >= 13) {
-                array_PremisPrincipals[i] = PEDREA_PREMI;
+                dos.writeInt(array_PremisPrincipals[i] = PEDREA_PREMI);
             } else {
-                array_PremisPrincipals[i] = CINQUE_PREMI;
+                dos.writeInt(array_PremisPrincipals[i] = CINQUE_PREMI);
             }
         }
     }
