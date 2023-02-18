@@ -4,6 +4,7 @@
  */
 package projecteloteria;
 
+import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -100,7 +101,7 @@ public class ProjecteLoteriaTest {
      * Test of CompletarPremisSecundaris method, of class ProjecteLoteria.
      */
     @Test
-    public void testCompletarPremisSecundaris() {
+    public void testCompletarPremisSecundaris() throws IOException {
         System.out.println("CompletarPremisSecundaris");
         ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
         ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
@@ -137,7 +138,7 @@ public class ProjecteLoteriaTest {
      * Test of PrimeresTresXifresGordo method, of class ProjecteLoteria.
      */
     @Test
-    public void testPrimeresTresXifresGordo() {
+    public void testPrimeresTresXifresGordo() throws IOException {
         System.out.println("PrimeresTresXifresGordo");
         int numeroUsuari = NUMERO_APROXIMACIO_PER_SOBRE_GORDO; //Provem aquest número per comprovar que detecta les tres primeres xifres del gordo
         boolean expResult = true;
@@ -153,7 +154,7 @@ public class ProjecteLoteriaTest {
      * Test of PrimeresTresXifresSegonPremi method, of class ProjecteLoteria.
      */
     @Test
-    public void testPrimeresTresXifresSegonPremi() {
+    public void testPrimeresTresXifresSegonPremi() throws IOException {
         System.out.println("PrimeresTresXifresSegonPremi");
         int numeroUsuari = NUMERO_GORDO; //Tornem a provar amb el número del gordo ja que el 18050 és el segon premi i per tan coincideixen les tres primeres xifres
         boolean expResult = true;
@@ -169,7 +170,7 @@ public class ProjecteLoteriaTest {
      * Test of PrimeresTresXifresTercerPremi method, of class ProjecteLoteria.
      */
     @Test
-    public void testPrimeresTresXifresTercerPremi() {
+    public void testPrimeresTresXifresTercerPremi() throws IOException {
         System.out.println("PrimeresTresXifresTercerPremi");
         int numeroUsuari = NUMERO_GORDO; //Tornem a provar amb el número del gordo ja que el 18040 és el tercer premi i per tan coincideixen les tres primeres xifres
         boolean expResult = true;
@@ -185,7 +186,7 @@ public class ProjecteLoteriaTest {
      * Test of PrimeresTresXifresQuartPremi1 method, of class ProjecteLoteria.
      */
     @Test
-    public void testPrimeresTresXifresQuartPremi1() {
+    public void testPrimeresTresXifresQuartPremi1() throws IOException {
         System.out.println("PrimeresTresXifresQuartPremi1");
         int numeroUsuari = NUMERO_GORDO; //Tornem a provar amb el número del gordo ja que el 18030 és el primer quart premi i per tan coincideixen les tres primeres xifres
         boolean expResult = true;
@@ -201,7 +202,7 @@ public class ProjecteLoteriaTest {
      * Test of PrimeresTresXifresQuartPremi2 method, of class ProjecteLoteria.
      */
     @Test
-    public void testPrimeresTresXifresQuartPremi2() {
+    public void testPrimeresTresXifresQuartPremi2() throws IOException {
         System.out.println("PrimeresTresXifresQuartPremi2");
         int numeroUsuari = NUMERO_GORDO; //Tornem a provar amb el número del gordo ja que el 18020 és el segon quart premi i per tan coincideixen les tres primeres xifres
         boolean expResult = true;
@@ -217,7 +218,7 @@ public class ProjecteLoteriaTest {
      * Test of UltimesDosXifresGordo method, of class ProjecteLoteria.
      */
     @Test
-    public void testUltimesDosXifresGordo() {
+    public void testUltimesDosXifresGordo() throws IOException {
         System.out.println("UltimesDosXifresGordo");
         int numeroUsuari = NUMERO_PROVA_ULTIMES_XIFRES_GORDO; //Provem aquest número per comprovar que detecta les últimes dos xifres del gordo
         boolean expResult = true;
@@ -233,7 +234,7 @@ public class ProjecteLoteriaTest {
      * Test of UltimesDosXifresSegonPremi method, of class ProjecteLoteria.
      */
     @Test
-    public void testUltimesDosXifresSegonPremi() {
+    public void testUltimesDosXifresSegonPremi() throws IOException {
         System.out.println("UltimesDosXifresSegonPremi");
         int numeroUsuari = NUMERO_PROVA_ULTIMES_XIFRES_SEGON_PREMI; //Provem aquest número per comprovar que detecta les últimes dos xifres del segon premi
         boolean expResult = true;
@@ -249,7 +250,7 @@ public class ProjecteLoteriaTest {
      * Test of UltimesDosXifresTercerPremi method, of class ProjecteLoteria.
      */
     @Test
-    public void testUltimesDosXifresTercerPremi() {
+    public void testUltimesDosXifresTercerPremi() throws IOException {
         System.out.println("UltimesDosXifresTercerPremi");
         int numeroUsuari = NUMERO_PROVA_ULTIMES_XIFRES_TERCER_PREMI; //Provem aquest número per comprovar que detecta les últimes dos xifres del tercer premi
         boolean expResult = true;
@@ -265,7 +266,7 @@ public class ProjecteLoteriaTest {
      * Test of UltimaXifraGordo method, of class ProjecteLoteria.
      */
     @Test
-    public void testUltimaXifraGordo() {
+    public void testUltimaXifraGordo() throws IOException {
         System.out.println("UltimaXifraGordo");
         int numeroUsuari = NUMERO_PROVA_ULTIMES_XIFRES_GORDO; //Provem aquest número per comprovar que detecta l'última xifra del gordo
         boolean expResult = true;
@@ -281,7 +282,7 @@ public class ProjecteLoteriaTest {
      * Test of AproximacioPrimerPremi method, of class ProjecteLoteria.
      */
     @Test
-    public void testAproximacioPrimerPremi() {
+    public void testAproximacioPrimerPremi() throws IOException {
         System.out.println("AproximacioPrimerPremi");
         int numeroUsuari1 = NUMERO_APROXIMACIO_PER_SOTA_GORDO; //Aquest és l'aproximació per sota del gordo (18060)
         int numeroUsuari2 = NUMERO_APROXIMACIO_PER_SOBRE_GORDO; //Aquest és l'aproximació per sobra del gordo (18060)
@@ -300,7 +301,7 @@ public class ProjecteLoteriaTest {
      * Test of AproximacioSegonPremi method, of class ProjecteLoteria.
      */
     @Test
-    public void testAproximacioSegonPremi() {
+    public void testAproximacioSegonPremi() throws IOException {
         System.out.println("AproximacioSegonPremi");
         int numeroUsuari1 = NUMERO_APROXIMACIO_PER_SOTA_SEGON_PREMI; //Aquest és l'aproximació per sota del segon premi (18050)
         int numeroUsuari2 = NUMERO_APROXIMACIO_PER_SOBRE_SEGON_PREMI; //Aquest és l'aproximació per sobra del segon premi (18050)
@@ -319,7 +320,7 @@ public class ProjecteLoteriaTest {
      * Test of AproximacioSegonPremi method, of class ProjecteLoteria.
      */
     @Test
-    public void testAproximacioTercerPremi() {
+    public void testAproximacioTercerPremi() throws IOException {
         System.out.println("AproximacioSegonPremi");
         int numeroUsuari1 = NUMERO_APROXIMACIO_PER_SOTA_TERCER_PREMI; //Aquest és l'aproximació per sota del tercer premi (18040)
         int numeroUsuari2 = NUMERO_APROXIMACIO_PER_SOBRE_TERCER_PREMI; //Aquest és l'aproximació per sobra del tercer premi (18040)
