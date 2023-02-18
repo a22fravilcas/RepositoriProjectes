@@ -39,14 +39,14 @@ public class HistorialLoteries {
     }
 
     public static void InserirPremisFitxerLoteria(DataOutputStream dos, int[] array_PremisPrincipals) throws IOException {
-        
-        final int TOTALPREMIS = 1807;
+
         int CINQUE_PREMI = 0;
         int PEDREA_PREMI = 0;
         int PRIMERPREMI = 0;
         int SEGONPREMI = 0;
         int TERCERPREMI = 0;
         int QUARTICINQUEPREMI = 0;
+        final int TOTALPREMIS = 1807;
 
         dos.writeInt(array_PremisPrincipals[0] = PRIMERPREMI);
         dos.writeInt(array_PremisPrincipals[1] = SEGONPREMI
