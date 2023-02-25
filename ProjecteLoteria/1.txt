@@ -1,0 +1,40 @@
+﻿Introdueix el teu numero de loteria. 
+El numero ha de ser de cinc digits: 
+Enhorabona, has aconeguit un premi principal. El teu premi es de 
+El teu numero no correspon a cap premi principal.
+Tens un altre numero?
+AproximacioPrimerPremi
+Per aconseguir l'aproximacio del gordo has aconseguir 2000€
+AproximacioSegonPremi
+Per aconseguir l'aproximacio del segon premi has aconseguir 1250€
+AproximacioTercerPremi
+Per aconseguir l'aproximacio del tercer premi has aconseguir 960€
+PrimeresTresXifresGordo
+Per aconseguir les tres primeres xifres del gordo has aconseguit 100€
+PrimeresTresXifresSegonPremi
+Per aconseguir les tres primeres xifres del segon premi has aconseguit 100€
+PrimeresTresXifresTercerPremi
+Per aconseguir les tres primeres xifres del tercer premi has aconseguit 100€
+PrimeresTresXifresQuartPremi1
+Per aconseguir les tres primeres xifres d'un quart premi has aconseguit 100€
+PrimeresTresXifresQuartPremi2
+Per aconseguir les tres primeres xifres d'un quart premi has aconseguit 100€
+UltimesDosXifresGordo
+Per aconseguir les dues ultimes xifres del gordo has aconseguit 100€
+UltimesDosXifresSegonPremi
+Per aconseguir les dues ultimes xifres del segon premi has aconseguit 100€
+UltimesDosXifresTercerPremi
+Per aconseguir les dues ultimes xifres del tercer premi has aconseguit 100€
+UltimaXifraGordo
+Per aconseguir l'ultima xifra del gordo has aconseguit el reintegrament del teu numero (20€
+Enhorabona, has aconseguit
+Vols desglosar el teu premi?
+No tens ningun premi secundari
+Introdueix un valor valid
+Nom de la colla: 
+Any del sorteig: 
+Nom: 
+Número de Loteria: 
+Import: 
+|    ANY    |  MEMBRES  |   IMPORT  |   PREMI   |    
+|    NOM    |  NÚMERO   |   IMPORT  |   PREMI   |

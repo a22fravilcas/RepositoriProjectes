@@ -1,0 +1,40 @@
+﻿Introduce tu número de lotería.
+El número debe ser de cinco digits:
+Enhorabuena, has conseguido un premio principal. Tu premio es de
+Tu número no corresponde a ningún premio principal.
+¿Tienes otro número?
+AproximaciónPrimerPremio
+Por conseguir la aproximación del gordo has conseguido 2000€
+AproximaciónSegundoPremio
+Por conseguir la aproximación del segundo premio has conseguido 1250€
+AproximaciónTercerPremio
+Por conseguir la aproximación del tercer premio has conseguido 960€
+PrimerasTresCifrasGordo
+Por conseguir las tres primeras cifras del gordo has conseguido 100€
+PrimerasTresCifrasSegundoPremio
+Por conseguir las tres primeras cifras del segundo premio has conseguido 100€
+PrimerasTresCifrasTerceroPremio
+Por conseguir las tres primeras cifras del tercer premio has conseguido 100€
+PrimerasTresCifrasCuartoPremi1
+Por conseguir las tres primeras cifras de un cuarto premio has conseguido 100€
+PrimerasTresCifrasCuartoPremi2
+Por conseguir las tres primeras cifras de un cuarto premio has conseguido 100€
+UltimasDosCifrasGordo
+Por conseguir las dos ultimas cifras del gordo has conseguido 100€
+UltimasDosCifrasSegundoPremio
+Por conseguir las dos últimas cifras del segundo premio has conseguido 100€
+UltimasDosCifresTercerPremio
+Por conseguir las dos últimas cifras del tercer premio has conseguido 100€
+UltimaCifraGordo
+Por conseguir la última cifra del gordo has conseguido el reintegro de tu número (20€
+Enhorabuena, has conseguido
+¿Quieres desglosar tu premio?
+No tienes ningún premio secundario
+Introduce un valor valido
+Nombre del grupo: 
+Año del sorteo: 
+Nombre: 
+Número de Lotería: 
+Importe: 
+|    AÑO    |  MIEMBROS |  IMPORTE  |  PREMIO  |    
+|   NOMBRE  |   NÚMERO  |  IMPORTE  |  PREMIO  |

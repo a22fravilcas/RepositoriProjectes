@@ -80,13 +80,12 @@ public class Utilities {
 
     public static String LlegirLineaConcreta(int linea, String nomArxiu) throws IOException {
 
-        String result;
+        String result="";
         BufferedReader br = AbrirFicheroLectura(nomArxiu, false);
         for (int i = 0; i < linea; ++i) {
-            br.readLine();
+            result = br.readLine();
         }
-        result = br.readLine();
-
+        CerrarFichero(br);
         return result;
     }
 
@@ -380,6 +379,7 @@ public class Utilities {
             dadesCorrectes = scan.hasNextInt();
             if (dadesCorrectes) {
                 result = scan.nextInt();
+                scan.nextLine();
             } else if (scan.hasNext()) {
                 scan.nextLine();
             }
