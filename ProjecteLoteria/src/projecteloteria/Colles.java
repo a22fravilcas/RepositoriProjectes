@@ -38,6 +38,7 @@ public class Colles {
     
     //CONSTANTS
     public static final String NOM_FITXER_COLLES = "./fitxer_colles.bin";
+    public static final String NOM_FITXER_NOMS_COLLES = "./fitxer_noms_colles.bin";
     public static final int IMPORT_MINIM = 5; //Import mínim que pot aportar un membre
     public static final int IMPORT_MAXIM = 60; //Import màxim que pot aportar un membre
     public static final int MAXIM_NUMERO_LOTERIA = 99999; //Número de loteria més gran
@@ -67,14 +68,42 @@ public class Colles {
         Colla colla = new Colla();
         System.out.print(Utilities.LlegirLineaConcreta(34, "1.txt"));
         colla.nom = scan.nextLine();
-        colla.any = Utilities.LlegirInt(scan,Utilities.LlegirLineaConcreta(35, "1.txt"));
         //Imposem amb un while que el nom no estigui repetit
-        /*boolean nom_validat = false;
+        boolean nom_validat = ValidarNom(colla.nom);
         while (!nom_validat){
-            for ()
-        }*/
+            System.out.print(Utilities.LlegirLineaConcreta(34, "1.txt"));
+            colla.nom = scan.nextLine();
+            nom_validat = ValidarNom(colla.nom);
+        }
+        colla.any = Utilities.LlegirInt(scan,Utilities.LlegirLineaConcreta(35, "1.txt"));
+        
         //Retornem la colla
         return colla;
+    }
+    
+    public static String LlegirLiniaNomsColles (DataInputStream dis){
+        String linia;
+        try {
+            linia = dis.readUTF();
+        } catch (IOException ex) {
+            linia = null;
+        }
+        //Retornem la línia
+        return linia;
+    }
+    
+    public static boolean ValidarNom (String nom_colla) throws IOException{
+        DataInputStream dis = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_NOMS_COLLES, true);
+        boolean nom_validat = true;
+        String linia = LlegirLiniaNomsColles(dis);
+        while (linia!=null){
+            if (nom_colla.equals(linia)){
+                nom_validat = false;
+            }
+            linia = LlegirLiniaNomsColles(dis);
+        }
+        Utilities.CerrarFicheroBinario(dis);
+        return nom_validat;
     }
     
     public static Membre DemanarMembre () throws IOException{
@@ -91,8 +120,11 @@ public class Colles {
         return membre;
     }
     
-    public static void CompletarColla (Colla colla, Membre membre){
+    public static void CompletarColla (Colla colla, Membre membre) throws IOException{
         if (colla.numero_membres==0){
+            DataOutputStream dos = Utilities.AbrirFicheroEscrituraBinario(NOM_FITXER_NOMS_COLLES, true, true);
+            dos.writeUTF(colla.nom);
+            Utilities.CerrarFicheroBinario(dos);
             numero_colles++;
         }
         colla.numero_membres++;
