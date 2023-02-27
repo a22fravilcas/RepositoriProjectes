@@ -14,7 +14,7 @@ public class EscullirIdioma {
     public static Scanner scan = new Scanner(System.in);
     
     public static String ObtenirIdioma(){
-        File path = new File ("./");
+        File path = new File ("./idiomas");
         String [] fitxers=path.list();
        
         for (int i=0; i<fitxers.length; i++){
@@ -23,8 +23,8 @@ public class EscullirIdioma {
         
         String fileIdioma=scan.next();
         boolean incorrecte=true;
-        for (int i=0; i<fitxers.length || incorrecte; i++){
-            if (fileIdioma.equals(fitxers[i]))
+        for (int i=0; i<fitxers.length && incorrecte; i++){
+            if ((fileIdioma+".txt").equals(fitxers[i]))
                 incorrecte=false;
         }
         if(incorrecte){
@@ -36,7 +36,7 @@ public class EscullirIdioma {
     public static String ObtenirPath() {
         String idioma=ObtenirIdioma();
         
-        String path="./"+idioma+".txt";
+        String path="./idiomas/"+idioma+".txt";
         
         return path;
     }

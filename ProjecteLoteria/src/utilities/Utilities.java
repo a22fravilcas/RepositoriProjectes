@@ -81,7 +81,7 @@ public class Utilities {
     public static String LlegirLineaConcreta(int linea, String nomArxiu) throws IOException {
 
         String result="";
-        BufferedReader br = AbrirFicheroLectura(nomArxiu, false);
+        BufferedReader br = AbrirFicheroLectura(nomArxiu, true);
         for (int i = 0; i < linea; ++i) {
             result = br.readLine();
         }

@@ -1,5 +1,5 @@
 ﻿Introduce tu número de lotería.
-El número debe ser de cinco digits:
+El número debe ser de cinco digitos:
 Enhorabuena, has conseguido un premio principal. Tu premio es de
 Tu número no corresponde a ningún premio principal.
 ¿Tienes otro número?
