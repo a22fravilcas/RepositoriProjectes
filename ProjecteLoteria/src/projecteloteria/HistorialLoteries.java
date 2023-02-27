@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static projecteloteria.ProjecteLoteria.PathIdioma;
 
 import utilities.*;
 
@@ -43,7 +44,7 @@ public class HistorialLoteries {
     public static void BuscarPremisLoteria() {
 
         try {
-            System.out.print("Número del registro al que quieres acceder: ");
+            System.out.print(Utilities.LlegirLineaConcreta(40, PathIdioma));
             int numero = scan.nextInt();
 
             long posicion_indice = (numero - 1) * TAMANY_LONG;

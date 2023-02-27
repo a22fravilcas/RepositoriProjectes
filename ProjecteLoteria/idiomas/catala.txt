@@ -38,3 +38,4 @@ Número de Loteria:
 Import: 
 |    ANY    |  MEMBRES  |   IMPORT  |   PREMI   |    
 |    NOM    |  NÚMERO   |   IMPORT  |   PREMI   |
+Introdueix l'any del sorteig a buscar

@@ -63,7 +63,7 @@ public class Colles {
     }
     
     public static void MenuColles (){
-        PathIdioma = ProjecteLoteria.PathIdioma;
+        
         
     }
     

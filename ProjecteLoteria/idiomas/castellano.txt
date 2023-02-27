@@ -38,3 +38,4 @@ Número de Lotería:
 Importe: 
 |    AÑO    |  MIEMBROS |  IMPORTE  |  PREMIO  |    
 |   NOMBRE  |   NÚMERO  |  IMPORTE  |  PREMIO  |
+Introduce el año del sorteo que quieras comprobar
