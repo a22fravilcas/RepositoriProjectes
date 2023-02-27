@@ -441,6 +441,28 @@ public class Utilities {
 
         return intArray;
     }
+    
+    /**
+     * Crea un Menú a partir del scan i un array amb les opcions del menú
+     * 
+     * @param scan Escaner
+     * @param array_opcions Array amb les opcions del menú, les quals són
+     * Strings
+     * @return Retorna la opció escollida per l'usuari
+     */
+    public static int Menu(Scanner scan, String array_opcions[]) {
+        //Imprimeix el títol MENÚ
+        System.out.println("******** MENU ********");
+        //Recorrem l'array d'opcions per anar imprimint les diferents opcions
+        for (int i = 0; i <= array_opcions.length - 1; i++) {
+            System.out.println(array_opcions[i]);
+        }
+        System.out.println(""); //Deixem una línia de separació
+        //La registrem cridant LlegirInt()
+        int opcio_escollida = LlegirInt(scan,"Escull una opcio (numero): ",1,array_opcions.length);
+        //Retornem l'opció escollida
+        return opcio_escollida;
+    }
 
 // </editor-fold>
 }

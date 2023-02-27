@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static projecteloteria.ProjecteLoteria.PathIdioma;
 
 import utilities.*;
 
