@@ -3,8 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package projecteloteria;
+import java.io.File;
 import java.util.Scanner;
-import utilities.Utilities;
 
 /**
  *
@@ -14,28 +14,35 @@ public class EscullirIdioma {
     public static Scanner scan = new Scanner(System.in);
     
     public static String ObtenirIdioma(){
-        
-        System.out.println("1.Catala");
-        System.out.println("2.Castella");
+        File path = new File ("./");
+        String [] fitxers=path.list();
+       
+        for (int i=0; i<fitxers.length; i++){
+            System.out.println(fitxers[i]);
+        }
         
         String fileIdioma=scan.next();
+        boolean incorrecte=true;
+        for (int i=0; i<fitxers.length || incorrecte; i++){
+            if (fileIdioma.equals(fitxers[i]))
+                incorrecte=false;
+        }
+        if(incorrecte){
+            System.out.println("Invalid Option");
+            fileIdioma = ObtenirIdioma();
+        }
         return fileIdioma;
     }
-    
-    public static String ObtenirPath(){
+    public static String ObtenirPath() {
         String idioma=ObtenirIdioma();
-        boolean So=Utilities.Sistema();
-        String path;
-        if (So){
-            path="C:\\Users\\Usuario\\Downloads"+idioma+".txt";
-        }
-        else
-            path="./"+idioma+".txt";
+        
+        String path="./"+idioma+".txt";
         
         return path;
     }
-    
-    public static void main(String[] args) {
+      
         
-    }
+    
+    
+   
 }
