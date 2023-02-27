@@ -32,7 +32,7 @@ import java.util.Scanner;
  */
 public class Utilities {
 
-// <editor-fold defaultstate="collapsed" desc="Implementació de LlegirInt()">
+// <editor-fold defaultstate="collapsed" desc="Utilitats del Projecte de Loteria">
     private static Scanner scan = null;
     public static final String NOM_FITXER_TEXT = "./datos.txt";
     public static final String NOM_FITXER_BIN = "./datos.bin";

@@ -12,7 +12,7 @@ public class HistorialLoteries {
     static class PremisLoteria {
 
         int[] array_PremisPrincipals;
-        
+
     }
 
     public static String nomFitxer;
@@ -20,36 +20,25 @@ public class HistorialLoteries {
     public static File fitxer = new File(PathName);
     public static Scanner scan = new Scanner(System.in);
     public static final int TAMANY_INT = 4;
-    public static final int TAMANY_LONG = 8;
+    public static final int TAMANY_TOTALPREMIS = 4 * 1807;
     public static final int TOTALPREMIS = 1807;
 
     public static void main(String[] args) throws FileNotFoundException {
 
+        System.out.println("Insereix l'any al que vols accedir");
         int anySorteig = scan.nextInt();
-        HistorialSorteig(anySorteig);
-    }
-
-    public static void HistorialSorteig(int anySorteig) throws FileNotFoundException {
-
-        nomFitxer = "Loteria_" + (anySorteig) + "";
-        if (!fitxer.exists()) {
-            Utilities.crearFichero(nomFitxer);
-        } else {
-            BuscarPremisLoteria();
-        }
+        BuscarPremisLoteria(anySorteig);
 
     }
 
-    public static void BuscarPremisLoteria() {
+    public static void BuscarPremisLoteria(int numero) {
 
         try {
-            System.out.print("Número del registro al que quieres acceder: ");
-            int numero = scan.nextInt();
 
-            long posicion_indice = (numero - 1) * TAMANY_LONG;
-            RandomAccessFile raf = new RandomAccessFile(PathName, "r");
+            int posicion_indice = (numero - 1) * TAMANY_TOTALPREMIS;
+            RandomAccessFile raf = new RandomAccessFile(PathName, "rw");
             raf.seek(posicion_indice);
-            long posicion_datos = raf.readLong();
+            int posicion_datos = raf.readInt();
             raf.close();
 
             RandomAccessFile rafLoteria = new RandomAccessFile(PathName, "rw");
@@ -94,7 +83,6 @@ public class HistorialLoteries {
             Logger.getLogger(HistorialLoteries.class.getName()).log(Level.SEVERE, null, ex);
         }
         return PL;
-        
+
     }
 }
-
