@@ -9,62 +9,92 @@ import utilities.*;
 
 public class HistorialLoteries {
 
-    public static String nomFitxer;
-    public static String pathName = Utilities.PATH_FITXER + nomFitxer + Utilities.EXTENSIONS_FITXER_BIN;
-    public static File fitxer = new File(pathName);
-    public static Scanner scan = new Scanner(System.in);
+    static class PremisLoteria {
 
-    public static void main(String[] args) {
+        int[] array_PremisPrincipals;
+        
+    }
+
+    public static String nomFitxer;
+    public static String PathName = Utilities.PATH_FITXER + nomFitxer + Utilities.EXTENSIONS_FITXER_BIN;
+    public static File fitxer = new File(PathName);
+    public static Scanner scan = new Scanner(System.in);
+    public static final int TAMANY_INT = 4;
+    public static final int TAMANY_LONG = 8;
+    public static final int TOTALPREMIS = 1807;
+
+    public static void main(String[] args) throws FileNotFoundException {
 
         int anySorteig = scan.nextInt();
         HistorialSorteig(anySorteig);
     }
 
-    public static void HistorialSorteig(int anySorteig) {
+    public static void HistorialSorteig(int anySorteig) throws FileNotFoundException {
 
-        nomFitxer = (anySorteig) + "";
+        nomFitxer = "Loteria_" + (anySorteig) + "";
         if (!fitxer.exists()) {
             Utilities.crearFichero(nomFitxer);
         } else {
-            PremisFitxerLoteria();
-
+            BuscarPremisLoteria();
         }
 
     }
 
-    public static void PremisFitxerLoteria() {
+    public static void BuscarPremisLoteria() {
 
-        DataOutputStream dos = Utilities.AbrirFicheroEscrituraBinario(nomFitxer, false, true);
+        try {
+            System.out.print("Número del registro al que quieres acceder: ");
+            int numero = scan.nextInt();
+
+            long posicion_indice = (numero - 1) * TAMANY_LONG;
+            RandomAccessFile raf = new RandomAccessFile(PathName, "r");
+            raf.seek(posicion_indice);
+            long posicion_datos = raf.readLong();
+            raf.close();
+
+            RandomAccessFile rafLoteria = new RandomAccessFile(PathName, "rw");
+            rafLoteria.seek(posicion_datos);
+
+            PremisLoteria PL = InserirPremisFitxerLoteria(rafLoteria);
+            rafLoteria.close();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(HistorialLoteries.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(HistorialLoteries.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
-    public static void InserirPremisFitxerLoteria(DataOutputStream dos, int[] array_PremisPrincipals) throws IOException {
+    public static PremisLoteria InserirPremisFitxerLoteria(RandomAccessFile rafLoteria) throws IOException {
 
-        int CINQUE_PREMI = 0;
-        int PEDREA_PREMI = 0;
-        int PRIMERPREMI = 0;
-        int SEGONPREMI = 0;
-        int TERCERPREMI = 0;
-        int QUARTICINQUEPREMI = 0;
-        final int TOTALPREMIS = 1807;
+        PremisLoteria PL = new PremisLoteria();
 
-        dos.writeInt(array_PremisPrincipals[0] = PRIMERPREMI);
-        dos.writeInt(array_PremisPrincipals[1] = SEGONPREMI
-        );
-        dos.writeInt(array_PremisPrincipals[2] = TERCERPREMI
-        );
-        dos.writeInt(array_PremisPrincipals[3] = QUARTICINQUEPREMI
-        );
-        dos.writeInt(array_PremisPrincipals[4] = QUARTICINQUEPREMI
-        );
+        PL.array_PremisPrincipals = new int[TOTALPREMIS];
 
-        for (int i = 5; i < TOTALPREMIS; i++) { //bucle per assignar els premis quue es repeteixen en molts numeros
-            if (i >= 13) {
-                dos.writeInt(array_PremisPrincipals[i] = PEDREA_PREMI);
-            } else {
-                dos.writeInt(array_PremisPrincipals[i] = CINQUE_PREMI);
+        try {
+            PL.array_PremisPrincipals[0] = rafLoteria.readInt();
+            PL.array_PremisPrincipals[1] = rafLoteria.readInt();
+            PL.array_PremisPrincipals[2] = rafLoteria.readInt();
+            PL.array_PremisPrincipals[3] = rafLoteria.readInt();
+            PL.array_PremisPrincipals[4] = rafLoteria.readInt();
+            int premiPedrea = rafLoteria.readInt();
+            int cinquePremi = rafLoteria.readInt();
+
+            for (int i = 5; i < TOTALPREMIS; i++) { //bucle per assignar els premis quue es repeteixen en molts numeros
+                if (i >= 13) {
+                    PL.array_PremisPrincipals[i] = premiPedrea;
+                } else {
+                    PL.array_PremisPrincipals[i] = cinquePremi;
+                }
             }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(HistorialLoteries.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(HistorialLoteries.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return PL;
+        
     }
-
 }
+
