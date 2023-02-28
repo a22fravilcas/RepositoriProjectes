@@ -12,40 +12,50 @@ public class HistorialLoteries {
 
     static class PremisLoteria {
 
+        int any;
         int[] array_PremisPrincipals;
 
     }
 
-    public static String nomFitxer;
+    public static String nomFitxer = "Historial_Loteries";
     public static String PathName = Utilities.PATH_FITXER + nomFitxer + Utilities.EXTENSIONS_FITXER_BIN;
     public static File fitxer = new File(PathName);
     public static Scanner scan = new Scanner(System.in);
     public static final int TAMANY_INT = 4;
     public static final int TAMANY_TOTALPREMIS = 4 * 1807;
     public static final int TOTALPREMIS = 1807;
+    public static final int FIRST_FOUR_BITS = 4;
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        System.out.println("Insereix l'any al que vols accedir");
+        System.out.println("Insereix l'any del sorteig al qual vols accedir:");
         int anySorteig = scan.nextInt();
         BuscarPremisLoteria(anySorteig);
 
     }
 
-    public static void BuscarPremisLoteria(int numero) {
+    public static void BuscarPremisLoteria(int anyBuscat) {
 
         try {
-
-            int posicion_indice = (numero - 1) * TAMANY_TOTALPREMIS;
-            RandomAccessFile raf = new RandomAccessFile(PathName, "rw");
-            raf.seek(posicion_indice);
-            int posicion_datos = raf.readInt();
-            raf.close();
-
+            boolean sorteigTrobat = false;
             RandomAccessFile rafLoteria = new RandomAccessFile(PathName, "rw");
-            rafLoteria.seek(posicion_datos);
+            for (int ComptadorSorteigs = 0; ComptadorSorteigs < rafLoteria.length() / TAMANY_TOTALPREMIS; ComptadorSorteigs++) {
 
-            PremisLoteria PL = InserirPremisFitxerLoteria(rafLoteria);
+                int posicion_indice = ((ComptadorSorteigs - 1) * TAMANY_TOTALPREMIS) + FIRST_FOUR_BITS;
+                rafLoteria.seek(posicion_indice);
+
+                int anySorteig = rafLoteria.readInt();
+                if (anySorteig == anyBuscat) {
+                    sorteigTrobat = true;
+                }
+
+            }
+            if (!sorteigTrobat) {
+                AfegirSorteig(rafLoteria);
+            } else {
+                
+            }
+            
             rafLoteria.close();
 
         } catch (FileNotFoundException ex) {
@@ -56,6 +66,13 @@ public class HistorialLoteries {
 
     }
 
+    public static void AfegirSorteig(RandomAccessFile rafLoteria) throws FileNotFoundException, IOException {
+
+        rafLoteria = new RandomAccessFile(PathName, "rw");
+        PremisLoteria PL = InserirPremisFitxerLoteria(rafLoteria);
+
+    }
+
     public static PremisLoteria InserirPremisFitxerLoteria(RandomAccessFile rafLoteria) throws IOException {
 
         PremisLoteria PL = new PremisLoteria();
@@ -63,6 +80,7 @@ public class HistorialLoteries {
         PL.array_PremisPrincipals = new int[TOTALPREMIS];
 
         try {
+            PL.any = rafLoteria.readInt();
             PL.array_PremisPrincipals[0] = rafLoteria.readInt();
             PL.array_PremisPrincipals[1] = rafLoteria.readInt();
             PL.array_PremisPrincipals[2] = rafLoteria.readInt();
@@ -71,7 +89,7 @@ public class HistorialLoteries {
             int premiPedrea = rafLoteria.readInt();
             int cinquePremi = rafLoteria.readInt();
 
-            for (int i = 5; i < TOTALPREMIS; i++) { //bucle per assignar els premis quue es repeteixen en molts numeros
+            for (int i = 5; i < TOTALPREMIS; i++) { //bucle per assignar els premis que es repeteixen en molts numeros
                 if (i >= 13) {
                     PL.array_PremisPrincipals[i] = premiPedrea;
                 } else {
@@ -85,5 +103,9 @@ public class HistorialLoteries {
         }
         return PL;
 
+    }
+    
+    public static void TreurePremisSorteig(){
+        
     }
 }

@@ -79,7 +79,7 @@ public class Colles {
         
     }
     
-    public static void 
+    //public static void 
     
     public static void ComptarColles (){
         DataInputStream dis = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_NOMS_COLLES, true);

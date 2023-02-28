@@ -4,6 +4,7 @@ import java.io.IOException;
 import utilities.Utilities;
 import java.util.Random;
 import java.util.Scanner;
+
 public class ProjecteLoteria {
 
     public static Scanner scan = new Scanner(System.in);
@@ -13,8 +14,7 @@ public class ProjecteLoteria {
     public static int indexnummatch;
     public static int PREMI_ACUMULAT;
     public static String PathIdioma;
-    
-    
+
     public static class PremiSecundari {
 
         String nom;
@@ -27,7 +27,7 @@ public class ProjecteLoteria {
      * @param args
      */
     public static void main(String[] args) throws IOException {
-        PathIdioma=EscullirIdioma.ObtenirPath();
+        PathIdioma = EscullirIdioma.ObtenirPath();
         int array_NumerosPremiats[] = new int[TOTALPREMIS];
         //Crida a funcio NumeroPremiat
         NumeroPremiat(array_NumerosPremiats);
@@ -194,9 +194,9 @@ public class ProjecteLoteria {
      */
     public static void NumeroPremiatAmanyat(int numeros_premiats[]) {
         //Fiquem tots els premis amanyats en ordre, així és més fàcil
-        for (int i = 0; i<numeros_premiats.length; i++) {
+        for (int i = 0; i < numeros_premiats.length; i++) {
 
-            numeros_premiats[i] = i*10;
+            numeros_premiats[i] = i * 10;
 
             if (numeros_premiats[i] < 10) {
                 String.format("%05d", numeros_premiats[i]);
@@ -207,7 +207,7 @@ public class ProjecteLoteria {
             } else if (numeros_premiats[i] < 10000) {
                 String.format("%02d", numeros_premiats[i]);
             }
-            
+
         }
         numeros_premiats[0] = 18060;
         numeros_premiats[1] = 18050;
@@ -264,7 +264,7 @@ public class ProjecteLoteria {
         array_PremisSecundaris[3].missatge_premi = Utilities.LlegirLineaConcreta(13, PathIdioma);
         array_PremisSecundaris[4].nom = Utilities.LlegirLineaConcreta(14, PathIdioma);
         array_PremisSecundaris[4].missatge_premi = Utilities.LlegirLineaConcreta(15, PathIdioma);
-            array_PremisSecundaris[5].nom = Utilities.LlegirLineaConcreta(16, PathIdioma);
+        array_PremisSecundaris[5].nom = Utilities.LlegirLineaConcreta(16, PathIdioma);
         array_PremisSecundaris[5].missatge_premi = Utilities.LlegirLineaConcreta(17, PathIdioma);
         array_PremisSecundaris[6].nom = Utilities.LlegirLineaConcreta(18, PathIdioma);
         array_PremisSecundaris[6].missatge_premi = Utilities.LlegirLineaConcreta(19, PathIdioma);
@@ -276,7 +276,7 @@ public class ProjecteLoteria {
         array_PremisSecundaris[9].missatge_premi = Utilities.LlegirLineaConcreta(25, PathIdioma);
         array_PremisSecundaris[10].nom = Utilities.LlegirLineaConcreta(26, PathIdioma);
         array_PremisSecundaris[10].missatge_premi = Utilities.LlegirLineaConcreta(27, PathIdioma);
-        array_PremisSecundaris[11].nom =Utilities.LlegirLineaConcreta(28, PathIdioma);
+        array_PremisSecundaris[11].nom = Utilities.LlegirLineaConcreta(28, PathIdioma);
         array_PremisSecundaris[11].missatge_premi = Utilities.LlegirLineaConcreta(29, PathIdioma);
 
         //Ara recorrem la porció de l'array entre PrimeresTresXifresGordo i UltimesDosXifresTercer premi per afegir el premi de 100€
@@ -545,11 +545,11 @@ public class ProjecteLoteria {
     }
 
     /**
-     * 
+     *
      * @param numeroUsuari
      * @param premis
      * @param array_PremisSecundaris
-     * @return 
+     * @return
      */
     //Funcio que comproba si el numero del usuari es aproximacio al primer premi (+-1)
     public static boolean AproximacioPrimerPremi(int numeroUsuari, int[] premis, PremiSecundari[] array_PremisSecundaris) {
@@ -576,11 +576,11 @@ public class ProjecteLoteria {
     }
 
     /**
-     * 
+     *
      * @param numeroUsuari
      * @param premis
      * @param array_PremisSecundaris
-     * @return 
+     * @return
      */
     //Funcio que comproba si el numero del usuari es aproximacio al segon premi (+-1)
     public static boolean AproximacioSegonPremi(int numeroUsuari, int[] premis, PremiSecundari[] array_PremisSecundaris) {
@@ -607,11 +607,11 @@ public class ProjecteLoteria {
     }
 
     /**
-     * 
+     *
      * @param numeroUsuari
      * @param premis
      * @param array_PremisSecundaris
-     * @return 
+     * @return
      */
     //Funcio que comproba si el numero del usuari es aproximacio al tercer premi (+-1)
     public static boolean AproximacioTercerPremi(int numeroUsuari, int[] premis, PremiSecundari[] array_PremisSecundaris) {
@@ -636,9 +636,10 @@ public class ProjecteLoteria {
 
         return result;
     }
+
     /**
-     * 
-     * @param array_PremisSecundaris 
+     *
+     * @param array_PremisSecundaris
      */
     public static void DesglosarPremi(PremiSecundari[] array_PremisSecundaris) throws IOException {
         System.out.println(Utilities.LlegirLineaConcreta(30, PathIdioma) + PREMI_ACUMULAT + "€");
