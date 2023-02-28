@@ -18,7 +18,10 @@ public class EscullirIdioma {
         String [] fitxers=path.list();
        
         for (int i=0; i<fitxers.length; i++){
-            System.out.println(fitxers[i]);
+            for (int j=0; j<fitxers[i].length()-4; j++){
+                System.out.print(fitxers[i].charAt(j));
+            }
+           System.out.println();
         }
         
         String fileIdioma=scan.next();

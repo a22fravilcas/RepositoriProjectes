@@ -55,6 +55,7 @@ public class Colles {
         //linea 50
         String opcions_menu [] = {"1.Afegir Colla","2.Modificar colla","3.Sortir"};
         int opcio_escollida = Utilities.Menu(scan, opcions_menu);
+        CridarOpcionsMenuColles(opcio_escollida);
         ComptarColles();
         /*Colla colla = DemanarColla();
         Membre membre = DemanarMembre();
@@ -75,7 +76,9 @@ public class Colles {
                 EscriureMembre(membre);
                 
             case 2:
-                
+            
+            case 3:
+                break;
         }
         
     }
