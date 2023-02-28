@@ -55,12 +55,15 @@ public class ProjecteLoteria {
 
             //Crida a funcio TrobarNumeroPremiat
             boolean premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, numeroUsuari);
+            
             if (premiat) {
                 int premiTrobat = TrobarPremi(indexnummatch, array_PremisPrincipals);
                 System.out.println(Utilities.LlegirLineaConcreta(3, PathIdioma) + premiTrobat + "€.");
+                
             } else {
                 System.out.println(Utilities.LlegirLineaConcreta(4, PathIdioma));
             }
+            
             //If per saber si el numero escollit te premi principal.
             boolean AproxSeg = false, AproxTerc = false, PrimerTresXifresTercer = false, PrimerTresXifresQuart1 = false,
                     PrimerTresXifresQuart2 = false, UltimaXifraGordo = false, UltimesDosXifresGordo = false;
@@ -68,6 +71,7 @@ public class ProjecteLoteria {
             TresXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris,
                     UltimesDosXifresGordo, UltimaXifraGordo);
             //cridem a les funcions que decideixen quins premis secundaris sumar
+            
             PrimTresXifSegon(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris,
                     PrimerTresXifresTercer, PrimerTresXifresQuart1, PrimerTresXifresQuart2);
 
@@ -78,6 +82,7 @@ public class ProjecteLoteria {
             //funcio per mostrar els premis obtinguts al usuari
 
             System.out.println(Utilities.LlegirLineaConcreta(5, PathIdioma));
+            
             if (scan.next().equals("No")) {
                 //tanquem el bucle depenent de la entrada del usuari
                 AltreNumero = false;
@@ -99,10 +104,13 @@ public class ProjecteLoteria {
             boolean UltimesDosXifresGordo, boolean UltimaXifraGordo) {
         //com aquests premis no son compatibles, revisem desde el que te mes prioritat per assignar algun d'ells, cridan a les funcions que el donen
         if (numeroUsuari != array_NumerosPremiats[0]) {
+            
             boolean PrimeresTresXifresGordo = PrimeresTresXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
             if (PrimeresTresXifresGordo == false) {
+                
                 UltimesDosXifresGordo = UltimesDosXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
                 if (UltimesDosXifresGordo == false) {
+                    
                     UltimaXifraGordo = UltimaXifraGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
                 }
             }
@@ -123,11 +131,15 @@ public class ProjecteLoteria {
             boolean PrimerTresXifresTercer, boolean PrimerTresXifresQuart1, boolean PrimerTresXifresQuart2) {
         //com aquests premis no son compatibles, revisem desde el que te mes prioritat per assignar algun d'ells, cridan a les funcions que el donen
         if (numeroUsuari != array_NumerosPremiats[1]) {
+            
             boolean PrimeresTresXifresSegon = PrimeresTresXifresSegonPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+            
             if (PrimeresTresXifresSegon == false && numeroUsuari != array_NumerosPremiats[2]) {
                 PrimerTresXifresTercer = PrimeresTresXifresTercerPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+                
                 if (PrimerTresXifresTercer == false && numeroUsuari != array_NumerosPremiats[3]) {
                     PrimerTresXifresQuart1 = PrimeresTresXifresQuartPremi1(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+                    
                     if (PrimerTresXifresQuart1 == false && numeroUsuari != array_NumerosPremiats[4]) {
                         PrimerTresXifresQuart2 = PrimeresTresXifresQuartPremi2(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
                     }
@@ -149,8 +161,10 @@ public class ProjecteLoteria {
     public static void AproxPrim(int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[] array_PremisSecundaris, boolean AproxSeg, boolean AproxTerc) {
         //com aquests premis no son compatibles, revisem desde el que te mes prioritat per assignar algun d'ells, cridan a les funcions que el donen
         boolean AproxPrim = AproximacioPrimerPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+       
         if (AproxPrim == false) {
             AproxSeg = AproximacioSegonPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+            
             if (AproxSeg == false) {
                 AproxTerc = AproximacioTercerPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
             }
@@ -165,11 +179,14 @@ public class ProjecteLoteria {
     //Funcio que genera un array de numeros possibles premiats
     public static void NumeroPremiat(int numeros_premiats[]) {
         final int LIMITNUMEROPREMIAT = 100000;
+      
         for (int i = 0; i != numeros_premiats.length; i++) {
             /*While per a què els números s'afegeixen mentre no estiguin repetits. Per a això,
             utilizem un boolean per saber si és repetit o no i recorrem l'array de premis*/
             boolean repetit = false;
+          
             int numero_a_afegir = rndm.nextInt(LIMITNUMEROPREMIAT);
+           
             for (int j = 0; j < numeros_premiats.length; j++) {
                 if (numeros_premiats[j] == numero_a_afegir) {
                     repetit = true;
@@ -178,6 +195,7 @@ public class ProjecteLoteria {
             while (repetit == true) {
                 numero_a_afegir = rndm.nextInt(LIMITNUMEROPREMIAT);
                 repetit = false;
+              
                 for (int j = 0; j < numeros_premiats.length; j++) {
                     if (numeros_premiats[j] == numero_a_afegir) {
                         repetit = true;
@@ -273,7 +291,7 @@ public class ProjecteLoteria {
         array_PremisSecundaris[3].missatge_premi = Utilities.LlegirLineaConcreta(13, PathIdioma);
         array_PremisSecundaris[4].nom = Utilities.LlegirLineaConcreta(14, PathIdioma);
         array_PremisSecundaris[4].missatge_premi = Utilities.LlegirLineaConcreta(15, PathIdioma);
-            array_PremisSecundaris[5].nom = Utilities.LlegirLineaConcreta(16, PathIdioma);
+        array_PremisSecundaris[5].nom = Utilities.LlegirLineaConcreta(16, PathIdioma);
         array_PremisSecundaris[5].missatge_premi = Utilities.LlegirLineaConcreta(17, PathIdioma);
         array_PremisSecundaris[6].nom = Utilities.LlegirLineaConcreta(18, PathIdioma);
         array_PremisSecundaris[6].missatge_premi = Utilities.LlegirLineaConcreta(19, PathIdioma);
@@ -315,6 +333,7 @@ public class ProjecteLoteria {
     public static boolean TrobarNumeroPremiat(int array_NumerosPremiats[], int array_Premis[], int numeroUsuari) {
         boolean result = false;
         int i = 0;
+       
         while (result == false && i < TOTALPREMIS) {
             if (array_NumerosPremiats[i] == numeroUsuari) {
                 result = true;
@@ -568,6 +587,7 @@ public class ProjecteLoteria {
         final int APROXINFERIOR = 99999;
         int aproximacio_primer_premi_per_sota = premis[0] - 1;
         int aproximacio_primer_premi_per_sobra = premis[0] + 1;
+        
         if (premis[0] == 00000) {
             aproximacio_primer_premi_per_sota = 99999;
             //en els cassos extrems, tanquem la volta de numeros manualment
@@ -599,6 +619,7 @@ public class ProjecteLoteria {
         final int APROXINFERIOR = 99999;
         int aproximacio_segon_premi_per_sota = premis[1] - 1;
         int aproximacio_segon_premi_per_sobre = premis[1] + 1;
+        
         if (premis[1] == 00000) {
             aproximacio_segon_premi_per_sota = 99999;
             //en els cassos extrems, tanquem la volta de numeros manualment
@@ -630,6 +651,7 @@ public class ProjecteLoteria {
         final int APROXINFERIOR = 99999;
         int aproximacio_tercer_premi_per_sota = premis[2] - 1;
         int aproximacio_tercer_premi_per_sobra = premis[2] + 1;
+      
         if (premis[2] == 00000) {
             aproximacio_tercer_premi_per_sota = 99999;
             //en els cassos extrems, tanquem la volta de numeros manualment
@@ -653,8 +675,10 @@ public class ProjecteLoteria {
         System.out.println(Utilities.LlegirLineaConcreta(30, PathIdioma) + PREMI_ACUMULAT + "€");
         System.out.println(Utilities.LlegirLineaConcreta(31, PathIdioma));
         boolean noSecundaris = true;
+       
         if (scan.next().equals("Si")) {
             //Recorrem el array de premis secundaris i anem imprimint els premis que han tocat
+           
             for (int i = 0; i < array_PremisSecundaris.length; i++) {
                 if (array_PremisSecundaris[i].toca) {
                     noSecundaris = false;
