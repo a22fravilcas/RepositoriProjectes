@@ -97,16 +97,18 @@ public class Colles {
     public static Colla DemanarColla () throws IOException{
         Colla colla = new Colla();
         System.out.print(Utilities.LlegirLineaConcreta(34, PathIdioma));
+        //Nom de la colla: 
         colla.nom = scan.nextLine();
         //Imposem amb un while que el nom no estigui repetit
         boolean nom_validat = ValidarNom(colla.nom);
         while (!nom_validat){
             System.out.print(Utilities.LlegirLineaConcreta(34, PathIdioma));
+            //Nom de la colla: 
             colla.nom = scan.nextLine();
             nom_validat = ValidarNom(colla.nom);
         }
         colla.any = Utilities.LlegirInt(scan,Utilities.LlegirLineaConcreta(35, PathIdioma));
-        
+        //Any del sorteig: 
         //Retornem la colla
         return colla;
     }
@@ -139,9 +141,13 @@ public class Colles {
     public static Membre DemanarMembre () throws IOException{
         Membre membre = new Membre();
         System.out.print(Utilities.LlegirLineaConcreta(36, PathIdioma));
+        //Nom: 
         membre.nom = scan.nextLine();
         membre.numero_loteria = Utilities.LlegirInt(scan, Utilities.LlegirLineaConcreta(37, PathIdioma), 0, MAXIM_NUMERO_LOTERIA);        
+        //Número de Loteria: 
         membre.import_membre = Utilities.LlegirInt(scan, Utilities.LlegirLineaConcreta(38, PathIdioma), IMPORT_MINIM, IMPORT_MAXIM);
+        //Import: 
+        
         //Imposem amb un while que l'import també sigui múltiple de 5
         while (membre.import_membre%DIVISOR_5 != 0){
             membre.numero_loteria = Utilities.LlegirInt(scan, "Import: ", 0, MAXIM_NUMERO_LOTERIA);
@@ -201,9 +207,11 @@ public class Colles {
         for (int i=1;i<=numero_colles;i++){
             System.out.println(dis.readUTF()); //Imprimim el nom de la colla
             System.out.println(Utilities.LlegirLineaConcreta(39, PathIdioma));
+            //|    ANY    |  MEMBRES  |   IMPORT  |   PREMI   |    
             String linia_informacio_colla=FormarLiniaInformacio(dis);
             System.out.println(linia_informacio_colla);
             System.out.println(Utilities.LlegirLineaConcreta(40, PathIdioma));
+            //|    NOM    |  NÚMERO   |   IMPORT  |   PREMI   |
             for (int j=1;j<=numero_membres_colla_actual;j++){
                 String linia_informacio_membre = FormarLiniaInformacio(dis);
                 System.out.println(linia_informacio_membre);
