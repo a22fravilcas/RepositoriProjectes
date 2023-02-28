@@ -42,8 +42,10 @@ public class ProjecteLoteria {
         CompletarPremisSecundaris(array_PremisSecundaris);
         
         boolean AltreNumero = true; //boolean per permetre al usuari introduir diversos numeros   
+      
         System.out.println(array_NumerosPremiats[0]);
         System.out.println(array_NumerosPremiats[1]);//print per poder probar numeros, no estara en versio final
+     
         while (AltreNumero) {
             PREMI_ACUMULAT = 0;
             //personaSola(continuar)/colles/(cridar a les funcions pertinents
@@ -671,6 +673,7 @@ public class ProjecteLoteria {
      * 
      * @param array_PremisSecundaris 
      */
+    
     public static void DesglosarPremi(PremiSecundari[] array_PremisSecundaris) throws IOException {
         System.out.println(Utilities.LlegirLineaConcreta(30, PathIdioma) + PREMI_ACUMULAT + "€");
         System.out.println(Utilities.LlegirLineaConcreta(31, PathIdioma));
