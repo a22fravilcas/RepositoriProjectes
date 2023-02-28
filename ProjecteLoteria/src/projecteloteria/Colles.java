@@ -52,6 +52,7 @@ public class Colles {
     en el seu instant, per saber quants membres s'han d'imprimir*/
     
     public static void main(String[] args) throws IOException {
+        //linea 50
         String opcions_menu [] = {"1.Afegir Colla","2.Modificar colla","3.Sortir"};
         int opcio_escollida = Utilities.Menu(scan, opcions_menu);
         ComptarColles();
@@ -79,7 +80,7 @@ public class Colles {
         
     }
     
-    public static void 
+  //  public static void 
     
     public static void ComptarColles (){
         DataInputStream dis = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_NOMS_COLLES, true);

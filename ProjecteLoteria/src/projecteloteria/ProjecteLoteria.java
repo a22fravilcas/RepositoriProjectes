@@ -28,22 +28,31 @@ public class ProjecteLoteria {
      */
     public static void main(String[] args) throws IOException {
         PathIdioma=EscullirIdioma.ObtenirPath();
+        
         int array_NumerosPremiats[] = new int[TOTALPREMIS];
         //Crida a funcio NumeroPremiat
-        NumeroPremiat(array_NumerosPremiats);
+        
+        //Cridar aqui a Historial loteries
+        NumeroPremiat(array_NumerosPremiats); 
+        
         int[] array_PremisPrincipals = new int[TOTALPREMIS];
         PremiSecundari[] array_PremisSecundaris = new PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
         //Crida a funcio CompletarPremisPrincipals i CompleatarPremisSecundaris
         CompletarPremisPrincipals(array_PremisPrincipals);
         CompletarPremisSecundaris(array_PremisSecundaris);
+        
         boolean AltreNumero = true; //boolean per permetre al usuari introduir diversos numeros   
         System.out.println(array_NumerosPremiats[0]);
         System.out.println(array_NumerosPremiats[1]);//print per poder probar numeros, no estara en versio final
         while (AltreNumero) {
             PREMI_ACUMULAT = 0;
+            //personaSola(continuar)/colles/(cridar a les funcions pertinents
+            
             //Crida a funcio externa per verificar el numero de l'usuari
             int numeroUsuari = Utilities.demanaNumEnter(Utilities.LlegirLineaConcreta(1, PathIdioma)
                     + Utilities.LlegirLineaConcreta(2, PathIdioma), Utilities.LlegirLineaConcreta(33, PathIdioma));
+            
+
             //Crida a funcio TrobarNumeroPremiat
             boolean premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, numeroUsuari);
             if (premiat) {

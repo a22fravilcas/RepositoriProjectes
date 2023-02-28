@@ -25,7 +25,7 @@ public class HistorialLoteries {
     public static final int TOTALPREMIS = 1807;
 
     public static void main(String[] args) throws FileNotFoundException {
-
+        //linea 34
         System.out.println("Insereix l'any al que vols accedir");
         int anySorteig = scan.nextInt();
         BuscarPremisLoteria(anySorteig);
@@ -35,6 +35,8 @@ public class HistorialLoteries {
     public static void BuscarPremisLoteria(int numero) {
 
         try {
+            System.out.print(Utilities.LlegirLineaConcreta(41, PathIdioma));
+             numero = scan.nextInt();
 
             int posicion_indice = (numero - 1) * TAMANY_TOTALPREMIS;
             RandomAccessFile raf = new RandomAccessFile(PathName, "rw");
