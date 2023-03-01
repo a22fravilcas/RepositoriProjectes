@@ -22,6 +22,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Scanner;
+import projecteloteria.Colles;
 
 /**
  * Llibreria d'utilitats
@@ -448,9 +449,9 @@ public class Utilities {
      * @param scan Escaner
      * @param array_opcions Array amb les opcions del menú, les quals són
      * Strings
-     * @return Retorna la opció escollida per l'usuari
+     * @param opcio_escollida Opció escollida per l'usuari
      */
-    public static int Menu(Scanner scan, String array_opcions[]) {
+    public static void Menu(Scanner scan, String array_opcions[]) {
         //Imprimeix el títol MENÚ
         System.out.println("******** MENU ********");
         //Recorrem l'array d'opcions per anar imprimint les diferents opcions
@@ -459,9 +460,8 @@ public class Utilities {
         }
         System.out.println(""); //Deixem una línia de separació
         //La registrem cridant LlegirInt()
-        int opcio_escollida = LlegirInt(scan,"Escull una opcio (numero): ",1,array_opcions.length);
-        //Retornem l'opció escollida
-        return opcio_escollida;
+        Colles.opcio_escollida = LlegirInt(scan,"Escull una opcio (numero): ",1,array_opcions.length);
+        System.out.println(""); //Deixem una línia de separació
     }
 
 // </editor-fold>

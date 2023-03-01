@@ -7,6 +7,7 @@ package projecteloteria;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Scanner;
 import static projecteloteria.ProjecteLoteria.PathIdioma;
 import utilities.Utilities;
@@ -46,43 +47,68 @@ public class Colles {
     d'un membre és múltiple de 5*/
     public static final String FORMAT_DADES = "%-12s"; 
     public static final int NUMERO_ATRIBUTS = 4; //Número d'atributs a imprimir de les colles i els membres
+    public static final String [] OPCIONS_MENU_COLLES = {"1.Afegir colla","2.Modificar colla","3.Mostrar colles","4.Sortir"};
+    public static final String [] OPCIONS_MENU_MODIFICAR_COLLA = {"1.Afegir membre"};
     
+    public static int opcio_escollida;
     public static int numero_colles = 0;
     public static int numero_membres_colla_actual = 0; /*Representa el número de membres que té la colla la qual s'està imprimint
     en el seu instant, per saber quants membres s'han d'imprimir*/
     
     public static void main(String[] args) throws IOException {
         //linea 50
-        String opcions_menu [] = {"1.Afegir Colla","2.Modificar colla","3.Sortir"};
-        int opcio_escollida = Utilities.Menu(scan, opcions_menu);
-        CridarOpcionsMenuColles(opcio_escollida);
-        ComptarColles();
-        /*Colla colla = DemanarColla();
-        Membre membre = DemanarMembre();
-        CompletarColla(colla,membre);
-        EscriureColla(colla);
-        EscriureMembre(membre);*/
-        ImprimirFitxerColles();
+        Utilities.Menu(scan, OPCIONS_MENU_COLLES);
+        CridarOpcionsMenuColles();
+        
+        /*RandomAccessFile raf = new RandomAccessFile(NOM_FITXER_COLLES,"rw");
+        raf.seek(41);
+        raf.writeUTF("2");
+        raf.close();*/
+        
     }
     
-    public static void CridarOpcionsMenuColles (int opcio_escollida) throws IOException{
+    public static void CridarOpcionsMenuColles () throws IOException{
+        while (opcio_escollida!=4){
+            switch (opcio_escollida) {
+                case 1:
+                    Colla colla = DemanarCollaNova();
+                    Membre membre = DemanarMembre();
+                    CompletarColla(colla, membre);
+                    EscriureColla(colla);
+                    EscriureMembre(membre);
+                    break;
+                case 2:
+                    Utilities.Menu(scan, OPCIONS_MENU_MODIFICAR_COLLA);
+                    CridarOpcionsMenuModificarColla();
+                    break;
+                case 3:
+                    ComptarColles();
+                    ImprimirFitxerColles();
+                    break;
+                default:
+                    break;
+            }
+            System.out.println(""); //Deixem una línia de separació
+            Utilities.Menu(scan, OPCIONS_MENU_COLLES);
+        }
+        
+        
+    }
+    
+     public static void CridarOpcionsMenuModificarColla () throws IOException{
         switch (opcio_escollida){
             case 1:
                 ComptarColles();
-                Colla colla = DemanarColla();
+                Colla colla = DemanarCollaExistent();
                 Membre membre = DemanarMembre();
                 CompletarColla(colla, membre);
                 EscriureColla(colla);
                 EscriureMembre(membre);
-                
-            case 2:
-            
-            case 3:
                 break;
+            
         }
         
     }
-    
   //  public static void 
     
     public static void ComptarColles (){
@@ -94,20 +120,39 @@ public class Colles {
         }
     }
     
-    public static Colla DemanarColla () throws IOException{
+    public static Colla DemanarCollaNova () throws IOException{
         Colla colla = new Colla();
-        System.out.print(Utilities.LlegirLineaConcreta(34, PathIdioma));
+        System.out.print(Utilities.LlegirLineaConcreta(34, "./idiomas/catala.txt"));
         //Nom de la colla: 
         colla.nom = scan.nextLine();
         //Imposem amb un while que el nom no estigui repetit
-        boolean nom_validat = ValidarNom(colla.nom);
+        boolean nom_validat = ValidarNomNou(colla.nom);
         while (!nom_validat){
-            System.out.print(Utilities.LlegirLineaConcreta(34, PathIdioma));
+            System.out.print(Utilities.LlegirLineaConcreta(34, "./idiomas/catala.txt"));
             //Nom de la colla: 
             colla.nom = scan.nextLine();
-            nom_validat = ValidarNom(colla.nom);
+            nom_validat = ValidarNomNou(colla.nom);
         }
-        colla.any = Utilities.LlegirInt(scan,Utilities.LlegirLineaConcreta(35, PathIdioma));
+        colla.any = Utilities.LlegirInt(scan,Utilities.LlegirLineaConcreta(35, "./idiomas/catala.txt"));
+        //Any del sorteig: 
+        //Retornem la colla
+        return colla;
+    }
+    
+    public static Colla DemanarCollaExistent () throws IOException{
+        Colla colla = new Colla();
+        System.out.print(Utilities.LlegirLineaConcreta(34, "./idiomas/catala.txt"));
+        //Nom de la colla: 
+        colla.nom = scan.nextLine();
+        //Imposem amb un while que el nom no estigui repetit
+        boolean nom_validat = ValidarNomNou(colla.nom);
+        while (!nom_validat){
+            System.out.print(Utilities.LlegirLineaConcreta(34, "./idiomas/catala.txt"));
+            //Nom de la colla: 
+            colla.nom = scan.nextLine();
+            nom_validat = ValidarNomNou(colla.nom);
+        }
+        colla.any = Utilities.LlegirInt(scan,Utilities.LlegirLineaConcreta(35, "./idiomas/catala.txt"));
         //Any del sorteig: 
         //Retornem la colla
         return colla;
@@ -124,7 +169,7 @@ public class Colles {
         return linia;
     }
     
-    public static boolean ValidarNom (String nom_colla) throws IOException{
+    public static boolean ValidarNomNou (String nom_colla) throws IOException{
         DataInputStream dis = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_NOMS_COLLES, true);
         boolean nom_validat = true;
         String linia = LlegirLiniaNomsColles(dis);
@@ -138,14 +183,28 @@ public class Colles {
         return nom_validat;
     }
     
+    public static boolean ValidarNomExistent (String nom_colla) throws IOException{
+        DataInputStream dis = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_NOMS_COLLES, true);
+        boolean nom_validat = false;
+        String linia = LlegirLiniaNomsColles(dis);
+        while (linia!=null){
+            if (nom_colla.equals(linia)){
+                nom_validat = true;
+            }
+            linia = LlegirLiniaNomsColles(dis);
+        }
+        Utilities.CerrarFicheroBinario(dis);
+        return nom_validat;
+    }
+    
     public static Membre DemanarMembre () throws IOException{
         Membre membre = new Membre();
-        System.out.print(Utilities.LlegirLineaConcreta(36, PathIdioma));
+        System.out.print(Utilities.LlegirLineaConcreta(36, "./idiomas/catala.txt"));
         //Nom: 
         membre.nom = scan.nextLine();
-        membre.numero_loteria = Utilities.LlegirInt(scan, Utilities.LlegirLineaConcreta(37, PathIdioma), 0, MAXIM_NUMERO_LOTERIA);        
+        membre.numero_loteria = Utilities.LlegirInt(scan, Utilities.LlegirLineaConcreta(37, "./idiomas/catala.txt"), 0, MAXIM_NUMERO_LOTERIA);        
         //Número de Loteria: 
-        membre.import_membre = Utilities.LlegirInt(scan, Utilities.LlegirLineaConcreta(38, PathIdioma), IMPORT_MINIM, IMPORT_MAXIM);
+        membre.import_membre = Utilities.LlegirInt(scan, Utilities.LlegirLineaConcreta(38, "./idiomas/catala.txt"), IMPORT_MINIM, IMPORT_MAXIM);
         //Import: 
         
         //Imposem amb un while que l'import també sigui múltiple de 5
@@ -155,6 +214,17 @@ public class Colles {
         //Retornem el membre
         return membre;
     }
+    
+    /*public static void AfegirMembreModificarColla (Colla colla, Membre membre) throws IOException{
+        DataInputStream dis = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_COLLES, true);
+        //Recorrem el numero de colles per anar imprimint tota la informació de cada colla
+        for (int i=1;i<=numero_colles;i++){
+            String linia_informacio = FormarLiniaInformacio(dis);
+            if (linia_informacio.contains(colla.nom)){
+                
+            }
+        }
+    }*/
     
     public static void CompletarColla (Colla colla, Membre membre) throws IOException{
         if (colla.numero_membres==0){
@@ -180,10 +250,13 @@ public class Colles {
     
     public static void EscriureMembre (Membre membre) throws IOException{
         DataOutputStream dos = Utilities.AbrirFicheroEscrituraBinario(NOM_FITXER_COLLES, true, true);
+        RandomAccessFile raf = new RandomAccessFile(NOM_FITXER_COLLES,"rw");
+        raf.seek(224);
         dos.writeUTF(String.format(FORMAT_DADES,membre.nom));
         dos.writeUTF(String.format(FORMAT_DADES,Integer.toString(membre.numero_loteria)));
         dos.writeUTF(String.format(FORMAT_DADES,Integer.toString(membre.import_membre)));
         dos.writeUTF(String.format(FORMAT_DADES,Integer.toString(membre.premi_membre)));
+        raf.close();
         Utilities.CerrarFicheroBinario(dos);
     }
     
@@ -205,18 +278,23 @@ public class Colles {
         DataInputStream dis = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_COLLES, true);
         //Recorrem el numero de colles per anar imprimint tota la informació de cada colla
         for (int i=1;i<=numero_colles;i++){
+            System.out.println("-------------------------------------------------"); //Deixem una línia de separació
+            System.out.println(""); //Deixem una línia de separació
             System.out.println(dis.readUTF()); //Imprimim el nom de la colla
-            System.out.println(Utilities.LlegirLineaConcreta(39, PathIdioma));
+            System.out.println(""); //Deixem una línia de separació
+            System.out.println(Utilities.LlegirLineaConcreta(39, "./idiomas/catala.txt"));
             //|    ANY    |  MEMBRES  |   IMPORT  |   PREMI   |    
             String linia_informacio_colla=FormarLiniaInformacio(dis);
             System.out.println(linia_informacio_colla);
-            System.out.println(Utilities.LlegirLineaConcreta(40, PathIdioma));
+            System.out.println(Utilities.LlegirLineaConcreta(40, "./idiomas/catala.txt"));
             //|    NOM    |  NÚMERO   |   IMPORT  |   PREMI   |
             for (int j=1;j<=numero_membres_colla_actual;j++){
                 String linia_informacio_membre = FormarLiniaInformacio(dis);
                 System.out.println(linia_informacio_membre);
             }
             numero_membres_colla_actual=0;
+            System.out.println(""); //Deixem una línia de separació
+            System.out.println("-------------------------------------------------"); //Deixem una línia de separació
         }
         Utilities.CerrarFicheroBinario(dis);
     }
