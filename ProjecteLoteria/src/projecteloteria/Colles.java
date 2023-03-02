@@ -39,6 +39,7 @@ public class Colles {
     
     //CONSTANTS
     public static final String NOM_FITXER_COLLES = "./fitxer_colles.bin";
+    public static final String NOM_FITXER_COLLES_REEMPLAÇ = "./fitxer_colles_nou.bin";
     public static final String NOM_FITXER_NOMS_COLLES = "./fitxer_noms_colles.bin";
     public static final int IMPORT_MINIM = 5; //Import mínim que pot aportar un membre
     public static final int IMPORT_MAXIM = 60; //Import màxim que pot aportar un membre
@@ -75,7 +76,7 @@ public class Colles {
                     Membre membre = DemanarMembre();
                     CompletarColla(colla, membre);
                     EscriureColla(colla);
-                    EscriureMembre(membre);
+                    EscriureMembre(membre,NOM_FITXER_COLLES);
                     break;
                 case 2:
                     Utilities.Menu(scan, OPCIONS_MENU_MODIFICAR_COLLA);
@@ -101,11 +102,8 @@ public class Colles {
                 ComptarColles();
                 Colla colla = DemanarCollaExistent();
                 Membre membre = DemanarMembre();
-                CompletarColla(colla, membre);
-                EscriureColla(colla);
-                EscriureMembre(membre);
-                break;
-            
+                AfegirMembreModificarColla(colla,membre);
+                break;           
         }
         
     }
@@ -147,13 +145,14 @@ public class Colles {
         //Nom de la colla: 
         colla.nom = scan.nextLine();
         //Imposem amb un while que el nom no estigui repetit
-        boolean nom_validat = ValidarNomNou(colla.nom);
+        boolean nom_validat = ValidarNomExistent(colla.nom);
         while (!nom_validat){
             System.out.print(Utilities.LlegirLineaConcreta(34, "./idiomas/catala.txt"));
             //Nom de la colla: 
             colla.nom = scan.nextLine();
-            nom_validat = ValidarNomNou(colla.nom);
+            nom_validat = ValidarNomExistent(colla.nom);
         }
+        
         colla.any = Utilities.LlegirInt(scan,Utilities.LlegirLineaConcreta(35, "./idiomas/catala.txt"));
         //Any del sorteig: 
         //Retornem la colla
@@ -211,22 +210,44 @@ public class Colles {
         
         //Imposem amb un while que l'import també sigui múltiple de 5
         while (membre.import_membre%DIVISOR_5 != 0){
-            membre.numero_loteria = Utilities.LlegirInt(scan, "Import: ", 0, MAXIM_NUMERO_LOTERIA);
+            membre.import_membre = Utilities.LlegirInt(scan, "Import: ", IMPORT_MINIM, IMPORT_MAXIM);
         }
         //Retornem el membre
         return membre;
     }
     
-    /*public static void AfegirMembreModificarColla (Colla colla, Membre membre) throws IOException{
+    public static void AfegirMembreModificarColla (Colla colla, Membre membre) throws IOException{
         DataInputStream dis = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_COLLES, true);
+        DataOutputStream dos = Utilities.AbrirFicheroEscrituraBinario(NOM_FITXER_COLLES_REEMPLAÇ, true, true);
         //Recorrem el numero de colles per anar imprimint tota la informació de cada colla
         for (int i=1;i<=numero_colles;i++){
-            String linia_informacio = FormarLiniaInformacio(dis);
-            if (linia_informacio.contains(colla.nom)){
-                
+            String nom_colla = dis.readUTF();
+            dos.writeUTF(nom_colla);
+            for (int j = 1; j <= NUMERO_ATRIBUTS; j++) {
+                String dada_afegir = dis.readUTF();               
+                if (i == 2) {
+                    numero_membres_colla_actual = Integer.parseInt(dada_afegir.trim());
+                    dada_afegir=Integer.toString(Integer.parseInt(dada_afegir)+1);
+                }
+                dos.writeUTF(dada_afegir);
+            }
+            if (nom_colla.contains(colla.nom)){                
+                for (int k = 1; k <= numero_membres_colla_actual; k++) {
+                    for (int l = 1; l <= NUMERO_ATRIBUTS; l++) {
+                        dos.writeUTF(dis.readUTF());
+                    }
+                }
+                EscriureMembre(membre,NOM_FITXER_COLLES_REEMPLAÇ);
             }
         }
-    }*/
+        numero_membres_colla_actual = 0;
+        //Tanquem
+        Utilities.CerrarFicheroBinario(dis);
+        Utilities.CerrarFicheroBinario(dos);
+        //Reemplacem el fitxer inicial pel nou
+        Utilities.BorrarFichero(NOM_FITXER_COLLES);
+        Utilities.RenombrarFichero(NOM_FITXER_COLLES_REEMPLAÇ,NOM_FITXER_COLLES);
+    }
     
     public static void CompletarColla (Colla colla, Membre membre) throws IOException{
         /*if (colla.numero_membres==0){
@@ -252,8 +273,8 @@ public class Colles {
         Utilities.CerrarFicheroBinario(dos2);
     }
     
-    public static void EscriureMembre (Membre membre) throws IOException{
-        DataOutputStream dos = Utilities.AbrirFicheroEscrituraBinario(NOM_FITXER_COLLES, true, true);
+    public static void EscriureMembre (Membre membre, String nomFitxer) throws IOException{
+        DataOutputStream dos = Utilities.AbrirFicheroEscrituraBinario(nomFitxer, true, true);
         //RandomAccessFile raf = new RandomAccessFile(NOM_FITXER_COLLES,"rw");
         //raf.seek(224);
         dos.writeUTF(String.format(FORMAT_DADES,membre.nom));
