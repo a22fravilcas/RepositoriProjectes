@@ -27,30 +27,32 @@ public class HistorialLoteries {
     public static final int TOTALPREMIS = 1807;
     public static final int FIRST_FOUR_BITS = 4;
     public static final int LIMITNUMEROSPREMIAT = 100000;
-    public static final int TAMANY_REGISTRE = 7232;
 
-    public static void main(String[] args) throws FileNotFoundException {
-        //linea 34
-
-        int anySorteig = scan.nextInt();
-
-        BuscarPremisLoteria();
+    public static void main(String[] args) {
+        PathIdioma = EscullirIdioma.ObtenirPath();
+        int[] SorteigBuscat = BuscarPremisLoteria();
+        System.out.println(SorteigBuscat[0]);
+        System.out.println(SorteigBuscat[1]);
 
     }
 
-    public static int [] BuscarPremisLoteria() {
-
+    //Funcio de buscador de sorteigs
+    public static int[] BuscarPremisLoteria() {
+        //Inicialitzar nou array de premis cada busca per si es troba el sorteig escollit
         int[] SorteigEscollit = new int[TOTALPREMIS];
+
         try {
-            System.out.print(Utilities.LlegirLineaConcreta(41, PathName));
+            System.out.print(Utilities.LlegirLineaConcreta(41, PathIdioma));
             //"Insereix l'any del sorteig al qual vols accedir:"
             int anyBuscat = scan.nextInt();
 
+            //boolean indicador de si s'ha trobat el sorteig o no a l'hora de buscar
             boolean sorteigTrobat = false;
             RandomAccessFile rafLoteria = new RandomAccessFile(PathName, "rw");
-            for (int ComptadorSorteigs = 1; ComptadorSorteigs <= rafLoteria.length() / TAMANY_TOTALPREMIS; ComptadorSorteigs++) {
+            //bucle for que parseja el fitxer de premis en busca del sorteig, buscant per l'any introduit
+            for (int ComptadorSorteigs = 1; ComptadorSorteigs <= rafLoteria.length() / TAMANY_TOTALPREMIS && !sorteigTrobat; ComptadorSorteigs++) {
 
-                int posicion_indice = ((ComptadorSorteigs - 1) * TAMANY_TOTALPREMIS) + FIRST_FOUR_BITS;
+                int posicion_indice = (ComptadorSorteigs - 1) * (TAMANY_TOTALPREMIS + FIRST_FOUR_BITS);
                 rafLoteria.seek(posicion_indice);
 
                 int anySorteig = rafLoteria.readInt();
@@ -60,12 +62,14 @@ public class HistorialLoteries {
 
             }
             if (!sorteigTrobat) {
+                System.out.print(Utilities.LlegirLineaConcreta(46, PathIdioma));
                 rafLoteria.seek(rafLoteria.length());
-                AfegirSorteig(anyBuscat, rafLoteria);
+                PremisLoteria PL = AfegirSorteig(anyBuscat, rafLoteria);
+                SorteigEscollit = PL.array_NumerosPremiats;
             } else {
-                rafLoteria.seek(anyBuscat);
                 SorteigEscollit = TreureSorteig(anyBuscat, rafLoteria);
-                
+                System.out.print(Utilities.LlegirLineaConcreta(45, PathIdioma));
+
             }
 
             rafLoteria.close();
@@ -79,9 +83,11 @@ public class HistorialLoteries {
         return SorteigEscollit;
     }
 
-    public static void AfegirSorteig(int anySorteig, RandomAccessFile rafLoteria) throws FileNotFoundException, IOException {
+    public static PremisLoteria AfegirSorteig(int anySorteig, RandomAccessFile rafLoteria) throws FileNotFoundException, IOException {
 
         PremisLoteria PL = InserirRegistreSorteig(anySorteig, rafLoteria);
+        
+        return PL;
 
     }
 
@@ -103,6 +109,7 @@ public class HistorialLoteries {
         } catch (IOException ex) {
             Logger.getLogger(HistorialLoteries.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return PL;
 
     }

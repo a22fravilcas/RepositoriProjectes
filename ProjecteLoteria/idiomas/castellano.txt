@@ -42,3 +42,5 @@ Introduce el año del sorteo que quieras comprobar
 Estas participando en solitario o con amigos? 
 No
 Si
+Sorteo encontrado
+Sorteo no encontrado, generando sorteo nuevo, espere unos momentos porfavor...

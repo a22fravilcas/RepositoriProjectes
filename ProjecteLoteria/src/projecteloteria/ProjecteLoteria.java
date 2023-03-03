@@ -61,8 +61,8 @@ public class ProjecteLoteria {
                      Utilities.LlegirLineaConcreta(33, PathIdioma));
             //Estas participant sol o amb amics? + valorValid
             if (solitari_colla==1){
-                 Utilities.Menu(scan, OPCIONS_MENU_COLLES);
-                 CridarOpcionsMenuColles();
+/*                 Utilities.Menu(scan, OPCIONS_MENU_COLLES);
+                 CridarOpcionsMenuColles();*/
             }
             else{
             //Crida a funcio externa per verificar el numero de l'usuari

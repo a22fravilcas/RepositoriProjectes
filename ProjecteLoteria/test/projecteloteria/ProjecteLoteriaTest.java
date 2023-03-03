@@ -23,11 +23,11 @@ import static projecteloteria.ProjecteLoteria.indexnummatch;
  * @author rexru
  */
 public class ProjecteLoteriaTest {
-    
+
     //CONSTANTS
     public static int array_PremisPrincipals[] = new int[TOTALPREMIS];
     public static final int PREMI_ECONOMIC_GORDO = 400000;
-    
+
     //SORTEIG AMANYAT
     public static final int INDEX_GORDO = 0; //Índex on es troba el gordo en la llista de PremisPrincipals
     public static final int NUMERO_GORDO = 18060;
@@ -44,24 +44,24 @@ public class ProjecteLoteriaTest {
     public static final int NUMERO_PROVA_ULTIMES_XIFRES_TERCER_PREMI = 28040;
     public static final int NUMERO_NO_PREMIAT = 18033;
     public static final int PREMI_NUMERO_NO_PREMIAT = 0;
-    
+
     public ProjecteLoteriaTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
         System.out.println("Inici del test de ProjecteLoteria");
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
         System.out.println("Final del test de ProjecteLoteria");
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -70,24 +70,23 @@ public class ProjecteLoteriaTest {
      * Test of NumeroPremiat method, of class ProjecteLoteria.
      */
     @Test
-    public void testNumeroPremiat() {        
+    public void testNumeroPremiat() {
         System.out.println("NumeroPremiat");
-        int array_NumerosPremiats[] = new int[TOTALPREMIS];
-        ProjecteLoteria.NumeroPremiat(array_NumerosPremiats);
+        HistorialLoteries.BuscarPremisLoteria();
     }
-    
+
     /**
      * Test of NumeroPremiatAmanyat method, of class ProjecteLoteria.
      */
     @Test
-    public void testNumeroPremiatAmanyat() {        
+    public void testNumeroPremiatAmanyat() {
         System.out.println("NumeroPremiatAmanyat");
-        
+
         //Com tots els premis amanyats estan en ordre, recorrem l'array_NumerosPremiats i comprovem que cada número és igual l'índex de l'array
         int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
         ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
     }
-    
+
     /**
      * Test of CompletarPremisPrincipals method, of class ProjecteLoteria.
      */
@@ -96,7 +95,7 @@ public class ProjecteLoteriaTest {
         System.out.println("CompletarPremisPrincipals");
         ProjecteLoteria.CompletarPremisPrincipals(array_PremisPrincipals);
     }
-    
+
     /**
      * Test of CompletarPremisSecundaris method, of class ProjecteLoteria.
      */
@@ -106,7 +105,7 @@ public class ProjecteLoteriaTest {
         ProjecteLoteria.PremiSecundari[] array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
         ProjecteLoteria.CompletarPremisSecundaris(array_PremisSecundaris);
     }
-    
+
     /**
      * Test of TrobarPremi method, of class ProjecteLoteria.
      */
@@ -114,7 +113,7 @@ public class ProjecteLoteriaTest {
     public void testTrobarPremi() {
         System.out.println("TrobarPremi");
         int indexnummatch = INDEX_GORDO;
-        int expResult = PREMI_ECONOMIC_GORDO; 
+        int expResult = PREMI_ECONOMIC_GORDO;
         int result = ProjecteLoteria.TrobarPremi(indexnummatch, array_PremisPrincipals);
         assertEquals(expResult, result);
     }
@@ -131,7 +130,7 @@ public class ProjecteLoteriaTest {
         ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
         boolean result = ProjecteLoteria.TrobarNumeroPremiat(array_NumerosPremiatsAmanyat, array_PremisPrincipals, numeroUsuari);
         assertEquals(expResult, result);
-       
+
     }
 
     /**
@@ -334,7 +333,7 @@ public class ProjecteLoteriaTest {
         assertEquals(expResult, result1);
         assertEquals(expResult, result2);
     }
-    
+
     /**
      * Test of TrobarPremi method, of class ProjecteLoteria.
      */
@@ -346,13 +345,13 @@ public class ProjecteLoteriaTest {
         int numeroUsuari = NUMERO_TERCER_PREMI;
         int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
         ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
-        boolean  premiat = TrobarNumeroPremiat(array_NumerosPremiatsAmanyat, array_PremisPrincipals, numeroUsuari);
+        boolean premiat = TrobarNumeroPremiat(array_NumerosPremiatsAmanyat, array_PremisPrincipals, numeroUsuari);
         int premiTrobat = TrobarPremi(indexnummatch, array_PremisPrincipals);
         int expResult = PREMI_ACUMULAT_NUMERO_TERCER_PREMI;
         int result = PREMI_ACUMULAT;
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of TrobarPremi method, of class ProjecteLoteria.
      */
@@ -364,11 +363,11 @@ public class ProjecteLoteriaTest {
         int numeroUsuari = NUMERO_NO_PREMIAT;
         int array_NumerosPremiatsAmanyat[] = new int[TOTALPREMIS];
         ProjecteLoteria.NumeroPremiatAmanyat(array_NumerosPremiatsAmanyat);
-        boolean  premiat = TrobarNumeroPremiat(array_NumerosPremiatsAmanyat, array_PremisPrincipals, numeroUsuari);
+        boolean premiat = TrobarNumeroPremiat(array_NumerosPremiatsAmanyat, array_PremisPrincipals, numeroUsuari);
         int premiTrobat = TrobarPremi(indexnummatch, array_PremisPrincipals);
         int expResult = PREMI_NUMERO_NO_PREMIAT;
         int result = PREMI_ACUMULAT;
         assertEquals(expResult, result);
     }
-        
+
 }

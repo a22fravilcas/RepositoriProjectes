@@ -42,3 +42,5 @@ Introdueix l'any del sorteig a buscar:
 Estas participant sol o amb amics? 
 No
 Si
+Sorteig trobat
+Sorteig no trobat, generant sorteig nou, esperi uns moments siusplau...

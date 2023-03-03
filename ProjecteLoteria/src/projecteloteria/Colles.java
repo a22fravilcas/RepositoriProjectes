@@ -256,7 +256,7 @@ public class Colles {
         while (membre.import_membre%DIVISOR_5 != 0){
             membre.import_membre = Utilities.LlegirInt(scan, "Import: ", IMPORT_MINIM, IMPORT_MAXIM);
         }
-        membre.premi_membre = 
+        //membre.premi_membre = 
         //Retornem el membre
         return membre;
     }
