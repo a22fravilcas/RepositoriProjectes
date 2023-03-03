@@ -26,7 +26,8 @@ public class HistorialLoteries {
     public static final int TAMANY_TOTALPREMIS = 4 * 1807;
     public static final int TOTALPREMIS = 1807;
     public static final int FIRST_FOUR_BITS = 4;
-    public static final int LIMITNUMEROPREMIAT = 100000;
+    public static final int LIMITNUMEROSPREMIAT = 100000;
+    public static final int TAMANY_REGISTRE = 7232;
 
     public static void main(String[] args) throws FileNotFoundException {
         //linea 34
@@ -39,9 +40,11 @@ public class HistorialLoteries {
 
     public static int [] BuscarPremisLoteria() {
 
+        int[] SorteigEscollit = new int[TOTALPREMIS];
         try {
             System.out.print(Utilities.LlegirLineaConcreta(41, PathName));
             //"Insereix l'any del sorteig al qual vols accedir:"
+            int anyBuscat = scan.nextInt();
 
             boolean sorteigTrobat = false;
             RandomAccessFile rafLoteria = new RandomAccessFile(PathName, "rw");
@@ -60,6 +63,8 @@ public class HistorialLoteries {
                 rafLoteria.seek(rafLoteria.length());
                 AfegirSorteig(anyBuscat, rafLoteria);
             } else {
+                rafLoteria.seek(anyBuscat);
+                SorteigEscollit = TreureSorteig(anyBuscat, rafLoteria);
                 
             }
 
@@ -71,15 +76,16 @@ public class HistorialLoteries {
             Logger.getLogger(HistorialLoteries.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        return SorteigEscollit;
     }
 
     public static void AfegirSorteig(int anySorteig, RandomAccessFile rafLoteria) throws FileNotFoundException, IOException {
 
-        PremisLoteria PL = InserirPremisFitxerLoteria(anySorteig, rafLoteria);
+        PremisLoteria PL = InserirRegistreSorteig(anySorteig, rafLoteria);
 
     }
 
-    public static PremisLoteria InserirPremisFitxerLoteria(int anySorteig, RandomAccessFile rafLoteria) throws IOException {
+    public static PremisLoteria InserirRegistreSorteig(int anySorteig, RandomAccessFile rafLoteria) throws IOException {
 
         PremisLoteria PL = new PremisLoteria();
         PL.any = anySorteig;
@@ -99,6 +105,23 @@ public class HistorialLoteries {
         }
         return PL;
 
+    }
+
+    public static int[] TreureSorteig(int anyBuscat, RandomAccessFile rafLoteria) throws IOException {
+
+        int[] SorteigEscollit = RegistreSorteigExistent(anyBuscat, rafLoteria);
+        return SorteigEscollit;
+    }
+
+    public static int[] RegistreSorteigExistent(int anyBuscat, RandomAccessFile rafLoteria) throws IOException {
+
+        int[] SorteigEscollit = new int[TOTALPREMIS];
+
+        for (int i = 0; i < TOTALPREMIS; i++) {
+            SorteigEscollit[i] = rafLoteria.readInt();
+        }
+
+        return SorteigEscollit;
     }
 
 }
