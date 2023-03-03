@@ -39,7 +39,7 @@ public class Colles {
     
     //CONSTANTS
     public static final String NOM_FITXER_COLLES = "./fitxer_colles.bin";
-    public static final String NOM_FITXER_COLLES_REEMPLAÇ = "./fitxer_colles_nou.bin";
+    public static final String NOM_FITXER_COLLES_REMPLAÇ = "./fitxer_colles_nou.bin";
     public static final String NOM_FITXER_NOMS_COLLES = "./fitxer_noms_colles.bin";
     public static final int IMPORT_MINIM = 5; //Import mínim que pot aportar un membre
     public static final int IMPORT_MAXIM = 60; //Import màxim que pot aportar un membre
@@ -115,6 +115,7 @@ public class Colles {
         String linia = LlegirLiniaNomsColles(dis);
         while (linia!=null){
             numero_colles++;
+            LlegirLiniaNomsColles(dis);
             linia = LlegirLiniaNomsColles(dis);
         }
         Utilities.CerrarFicheroBinario(dis);
@@ -134,6 +135,11 @@ public class Colles {
             nom_validat = ValidarNomNou(colla.nom);
         }
         colla.any = Utilities.LlegirInt(scan,Utilities.LlegirLineaConcreta(35, "./idiomas/catala.txt"));
+        boolean any_validat = ValidarAnyNou(colla.nom,Integer.toString(colla.any));
+        while (!any_validat){
+            colla.any = Utilities.LlegirInt(scan,Utilities.LlegirLineaConcreta(35, "./idiomas/catala.txt"));
+            any_validat = ValidarAnyNou(colla.nom,Integer.toString(colla.any));
+        }
         //Any del sorteig: 
         //Retornem la colla
         return colla;
@@ -152,8 +158,12 @@ public class Colles {
             colla.nom = scan.nextLine();
             nom_validat = ValidarNomExistent(colla.nom);
         }
-        
         colla.any = Utilities.LlegirInt(scan,Utilities.LlegirLineaConcreta(35, "./idiomas/catala.txt"));
+        boolean any_validat = ValidarAnyExistent(colla.nom,Integer.toString(colla.any));
+        while (!any_validat){
+            colla.any = Utilities.LlegirInt(scan,Utilities.LlegirLineaConcreta(35, "./idiomas/catala.txt"));
+            any_validat = ValidarAnyExistent(colla.nom,Integer.toString(colla.any));
+        }
         //Any del sorteig: 
         //Retornem la colla
         return colla;
@@ -184,6 +194,23 @@ public class Colles {
         return nom_validat;
     }
     
+    public static boolean ValidarAnyNou (String nom_colla, String any_colla) throws IOException{
+        DataInputStream dis = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_NOMS_COLLES, true);
+        boolean any_validat = true;
+        String nom = LlegirLiniaNomsColles(dis);
+        while (nom!=null){
+            if (nom_colla.equals(nom)){
+                String any = LlegirLiniaNomsColles(dis);
+                if (any.equals(any_colla)){
+                    any_validat = false;
+                }             
+            }
+            nom = LlegirLiniaNomsColles(dis);
+        }
+        Utilities.CerrarFicheroBinario(dis);
+        return any_validat;
+    }
+    
     public static boolean ValidarNomExistent (String nom_colla) throws IOException{
         DataInputStream dis = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_NOMS_COLLES, true);
         boolean nom_validat = false;
@@ -196,6 +223,23 @@ public class Colles {
         }
         Utilities.CerrarFicheroBinario(dis);
         return nom_validat;
+    }
+    
+    public static boolean ValidarAnyExistent (String nom_colla, String any_colla) throws IOException{
+        DataInputStream dis = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_NOMS_COLLES, true);
+        boolean any_validat = false;
+        String nom = LlegirLiniaNomsColles(dis);
+        while (nom!=null){
+            if (nom_colla.equals(nom)){
+                String any = LlegirLiniaNomsColles(dis);
+                if (any.equals(any_colla)){
+                    any_validat = true;
+                }             
+            }
+            nom = LlegirLiniaNomsColles(dis);
+        }
+        Utilities.CerrarFicheroBinario(dis);
+        return any_validat;
     }
     
     public static Membre DemanarMembre () throws IOException{
@@ -217,36 +261,48 @@ public class Colles {
     }
     
     public static void AfegirMembreModificarColla (Colla colla, Membre membre) throws IOException{
-        DataInputStream dis = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_COLLES, true);
-        DataOutputStream dos = Utilities.AbrirFicheroEscrituraBinario(NOM_FITXER_COLLES_REEMPLAÇ, true, true);
+        DataInputStream dis1 = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_NOMS_COLLES, true);
+        DataInputStream dis2 = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_COLLES, true);
+        DataOutputStream dos = Utilities.AbrirFicheroEscrituraBinario(NOM_FITXER_COLLES_REMPLAÇ, true, true);
         //Recorrem el numero de colles per anar imprimint tota la informació de cada colla
         for (int i=1;i<=numero_colles;i++){
-            String nom_colla = dis.readUTF();
-            dos.writeUTF(nom_colla);
+            String nom_colla = dis1.readUTF();
+            String any_colla = dis1.readUTF();
+            dos.writeUTF(String.format(FORMAT_DADES, any_colla));
             for (int j = 1; j <= NUMERO_ATRIBUTS; j++) {
-                String dada_afegir = dis.readUTF();               
-                if (i == 2) {
-                    numero_membres_colla_actual = Integer.parseInt(dada_afegir.trim());
-                    dada_afegir=Integer.toString(Integer.parseInt(dada_afegir)+1);
-                }
-                dos.writeUTF(dada_afegir);
-            }
-            if (nom_colla.contains(colla.nom)){                
-                for (int k = 1; k <= numero_membres_colla_actual; k++) {
-                    for (int l = 1; l <= NUMERO_ATRIBUTS; l++) {
-                        dos.writeUTF(dis.readUTF());
+                if (j == 1){
+                    dis2.readUTF(); 
+                } 
+                else{
+                    String dada_afegir = dis2.readUTF(); 
+                    if (j == 2) {
+                        numero_membres_colla_actual = Integer.parseInt(dada_afegir.trim());
+                        if (nom_colla.contains(colla.nom) && any_colla.equals(Integer.toString(colla.any))){ 
+                            dada_afegir = String.format(FORMAT_DADES, Integer.toString(numero_membres_colla_actual + 1));
+                        }                    
                     }
+                    dos.writeUTF(dada_afegir);
+                }              
+            }     
+            for (int k = 1; k <= numero_membres_colla_actual; k++) {
+                for (int l = 1; l <= NUMERO_ATRIBUTS; l++) {
+                    dos.writeUTF(dis2.readUTF());
                 }
-                EscriureMembre(membre,NOM_FITXER_COLLES_REEMPLAÇ);
+            }
+            if (nom_colla.contains(colla.nom) && any_colla.equals(Integer.toString(colla.any))){ 
+                Utilities.CerrarFicheroBinario(dos);
+                EscriureMembre(membre,NOM_FITXER_COLLES_REMPLAÇ);
+                dos = Utilities.AbrirFicheroEscrituraBinario(NOM_FITXER_COLLES_REMPLAÇ, true, true);
             }
         }
+        numero_colles = 0;
         numero_membres_colla_actual = 0;
         //Tanquem
-        Utilities.CerrarFicheroBinario(dis);
+        Utilities.CerrarFicheroBinario(dis2);
         Utilities.CerrarFicheroBinario(dos);
         //Reemplacem el fitxer inicial pel nou
         Utilities.BorrarFichero(NOM_FITXER_COLLES);
-        Utilities.RenombrarFichero(NOM_FITXER_COLLES_REEMPLAÇ,NOM_FITXER_COLLES);
+        Utilities.RenombrarFichero(NOM_FITXER_COLLES_REMPLAÇ,NOM_FITXER_COLLES);
     }
     
     public static void CompletarColla (Colla colla, Membre membre) throws IOException{
@@ -265,6 +321,7 @@ public class Colles {
         DataOutputStream dos1 = Utilities.AbrirFicheroEscrituraBinario(NOM_FITXER_NOMS_COLLES, true, true);
         DataOutputStream dos2 = Utilities.AbrirFicheroEscrituraBinario(NOM_FITXER_COLLES, true, true);
         dos1.writeUTF(colla.nom);
+        dos1.writeUTF(Integer.toString(colla.any));
         dos2.writeUTF(String.format(FORMAT_DADES, Integer.toString(colla.any)));
         dos2.writeUTF(String.format(FORMAT_DADES, Integer.toString(colla.numero_membres)));
         dos2.writeUTF(String.format(FORMAT_DADES,Integer.toString(colla.import_colla)));
@@ -307,6 +364,7 @@ public class Colles {
             System.out.println("-------------------------------------------------"); //Deixem una línia de separació
             System.out.println(""); //Deixem una línia de separació
             System.out.println(dis1.readUTF()); //Imprimim el nom de la colla
+            dis1.readUTF();
             System.out.println(""); //Deixem una línia de separació
             System.out.println(Utilities.LlegirLineaConcreta(39, "./idiomas/catala.txt"));
             //|    ANY    |  MEMBRES  |   IMPORT  |   PREMI   |    
