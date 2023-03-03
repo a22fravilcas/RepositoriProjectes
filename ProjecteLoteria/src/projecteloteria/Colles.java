@@ -6,10 +6,16 @@ package projecteloteria;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Scanner;
+import static projecteloteria.ProjecteLoteria.PREMI_ACUMULAT;
 import static projecteloteria.ProjecteLoteria.PathIdioma;
+import static projecteloteria.ProjecteLoteria.TOTALPREMIS;
+import static projecteloteria.ProjecteLoteria.TrobarPremi;
+import static projecteloteria.ProjecteLoteria.array_PremisPrincipals;
+import static projecteloteria.ProjecteLoteria.indexnummatch;
 import utilities.Utilities;
 
 /**
@@ -38,6 +44,7 @@ public class Colles {
     }
     
     //CONSTANTS
+    public static final String NOM_FITXER_HISTORIAL = "./Historial_Loteria.bin";
     public static final String NOM_FITXER_COLLES = "./fitxer_colles.bin";
     public static final String NOM_FITXER_COLLES_REMPLAÇ = "./fitxer_colles_nou.bin";
     public static final String NOM_FITXER_NOMS_COLLES = "./fitxer_noms_colles.bin";
@@ -73,7 +80,7 @@ public class Colles {
             switch (opcio_escollida) {
                 case 1:
                     Colla colla = DemanarCollaNova();
-                    Membre membre = DemanarMembre();
+                    Membre membre = DemanarMembre(colla);
                     CompletarColla(colla, membre);
                     EscriureColla(colla);
                     EscriureMembre(membre,NOM_FITXER_COLLES);
@@ -101,7 +108,7 @@ public class Colles {
             case 1:
                 ComptarColles();
                 Colla colla = DemanarCollaExistent();
-                Membre membre = DemanarMembre();
+                Membre membre = DemanarMembre(colla);
                 AfegirMembreModificarColla(colla,membre);
                 break;           
         }
@@ -143,6 +150,32 @@ public class Colles {
         //Any del sorteig: 
         //Retornem la colla
         return colla;
+    }
+    
+    public static int LlegirAnyHistorial (RandomAccessFile raf){
+        int any_sorteig;
+        try {
+            any_sorteig = raf.readInt();
+        } catch (IOException ex) {
+            any_sorteig = -1;
+        }
+        //Retornem la línia
+        return any_sorteig;
+    }
+    
+    public static boolean ValidarAnySorteig (int any_sorteig) throws FileNotFoundException, IOException{
+        RandomAccessFile raf = new RandomAccessFile(NOM_FITXER_HISTORIAL, "r");
+        int any = LlegirAnyHistorial(raf);
+        boolean any_validat=false;
+        while (any!=-1){
+            if (any_sorteig==any){
+                any_validat=true;
+            }
+            raf.seek(raf.getFilePointer()+3615);
+            any=LlegirAnyHistorial(raf);
+        }
+        raf.close();
+        return any_validat;
     }
     
     public static Colla DemanarCollaExistent () throws IOException{
@@ -242,7 +275,7 @@ public class Colles {
         return any_validat;
     }
     
-    public static Membre DemanarMembre () throws IOException{
+    public static Membre DemanarMembre (Colla colla) throws IOException{
         Membre membre = new Membre();
         System.out.print(Utilities.LlegirLineaConcreta(36, "./idiomas/catala.txt"));
         //Nom: 
@@ -259,6 +292,24 @@ public class Colles {
         //membre.premi_membre = 
         //Retornem el membre
         return membre;
+    }
+    
+    public static int BuscarPremi (Colla colla, Membre membre) throws FileNotFoundException, IOException{
+        RandomAccessFile raf = new RandomAccessFile(NOM_FITXER_HISTORIAL, "r");
+        int any = LlegirAnyHistorial(raf);
+        while (any!=-1){
+            if (colla.any==any){
+                int[] array_NumerosPremiats = new int [TOTALPREMIS];
+                for (int i=0;i<TOTALPREMIS;i++){
+                    array_NumerosPremiats[i]=raf.readInt();
+                }
+                PREMI_ACUMULAT = 0;
+                if (premiat) {
+                    int premiTrobat = TrobarPremi(indexnummatch, array_PremisPrincipals);
+            }
+            raf.seek(raf.getFilePointer()+3615);
+            any=LlegirAnyHistorial(raf);
+        }
     }
     
     public static void AfegirMembreModificarColla (Colla colla, Membre membre) throws IOException{
