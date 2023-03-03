@@ -4,6 +4,8 @@ import java.io.IOException;
 import utilities.Utilities;
 import java.util.Random;
 import java.util.Scanner;
+import static projecteloteria.Colles.CridarOpcionsMenuColles;
+import static projecteloteria.Colles.OPCIONS_MENU_COLLES;
 
 public class ProjecteLoteria {
 
@@ -37,9 +39,9 @@ public class ProjecteLoteria {
 
         array_NumerosPremiats = new int[TOTALPREMIS];
         //Crida a funcio NumeroPremiat
-        
+        array_NumerosPremiats=HistorialLoteries.BuscarPremisLoteria();
         //Cridar aqui a Historial loteries
-        NumeroPremiat(array_NumerosPremiats); 
+        //NumeroPremiat(array_NumerosPremiats); 
         
         array_PremisPrincipals = new int[TOTALPREMIS];
         array_PremisSecundaris = new PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
@@ -55,18 +57,27 @@ public class ProjecteLoteria {
         while (AltreNumero) {
             PREMI_ACUMULAT = 0;
             //personaSola(continuar)/colles/(cridar a les funcions pertinents
-            
+            int solitari_colla = Utilities.demanaNumEnter(Utilities.LlegirLineaConcreta(42, PathIdioma),  
+                     Utilities.LlegirLineaConcreta(33, PathIdioma));
+            //Estas participant sol o amb amics? + valorValid
+            if (solitari_colla==1){
+                 Utilities.Menu(scan, OPCIONS_MENU_COLLES);
+                 CridarOpcionsMenuColles();
+            }
+            else{
             //Crida a funcio externa per verificar el numero de l'usuari
             int numeroUsuari = Utilities.demanaNumEnter(Utilities.LlegirLineaConcreta(1, PathIdioma)//Introdueix el teu numero de loteria.  
                     + Utilities.LlegirLineaConcreta(2, PathIdioma)/*El numero ha de ser de cinc digits:*/,
                     Utilities.LlegirLineaConcreta(33, PathIdioma));//Introdueix un valor valid
             
-
+            AssignacioPremis( numeroUsuari,  array_NumerosPremiats, array_PremisSecundaris);
             
-
+            }
             System.out.println(Utilities.LlegirLineaConcreta(5, PathIdioma));
             //Tens un altre numero?
-            if (scan.next().equals("No")) {
+            System.out.println(Utilities.LlegirLineaConcreta(44, PathIdioma)+"/"+(Utilities.LlegirLineaConcreta(43, PathIdioma)));
+            //Si/No
+            if (scan.next().equals(Utilities.LlegirLineaConcreta(43, PathIdioma))) {
                 //tanquem el bucle depenent de la entrada del usuari
                 AltreNumero = false;
             }

@@ -33,11 +33,11 @@ public class HistorialLoteries {
 
         int anySorteig = scan.nextInt();
 
-        BuscarPremisLoteria(anySorteig);
+        BuscarPremisLoteria();
 
     }
 
-    public static void BuscarPremisLoteria(int anyBuscat) {
+    public static int [] BuscarPremisLoteria() {
 
         try {
             System.out.print(Utilities.LlegirLineaConcreta(41, PathName));
