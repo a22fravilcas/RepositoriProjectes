@@ -69,7 +69,16 @@ public class ProjecteLoteria {
             int numeroUsuari = Utilities.demanaNumEnter(Utilities.LlegirLineaConcreta(1, PathIdioma)//Introdueix el teu numero de loteria.  
                     + Utilities.LlegirLineaConcreta(2, PathIdioma)/*El numero ha de ser de cinc digits:*/,
                     Utilities.LlegirLineaConcreta(33, PathIdioma));//Introdueix un valor valid
-            
+                      boolean premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, numeroUsuari);
+
+            if (premiat) {
+                int premiTrobat = TrobarPremi(indexnummatch, array_PremisPrincipals);
+                System.out.println(Utilities.LlegirLineaConcreta(3, PathIdioma) + premiTrobat + "€.");
+                //Enhorabona, has aconeguit un premi principal. El teu premi es de 
+            } else {
+                System.out.println(Utilities.LlegirLineaConcreta(4, PathIdioma));
+                //El teu numero no correspon a cap premi principal.
+            }
             AssignacioPremis( numeroUsuari,  array_NumerosPremiats, array_PremisSecundaris);
             
             }
@@ -88,15 +97,7 @@ public class ProjecteLoteria {
     public static void AssignacioPremis (int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[]array_PremisSecundaris) throws IOException{
         //Crida a funcio TrobarNumeroPremiat
             boolean premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, numeroUsuari);
-            
-            if (premiat) {
-                int premiTrobat = TrobarPremi(indexnummatch, array_PremisPrincipals);
-                System.out.println(Utilities.LlegirLineaConcreta(3, PathIdioma) + premiTrobat + "€.");
-                //Enhorabona, has aconeguit un premi principal. El teu premi es de 
-            } else {
-                System.out.println(Utilities.LlegirLineaConcreta(4, PathIdioma));
-                //El teu numero no correspon a cap premi principal.
-            }
+           
             
             //If per saber si el numero escollit te premi principal.
             boolean AproxSeg = false, AproxTerc = false, PrimerTresXifresTercer = false, PrimerTresXifresQuart1 = false,
