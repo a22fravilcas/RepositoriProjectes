@@ -256,6 +256,7 @@ public class Colles {
         while (membre.import_membre%DIVISOR_5 != 0){
             membre.import_membre = Utilities.LlegirInt(scan, "Import: ", IMPORT_MINIM, IMPORT_MAXIM);
         }
+        membre.premi_membre = 
         //Retornem el membre
         return membre;
     }
@@ -279,6 +280,11 @@ public class Colles {
                         numero_membres_colla_actual = Integer.parseInt(dada_afegir.trim());
                         if (nom_colla.contains(colla.nom) && any_colla.equals(Integer.toString(colla.any))){ 
                             dada_afegir = String.format(FORMAT_DADES, Integer.toString(numero_membres_colla_actual + 1));
+                        }                    
+                    }
+                    if (j == 3) {
+                        if (nom_colla.contains(colla.nom) && any_colla.equals(Integer.toString(colla.any))){ 
+                            dada_afegir = String.format(FORMAT_DADES, Integer.toString(Integer.parseInt(dada_afegir.trim()) + membre.import_membre));
                         }                    
                     }
                     dos.writeUTF(dada_afegir);

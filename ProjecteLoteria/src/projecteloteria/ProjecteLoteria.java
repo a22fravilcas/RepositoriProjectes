@@ -14,6 +14,11 @@ public class ProjecteLoteria {
     public static int indexnummatch;
     public static int PREMI_ACUMULAT;
     public static String PathIdioma;
+    
+    public static int numeroUsuari;
+    public static int[] array_NumerosPremiats;
+    public static PremiSecundari[] array_PremisSecundaris;
+    public static int[] array_PremisPrincipals;
 
     public static class PremiSecundari {
 
@@ -28,19 +33,16 @@ public class ProjecteLoteria {
      */
     public static void main(String[] args) throws IOException {
 
-        PathIdioma = EscullirIdioma.ObtenirPath();
+        PathIdioma = EscullirIdioma.ObtenirPath();        
 
-        PathIdioma=EscullirIdioma.ObtenirPath();
-        
-
-        int array_NumerosPremiats[] = new int[TOTALPREMIS];
+        array_NumerosPremiats = new int[TOTALPREMIS];
         //Crida a funcio NumeroPremiat
         
         //Cridar aqui a Historial loteries
         NumeroPremiat(array_NumerosPremiats); 
         
-        int[] array_PremisPrincipals = new int[TOTALPREMIS];
-        PremiSecundari[] array_PremisSecundaris = new PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        array_PremisPrincipals = new int[TOTALPREMIS];
+        array_PremisSecundaris = new PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
         //Crida a funcio CompletarPremisPrincipals i CompleatarPremisSecundaris
         CompletarPremisPrincipals(array_PremisPrincipals);
         CompletarPremisSecundaris(array_PremisSecundaris);
@@ -60,7 +62,20 @@ public class ProjecteLoteria {
                     Utilities.LlegirLineaConcreta(33, PathIdioma));//Introdueix un valor valid
             
 
-            //Crida a funcio TrobarNumeroPremiat
+            
+
+            System.out.println(Utilities.LlegirLineaConcreta(5, PathIdioma));
+            //Tens un altre numero?
+            if (scan.next().equals("No")) {
+                //tanquem el bucle depenent de la entrada del usuari
+                AltreNumero = false;
+            }
+        }
+        scan.close(); //deixem descansar al nostre estimat escaner <3
+    }
+    
+    public static void AssignacioPremis (int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[]array_PremisSecundaris) throws IOException{
+        //Crida a funcio TrobarNumeroPremiat
             boolean premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, numeroUsuari);
             
             if (premiat) {
@@ -88,15 +103,6 @@ public class ProjecteLoteria {
 
             DesglosarPremi(array_PremisSecundaris);
             //funcio per mostrar els premis obtinguts al usuari
-
-            System.out.println(Utilities.LlegirLineaConcreta(5, PathIdioma));
-            //Tens un altre numero?
-            if (scan.next().equals("No")) {
-                //tanquem el bucle depenent de la entrada del usuari
-                AltreNumero = false;
-            }
-        }
-        scan.close(); //deixem descansar al nostre estimat escaner <3
     }
 
     /**
