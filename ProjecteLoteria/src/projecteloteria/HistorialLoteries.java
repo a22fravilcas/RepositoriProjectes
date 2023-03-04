@@ -8,9 +8,18 @@ import static projecteloteria.ProjecteLoteria.PathIdioma;
 
 import utilities.*;
 
+/**
+ * Codi de l'apartat de historial de sortejos
+ *
+ * @author Cèlia Garcia, Wilson McCammond i Franc Villaba
+ */
 public class HistorialLoteries {
 
-    static class PremisLoteria {
+    /**
+     * Classe Premis de la Loteria, amb l'any, els números premiats i els premis
+     * principals
+     */
+    public static class PremisLoteria {
 
         int any;
         int[] array_NumerosPremiats = new int[TOTALPREMIS];
@@ -28,15 +37,11 @@ public class HistorialLoteries {
     public static final int FIRST_FOUR_BITS = 4;
     public static final int LIMITNUMEROSPREMIAT = 100000;
 
-    public static void main(String[] args) {
-        PathIdioma = EscullirIdioma.ObtenirPath();
-        int[] SorteigBuscat = BuscarPremisLoteria();
-        System.out.println(SorteigBuscat[0]);
-        System.out.println(SorteigBuscat[1]);
-
-    }
-
-    //Funcio de buscador de sorteigs
+    /**
+     * Funcio de buscador de sorteigs
+     *
+     * @return Sorteig escollit
+     */
     public static int[] BuscarPremisLoteria() {
         //Inicialitzar nou array de premis cada busca per si es troba el sorteig escollit
         int[] SorteigEscollit = new int[TOTALPREMIS];
@@ -62,13 +67,13 @@ public class HistorialLoteries {
 
             }
             if (!sorteigTrobat) {
-                System.out.print(Utilities.LlegirLineaConcreta(46, PathIdioma));
+                System.out.println(Utilities.LlegirLineaConcreta(46, PathIdioma));
                 rafLoteria.seek(rafLoteria.length());
                 PremisLoteria PL = AfegirSorteig(anyBuscat, rafLoteria);
                 SorteigEscollit = PL.array_NumerosPremiats;
             } else {
                 SorteigEscollit = TreureSorteig(anyBuscat, rafLoteria);
-                System.out.print(Utilities.LlegirLineaConcreta(45, PathIdioma));
+                System.out.println(Utilities.LlegirLineaConcreta(45, PathIdioma));
 
             }
 
@@ -83,19 +88,38 @@ public class HistorialLoteries {
         return SorteigEscollit;
     }
 
+    /**
+     * Afegeix el sorteig al fitxer
+     *
+     * @param anySorteig Any del sorteig
+     * @param rafLoteria RandomAccessFile
+     * @return Registre de la classe PremisLoteria
+     *
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public static PremisLoteria AfegirSorteig(int anySorteig, RandomAccessFile rafLoteria) throws FileNotFoundException, IOException {
 
         PremisLoteria PL = InserirRegistreSorteig(anySorteig, rafLoteria);
-        
+
         return PL;
 
     }
 
+    /**
+     * Insereix el registre del sorteig al fitxer
+     *
+     * @param anySorteig Any del sorteig
+     * @param rafLoteria RandomAccessFile
+     * @return Registre de la classe PremisLoteria
+     *
+     * @throws IOException
+     */
     public static PremisLoteria InserirRegistreSorteig(int anySorteig, RandomAccessFile rafLoteria) throws IOException {
 
         PremisLoteria PL = new PremisLoteria();
         PL.any = anySorteig;
-        ProjecteLoteria.NumeroPremiatAmanyat(PL.array_NumerosPremiats);
+        ProjecteLoteria.NumeroPremiat(PL.array_NumerosPremiats);
         ProjecteLoteria.CompletarPremisPrincipals(PL.array_PremisPrincipals);
 
         try {
@@ -109,17 +133,35 @@ public class HistorialLoteries {
         } catch (IOException ex) {
             Logger.getLogger(HistorialLoteries.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return PL;
 
     }
 
+    /**
+     * Llegeix el sorteig del fitxer
+     *
+     * @param anyBuscat Any del sorteig
+     * @param rafLoteria RandomAccessFile
+     * @return Array del sorteig
+     *
+     * @throws IOException
+     */
     public static int[] TreureSorteig(int anyBuscat, RandomAccessFile rafLoteria) throws IOException {
 
         int[] SorteigEscollit = RegistreSorteigExistent(anyBuscat, rafLoteria);
         return SorteigEscollit;
     }
 
+    /**
+     * Llegeix el registre del sorteig del fitxer
+     *
+     * @param anyBuscat Any del sorteig
+     * @param rafLoteria RandomAccessFile
+     * @return Array del registre del sorteig
+     *
+     * @throws IOException
+     */
     public static int[] RegistreSorteigExistent(int anyBuscat, RandomAccessFile rafLoteria) throws IOException {
 
         int[] SorteigEscollit = new int[TOTALPREMIS];

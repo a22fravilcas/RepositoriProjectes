@@ -38,9 +38,14 @@ Número de Lotería:
 Importe:  
 |    AÑO    |  MIEMBROS |  IMPORTE  |  PREMIO  |   DISTRIBUCIÓN   |    
 |   NOMBRE  |   NÚMERO  |  IMPORTE  |  PREMIO  |   DISTRIBUCIÓN   |
-Introduce el año del sorteo que quieras comprobar 
-Estas participando en solitario o con amigos? 
+Introduce el año del sorteo que quieras comprobar: 
+Estas participando 1.solo o 2.con amigos? 
 No
 Si
 Sorteo encontrado
 Sorteo no encontrado, generando sorteo nuevo, espere unos momentos porfavor...
+1.Añadir grupo
+2.Modificar grupo
+3.Enseñar grupos
+4.Salir
+1.Añadir miembro

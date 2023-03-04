@@ -5,8 +5,12 @@ import utilities.Utilities;
 import java.util.Random;
 import java.util.Scanner;
 import static projecteloteria.Colles.CridarOpcionsMenuColles;
-import static projecteloteria.Colles.OPCIONS_MENU_COLLES;
 
+/**
+ * Projecte de la Loteria de Nadal
+ *
+ * @author Cèlia Garcia, Wilson McCammond i Franc Villaba
+ */
 public class ProjecteLoteria {
 
     public static Scanner scan = new Scanner(System.in);
@@ -16,7 +20,7 @@ public class ProjecteLoteria {
     public static int indexnummatch;
     public static int PREMI_ACUMULAT;
     public static String PathIdioma;
-    
+
     public static int numeroUsuari;
     public static int[] array_NumerosPremiats;
     public static PremiSecundari[] array_PremisSecundaris;
@@ -35,86 +39,87 @@ public class ProjecteLoteria {
      */
     public static void main(String[] args) throws IOException {
 
-        PathIdioma = EscullirIdioma.ObtenirPath();        
+        PathIdioma = EscullirIdioma.ObtenirPath();
 
         array_NumerosPremiats = new int[TOTALPREMIS];
         //Crida a funcio NumeroPremiat
-        array_NumerosPremiats=HistorialLoteries.BuscarPremisLoteria();
+        array_NumerosPremiats = HistorialLoteries.BuscarPremisLoteria();
         //Cridar aqui a Historial loteries
         //NumeroPremiat(array_NumerosPremiats); 
-        
+
         array_PremisPrincipals = new int[TOTALPREMIS];
         array_PremisSecundaris = new PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
         //Crida a funcio CompletarPremisPrincipals i CompleatarPremisSecundaris
         CompletarPremisPrincipals(array_PremisPrincipals);
         CompletarPremisSecundaris(array_PremisSecundaris);
-        
+
         boolean AltreNumero = true; //boolean per permetre al usuari introduir diversos numeros   
-      
+
         System.out.println(array_NumerosPremiats[0]);
         System.out.println(array_NumerosPremiats[1]);//print per poder probar numeros, no estara en versio final
-     
+
+        System.out.println();
+
         while (AltreNumero) {
             PREMI_ACUMULAT = 0;
-            //personaSola(continuar)/colles/(cridar a les funcions pertinents
-            int solitari_colla = Utilities.demanaNumEnter(Utilities.LlegirLineaConcreta(42, PathIdioma),  
-                     Utilities.LlegirLineaConcreta(33, PathIdioma));
-            //Estas participant sol o amb amics? + valorValid
-            if (solitari_colla==1){
-/*                 Utilities.Menu(scan, OPCIONS_MENU_COLLES);
-                 CridarOpcionsMenuColles();*/
-            }
-            else{
-            //Crida a funcio externa per verificar el numero de l'usuari
-            int numeroUsuari = Utilities.demanaNumEnter(Utilities.LlegirLineaConcreta(1, PathIdioma)//Introdueix el teu numero de loteria.  
-                    + Utilities.LlegirLineaConcreta(2, PathIdioma)/*El numero ha de ser de cinc digits:*/,
-                    Utilities.LlegirLineaConcreta(33, PathIdioma));//Introdueix un valor valid
-                      boolean premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, numeroUsuari);
+            //personaSola(continuar)/colles/(cridar a les funcions pertinents)
+            int solitari_colla = Utilities.demanaNumEnterAcotat(Utilities.LlegirLineaConcreta(42, PathIdioma),
+                    Utilities.LlegirLineaConcreta(33, PathIdioma), 1, 2); //Estas participant sol o amb amics? + valorValid
 
-            if (premiat) {
-                int premiTrobat = TrobarPremi(indexnummatch, array_PremisPrincipals);
-                System.out.println(Utilities.LlegirLineaConcreta(3, PathIdioma) + premiTrobat + "€.");
-                //Enhorabona, has aconeguit un premi principal. El teu premi es de 
-            } else {
-                System.out.println(Utilities.LlegirLineaConcreta(4, PathIdioma));
-                //El teu numero no correspon a cap premi principal.
+            if (solitari_colla == 2) {
+                System.out.println();
+                CridarOpcionsMenuColles();
+            } else if (solitari_colla == 1) {
+                //Crida a funcio externa per verificar el numero de l'usuari
+                int numeroUsuari = Utilities.demanaNumEnter(Utilities.LlegirLineaConcreta(1, PathIdioma)//Introdueix el teu numero de loteria.  
+                        + Utilities.LlegirLineaConcreta(2, PathIdioma)/*El numero ha de ser de cinc digits:*/,
+                        Utilities.LlegirLineaConcreta(33, PathIdioma));//Introdueix un valor valid
+                boolean premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, numeroUsuari);
+                System.out.println();
+                if (premiat) {
+                    int premiTrobat = TrobarPremi(indexnummatch, array_PremisPrincipals);
+                    System.out.println(Utilities.LlegirLineaConcreta(3, PathIdioma) + premiTrobat + "€."); //Enhorabona, has aconeguit un premi principal. El teu premi es de 
+
+                } else {
+                    System.out.println(Utilities.LlegirLineaConcreta(4, PathIdioma)); //El teu numero no correspon a cap premi principal.
+
+                }
+                AssignacioPremis(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
+
             }
-            AssignacioPremis( numeroUsuari,  array_NumerosPremiats, array_PremisSecundaris);
-            
-            }
-            System.out.println(Utilities.LlegirLineaConcreta(5, PathIdioma));
-            //Tens un altre numero?
-            System.out.println(Utilities.LlegirLineaConcreta(44, PathIdioma)+"/"+(Utilities.LlegirLineaConcreta(43, PathIdioma)));
-            //Si/No
-            if (scan.next().equals(Utilities.LlegirLineaConcreta(43, PathIdioma))) {
+            System.out.println(Utilities.LlegirLineaConcreta(5, PathIdioma)); //Tens un altre numero?
+
+            System.out.println(Utilities.LlegirLineaConcreta(44, PathIdioma) + "/" + (Utilities.LlegirLineaConcreta(43, PathIdioma))); //Si/No
+
+            System.out.print("> ");
+            if (scan.next().equalsIgnoreCase(Utilities.LlegirLineaConcreta(43, PathIdioma))) { //No
                 //tanquem el bucle depenent de la entrada del usuari
                 AltreNumero = false;
             }
         }
         scan.close(); //deixem descansar al nostre estimat escaner <3
     }
-    
-    public static void AssignacioPremis (int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[]array_PremisSecundaris) throws IOException{
-        //Crida a funcio TrobarNumeroPremiat
-            boolean premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, numeroUsuari);
-           
-            
-            //If per saber si el numero escollit te premi principal.
-            boolean AproxSeg = false, AproxTerc = false, PrimerTresXifresTercer = false, PrimerTresXifresQuart1 = false,
-                    PrimerTresXifresQuart2 = false, UltimaXifraGordo = false, UltimesDosXifresGordo = false;
 
-            TresXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris,
-                    UltimesDosXifresGordo, UltimaXifraGordo);
-            //cridem a les funcions que decideixen quins premis secundaris sumar
-            
-            PrimTresXifSegon(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris,
-                    PrimerTresXifresTercer, PrimerTresXifresQuart1, PrimerTresXifresQuart2);
+    public static void AssignacioPremis(int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[] array_PremisSecundaris) throws IOException {
+        //Crida a funcio TrobarNumeroPremiat           
 
-            AproxPrim(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris, AproxSeg, AproxTerc);
-            //cridem a la funcio que decideix quina aproximacio sumar
+        //If per saber si el numero escollit te premi principal.
+        boolean AproxSeg = false, AproxTerc = false, PrimerTresXifresTercer = false, PrimerTresXifresQuart1 = false,
+                PrimerTresXifresQuart2 = false, UltimaXifraGordo = false, UltimesDosXifresGordo = false;
 
-            DesglosarPremi(array_PremisSecundaris);
-            //funcio per mostrar els premis obtinguts al usuari
+        TresXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris,
+                UltimesDosXifresGordo, UltimaXifraGordo);
+        //cridem a les funcions que decideixen quins premis secundaris sumar
+
+        PrimTresXifSegon(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris,
+                PrimerTresXifresTercer, PrimerTresXifresQuart1, PrimerTresXifresQuart2);
+
+        AproxPrim(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris, AproxSeg, AproxTerc);
+        //cridem a la funcio que decideix quina aproximacio sumar
+
+        DesglosarPremi(array_PremisSecundaris);
+        //funcio per mostrar els premis obtinguts al usuari
+        System.out.println();
     }
 
     /**
@@ -130,13 +135,13 @@ public class ProjecteLoteria {
             boolean UltimesDosXifresGordo, boolean UltimaXifraGordo) {
         //com aquests premis no son compatibles, revisem desde el que te mes prioritat per assignar algun d'ells, cridan a les funcions que el donen
         if (numeroUsuari != array_NumerosPremiats[0]) {
-            
+
             boolean PrimeresTresXifresGordo = PrimeresTresXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
             if (PrimeresTresXifresGordo == false) {
-                
+
                 UltimesDosXifresGordo = UltimesDosXifresGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
                 if (UltimesDosXifresGordo == false) {
-                    
+
                     UltimaXifraGordo = UltimaXifraGordo(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
                 }
             }
@@ -157,15 +162,15 @@ public class ProjecteLoteria {
             boolean PrimerTresXifresTercer, boolean PrimerTresXifresQuart1, boolean PrimerTresXifresQuart2) {
         //com aquests premis no son compatibles, revisem desde el que te mes prioritat per assignar algun d'ells, cridan a les funcions que el donen
         if (numeroUsuari != array_NumerosPremiats[1]) {
-            
+
             boolean PrimeresTresXifresSegon = PrimeresTresXifresSegonPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
-            
+
             if (PrimeresTresXifresSegon == false && numeroUsuari != array_NumerosPremiats[2]) {
                 PrimerTresXifresTercer = PrimeresTresXifresTercerPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
-                
+
                 if (PrimerTresXifresTercer == false && numeroUsuari != array_NumerosPremiats[3]) {
                     PrimerTresXifresQuart1 = PrimeresTresXifresQuartPremi1(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
-                    
+
                     if (PrimerTresXifresQuart1 == false && numeroUsuari != array_NumerosPremiats[4]) {
                         PrimerTresXifresQuart2 = PrimeresTresXifresQuartPremi2(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
                     }
@@ -187,10 +192,10 @@ public class ProjecteLoteria {
     public static void AproxPrim(int numeroUsuari, int[] array_NumerosPremiats, PremiSecundari[] array_PremisSecundaris, boolean AproxSeg, boolean AproxTerc) {
         //com aquests premis no son compatibles, revisem desde el que te mes prioritat per assignar algun d'ells, cridan a les funcions que el donen
         boolean AproxPrim = AproximacioPrimerPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
-       
+
         if (AproxPrim == false) {
             AproxSeg = AproximacioSegonPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
-            
+
             if (AproxSeg == false) {
                 AproxTerc = AproximacioTercerPremi(numeroUsuari, array_NumerosPremiats, array_PremisSecundaris);
             }
@@ -205,14 +210,14 @@ public class ProjecteLoteria {
     //Funcio que genera un array de numeros possibles premiats
     public static void NumeroPremiat(int numeros_premiats[]) {
         final int LIMITNUMEROPREMIAT = 100000;
-      
+
         for (int i = 0; i != numeros_premiats.length; i++) {
             /*While per a què els números s'afegeixen mentre no estiguin repetits. Per a això,
             utilizem un boolean per saber si és repetit o no i recorrem l'array de premis*/
             boolean repetit = false;
-          
+
             int numero_a_afegir = rndm.nextInt(LIMITNUMEROPREMIAT);
-           
+
             for (int j = 0; j < numeros_premiats.length; j++) {
                 if (numeros_premiats[j] == numero_a_afegir) {
                     repetit = true;
@@ -221,7 +226,7 @@ public class ProjecteLoteria {
             while (repetit == true) {
                 numero_a_afegir = rndm.nextInt(LIMITNUMEROPREMIAT);
                 repetit = false;
-              
+
                 for (int j = 0; j < numeros_premiats.length; j++) {
                     if (numeros_premiats[j] == numero_a_afegir) {
                         repetit = true;
@@ -356,11 +361,11 @@ public class ProjecteLoteria {
         array_PremisSecundaris[11].nom = Utilities.LlegirLineaConcreta(28, PathIdioma);
 
         //Per aconseguir les dues ultimes xifres del tercer premi has aconseguit 100€
-        array_PremisSecundaris[11].nom =Utilities.LlegirLineaConcreta(28, PathIdioma);
+        array_PremisSecundaris[11].nom = Utilities.LlegirLineaConcreta(28, PathIdioma);
         //UltimaXifraGordo
         array_PremisSecundaris[11].missatge_premi = Utilities.LlegirLineaConcreta(29, PathIdioma);
         //Per aconseguir l'ultima xifra del gordo has aconseguit el reintegrament del teu numero (20€)
-        
+
         //Ara recorrem la porció de l'array entre PrimeresTresXifresGordo i UltimesDosXifresTercer premi per afegir el premi de 100€
     }
 
@@ -388,7 +393,7 @@ public class ProjecteLoteria {
     public static boolean TrobarNumeroPremiat(int array_NumerosPremiats[], int array_Premis[], int numeroUsuari) {
         boolean result = false;
         int i = 0;
-       
+
         while (result == false && i < TOTALPREMIS) {
             if (array_NumerosPremiats[i] == numeroUsuari) {
                 result = true;
@@ -642,7 +647,7 @@ public class ProjecteLoteria {
         final int APROXINFERIOR = 99999;
         int aproximacio_primer_premi_per_sota = premis[0] - 1;
         int aproximacio_primer_premi_per_sobra = premis[0] + 1;
-        
+
         if (premis[0] == 00000) {
             aproximacio_primer_premi_per_sota = 99999;
             //en els cassos extrems, tanquem la volta de numeros manualment
@@ -674,7 +679,7 @@ public class ProjecteLoteria {
         final int APROXINFERIOR = 99999;
         int aproximacio_segon_premi_per_sota = premis[1] - 1;
         int aproximacio_segon_premi_per_sobre = premis[1] + 1;
-        
+
         if (premis[1] == 00000) {
             aproximacio_segon_premi_per_sota = 99999;
             //en els cassos extrems, tanquem la volta de numeros manualment
@@ -706,7 +711,7 @@ public class ProjecteLoteria {
         final int APROXINFERIOR = 99999;
         int aproximacio_tercer_premi_per_sota = premis[2] - 1;
         int aproximacio_tercer_premi_per_sobra = premis[2] + 1;
-      
+
         if (premis[2] == 00000) {
             aproximacio_tercer_premi_per_sota = 99999;
             //en els cassos extrems, tanquem la volta de numeros manualment
@@ -727,17 +732,17 @@ public class ProjecteLoteria {
      *
      * @param array_PremisSecundaris
      */
-    
     public static void DesglosarPremi(PremiSecundari[] array_PremisSecundaris) throws IOException {
+        System.out.println();
         System.out.println(Utilities.LlegirLineaConcreta(30, PathIdioma) + PREMI_ACUMULAT + "€");
         //Enhorabona, has aconseguit:
-        System.out.println(Utilities.LlegirLineaConcreta(31, PathIdioma));
+        System.out.print(Utilities.LlegirLineaConcreta(31, PathIdioma));
         //Vols desglosar el teu premi?
         boolean noSecundaris = true;
-       
-        if (scan.next().equals("Si")) {
+
+        if (scan.next().equalsIgnoreCase("Si")) {
             //Recorrem el array de premis secundaris i anem imprimint els premis que han tocat
-           
+
             for (int i = 0; i < array_PremisSecundaris.length; i++) {
                 if (array_PremisSecundaris[i].toca) {
                     noSecundaris = false;

@@ -81,7 +81,7 @@ public class Utilities {
 
     public static String LlegirLineaConcreta(int linea, String nomArxiu) throws IOException {
 
-        String result="";
+        String result = "";
         BufferedReader br = AbrirFicheroLectura(nomArxiu, true);
         for (int i = 0; i < linea; ++i) {
             result = br.readLine();
@@ -417,7 +417,7 @@ public class Utilities {
     public static int demanaNumEnter(String missatge, String error) {
         Scanner scan = new Scanner(System.in);
         int result;
-        System.out.println(missatge);
+        System.out.print(missatge);
 
         while (!scan.hasNextInt()) {
             scan.next();
@@ -426,6 +426,23 @@ public class Utilities {
         result = scan.nextInt();
 
         //Tornar el resultat de la funció
+        return result;
+    }
+
+    /**
+     *
+     * @param missatge
+     * @param error
+     * @param valorMin
+     * @param valorMax
+     * @return
+     */
+    public static int demanaNumEnterAcotat(String missatge, String error, int valorMin, int valorMax) {
+        int result = 0;
+        do {
+            result = demanaNumEnter(missatge, error);
+        } while (result < valorMin || result > valorMax);
+
         return result;
     }
 
@@ -442,10 +459,10 @@ public class Utilities {
 
         return intArray;
     }
-    
+
     /**
      * Crea un Menú a partir del scan i un array amb les opcions del menú
-     * 
+     *
      * @param scan Escaner
      * @param array_opcions Array amb les opcions del menú, les quals són
      * Strings
@@ -460,7 +477,7 @@ public class Utilities {
         }
         System.out.println(""); //Deixem una línia de separació
         //La registrem cridant LlegirInt()
-        Colles.opcio_escollida = LlegirInt(scan,"Escull una opcio (numero): ",1,array_opcions.length);
+        Colles.opcio_escollida = LlegirInt(scan, "> ", 1, array_opcions.length);
         System.out.println(""); //Deixem una línia de separació
     }
 
