@@ -95,7 +95,7 @@ public class HistorialLoteries {
 
         PremisLoteria PL = new PremisLoteria();
         PL.any = anySorteig;
-        ProjecteLoteria.NumeroPremiat(PL.array_NumerosPremiats);
+        ProjecteLoteria.NumeroPremiatAmanyat(PL.array_NumerosPremiats);
         ProjecteLoteria.CompletarPremisPrincipals(PL.array_PremisPrincipals);
 
         try {

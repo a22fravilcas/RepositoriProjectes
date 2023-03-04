@@ -36,8 +36,8 @@ Año del sorteo:
 Nombre:  
 Número de Lotería:  
 Importe:  
-|    AÑO    |  MIEMBROS |  IMPORTE  |  PREMIO  |    
-|   NOMBRE  |   NÚMERO  |  IMPORTE  |  PREMIO  |
+|    AÑO    |  MIEMBROS |  IMPORTE  |  PREMIO  |   DISTRIBUCIÓN   |    
+|   NOMBRE  |   NÚMERO  |  IMPORTE  |  PREMIO  |   DISTRIBUCIÓN   |
 Introduce el año del sorteo que quieras comprobar 
 Estas participando en solitario o con amigos? 
 No

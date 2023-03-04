@@ -6,15 +6,24 @@ package projecteloteria;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Scanner;
+import static projecteloteria.ProjecteLoteria.AssignacioPremis;
+import static projecteloteria.ProjecteLoteria.CompletarPremisPrincipals;
+import static projecteloteria.ProjecteLoteria.CompletarPremisSecundaris;
+import static projecteloteria.ProjecteLoteria.NumeroPremiatAmanyat;
 import static projecteloteria.ProjecteLoteria.PREMI_ACUMULAT;
 import static projecteloteria.ProjecteLoteria.PathIdioma;
+import static projecteloteria.ProjecteLoteria.TIPUS_PREMIS_SECUNDARIS;
 import static projecteloteria.ProjecteLoteria.TOTALPREMIS;
+import static projecteloteria.ProjecteLoteria.TrobarNumeroPremiat;
 import static projecteloteria.ProjecteLoteria.TrobarPremi;
+import static projecteloteria.ProjecteLoteria.array_NumerosPremiats;
 import static projecteloteria.ProjecteLoteria.array_PremisPrincipals;
+import static projecteloteria.ProjecteLoteria.array_PremisSecundaris;
 import static projecteloteria.ProjecteLoteria.indexnummatch;
 import utilities.Utilities;
 
@@ -33,6 +42,7 @@ public class Colles {
         int numero_membres;
         int import_colla;
         int premi_colla;
+        int distribucio_colla;
     }
     
     //Classe Membre
@@ -41,10 +51,14 @@ public class Colles {
         int numero_loteria;
         int import_membre;
         int premi_membre;
+        int distribucio_membre;
     }
     
     //CONSTANTS
-    public static final String NOM_FITXER_HISTORIAL = "./Historial_Loteria.bin";
+    public static String nomFitxer = "Historial_Loteries";
+    public static String PathName = Utilities.PATH_FITXER + nomFitxer + Utilities.EXTENSIONS_FITXER_BIN;
+    public static File fitxer = new File(PathName);
+    public static final String NOM_FITXER_HISTORIAL = "./Historial_Loteries.bin";
     public static final String NOM_FITXER_COLLES = "./fitxer_colles.bin";
     public static final String NOM_FITXER_COLLES_REMPLAÇ = "./fitxer_colles_nou.bin";
     public static final String NOM_FITXER_NOMS_COLLES = "./fitxer_noms_colles.bin";
@@ -54,7 +68,7 @@ public class Colles {
     public static final int DIVISOR_5 = 5; /*Divisor que utilitzem per comprovar que l'import
     d'un membre és múltiple de 5*/
     public static final String FORMAT_DADES = "%-12s"; 
-    public static final int NUMERO_ATRIBUTS = 4; //Número d'atributs a imprimir de les colles i els membres
+    public static final int NUMERO_ATRIBUTS = 5; //Número d'atributs a imprimir de les colles i els membres
     public static final String [] OPCIONS_MENU_COLLES = {"1.Afegir colla","2.Modificar colla","3.Mostrar colles","4.Sortir"};
     public static final String [] OPCIONS_MENU_MODIFICAR_COLLA = {"1.Afegir membre"};
     
@@ -65,6 +79,13 @@ public class Colles {
     
     public static void main(String[] args) throws IOException {
         //linea 50
+            PathIdioma = "./idiomas/catala.txt";
+
+        int [] array_NumerosPremiatsAmanyat = HistorialLoteries.BuscarPremisLoteria(); 
+        array_PremisPrincipals = new int[TOTALPREMIS];
+        CompletarPremisPrincipals(array_PremisPrincipals);
+        array_PremisSecundaris = new ProjecteLoteria.PremiSecundari[TIPUS_PREMIS_SECUNDARIS];
+        CompletarPremisSecundaris(array_PremisSecundaris);
         Utilities.Menu(scan, OPCIONS_MENU_COLLES);
         CridarOpcionsMenuColles();
         
@@ -84,6 +105,7 @@ public class Colles {
                     CompletarColla(colla, membre);
                     EscriureColla(colla);
                     EscriureMembre(membre,NOM_FITXER_COLLES);
+                    DistribuirPremi(colla);
                     break;
                 case 2:
                     Utilities.Menu(scan, OPCIONS_MENU_MODIFICAR_COLLA);
@@ -110,9 +132,9 @@ public class Colles {
                 Colla colla = DemanarCollaExistent();
                 Membre membre = DemanarMembre(colla);
                 AfegirMembreModificarColla(colla,membre);
+                DistribuirPremi(colla);
                 break;           
-        }
-        
+        }       
     }
 
     
@@ -148,6 +170,12 @@ public class Colles {
             any_validat = ValidarAnyNou(colla.nom,Integer.toString(colla.any));
         }
         //Any del sorteig: 
+        any_validat = ValidarAnySorteig(colla.any);
+        while (!any_validat){
+            colla.any = Utilities.LlegirInt(scan,Utilities.LlegirLineaConcreta(35, "./idiomas/catala.txt"));
+            any_validat = ValidarAnySorteig(colla.any);
+        }
+        
         //Retornem la colla
         return colla;
     }
@@ -171,7 +199,7 @@ public class Colles {
             if (any_sorteig==any){
                 any_validat=true;
             }
-            raf.seek(raf.getFilePointer()+3615);
+            raf.seek(raf.getFilePointer()+7228);
             any=LlegirAnyHistorial(raf);
         }
         raf.close();
@@ -289,12 +317,12 @@ public class Colles {
         while (membre.import_membre%DIVISOR_5 != 0){
             membre.import_membre = Utilities.LlegirInt(scan, "Import: ", IMPORT_MINIM, IMPORT_MAXIM);
         }
-        //membre.premi_membre = 
+        BuscarPremi(colla,membre);
         //Retornem el membre
         return membre;
     }
     
-    public static int BuscarPremi (Colla colla, Membre membre) throws FileNotFoundException, IOException{
+    public static void BuscarPremi (Colla colla, Membre membre) throws FileNotFoundException, IOException{
         RandomAccessFile raf = new RandomAccessFile(NOM_FITXER_HISTORIAL, "r");
         int any = LlegirAnyHistorial(raf);
         while (any!=-1){
@@ -304,10 +332,15 @@ public class Colles {
                     array_NumerosPremiats[i]=raf.readInt();
                 }
                 PREMI_ACUMULAT = 0;
+                boolean premiat = TrobarNumeroPremiat(array_NumerosPremiats, array_PremisPrincipals, membre.numero_loteria);
                 if (premiat) {
-                    int premiTrobat = TrobarPremi(indexnummatch, array_PremisPrincipals);
+                    TrobarPremi(indexnummatch, array_PremisPrincipals);
+                }
+                AssignacioPremis( membre.numero_loteria,  array_NumerosPremiats, array_PremisSecundaris);
+                membre.premi_membre=PREMI_ACUMULAT*membre.import_membre/20;
+                PREMI_ACUMULAT=0;
             }
-            raf.seek(raf.getFilePointer()+3615);
+            raf.seek(raf.getFilePointer()+7228);
             any=LlegirAnyHistorial(raf);
         }
     }
@@ -338,11 +371,23 @@ public class Colles {
                             dada_afegir = String.format(FORMAT_DADES, Integer.toString(Integer.parseInt(dada_afegir.trim()) + membre.import_membre));
                         }                    
                     }
+                    if (j == 4) {
+                        if (nom_colla.contains(colla.nom) && any_colla.equals(Integer.toString(colla.any))){ 
+                            dada_afegir = String.format(FORMAT_DADES, Integer.toString(Integer.parseInt(dada_afegir.trim()) + membre.premi_membre));
+                        }  
+                    }
+                    if (j == 5) {
+                        if (nom_colla.contains(colla.nom) && any_colla.equals(Integer.toString(colla.any))){ 
+                            dada_afegir = String.format(FORMAT_DADES, Integer.toString(Integer.parseInt(dada_afegir.trim()) + membre.premi_membre));
+                        }  
+                    }
                     dos.writeUTF(dada_afegir);
+                    
                 }              
             }     
             for (int k = 1; k <= numero_membres_colla_actual; k++) {
                 for (int l = 1; l <= NUMERO_ATRIBUTS; l++) {
+                 
                     dos.writeUTF(dis2.readUTF());
                 }
             }
@@ -372,6 +417,66 @@ public class Colles {
         colla.numero_membres++;
         colla.import_colla=colla.import_colla+membre.import_membre;
         colla.premi_colla=colla.premi_colla+membre.premi_membre;
+        colla.distribucio_colla=colla.premi_colla;
+    }
+    
+    public static void DistribuirPremi (Colla colla) throws FileNotFoundException, IOException{
+        DataInputStream dis1 = Utilities.AbrirFicheroLecturaBinario(NOM_FITXER_NOMS_COLLES, true);
+        RandomAccessFile raf2 = new RandomAccessFile(NOM_FITXER_COLLES, "rw");
+        ComptarColles();
+        for (int i = 1; i <= numero_colles; i++) {
+            String nom_colla = dis1.readUTF();
+            String any_colla = dis1.readUTF();
+            
+            if (nom_colla.equals(colla.nom) && any_colla.equals(Integer.toString(colla.any))){
+                for (int m=1;m<=i-1;m++){
+                    /*raf2.seek(raf2.getFilePointer()+12);
+                    numero_membres_colla_actual=Integer.parseInt(raf2.readUTF().trim());
+                    raf2.seek(raf2.getFilePointer()+36+60*numero_membres_colla_actual);*/
+                    raf2.readUTF();
+                    numero_membres_colla_actual = Integer.parseInt(raf2.readUTF().trim());
+                    for (int n=1;n<=numero_membres_colla_actual*5+3;n++){
+                        raf2.readUTF();
+                    }
+                }
+                raf2.readUTF();
+                
+                for (int j = 2; j <= NUMERO_ATRIBUTS; j++) {
+                        String dada_afegir = raf2.readUTF();
+                        if (j == 2) {
+                            numero_membres_colla_actual = Integer.parseInt(dada_afegir.trim());
+                        }
+                        if (j == 3) {
+                            colla.import_colla = Integer.parseInt(dada_afegir.trim());
+                        }
+                        if (j == 4) {
+                            colla.premi_colla = Integer.parseInt(dada_afegir.trim());
+                        }
+                }
+                    for (int k=1;k<=numero_membres_colla_actual;k++){
+                        int import_membre = 0;
+                        for (int l=1;l<=NUMERO_ATRIBUTS-1;l++){                           
+                            String dada_afegir = raf2.readUTF();
+                            if (l==3){
+                                import_membre = Integer.parseInt(dada_afegir.trim());
+                            }
+                            else if (l==4){
+                                String distribucio = Integer.toString(colla.premi_colla*import_membre/colla.import_colla);
+                                raf2.writeUTF(String.format(FORMAT_DADES,distribucio));
+                            }
+                        }
+                    }
+                    numero_membres_colla_actual=0;
+                
+            }
+        }
+        numero_membres_colla_actual=0;
+        numero_colles=0;
+        Utilities.CerrarFicheroBinario(dis1);
+        raf2.close();
+        
+        
+        
     }
     
     public static void EscriureColla (Colla colla) throws IOException{
@@ -383,6 +488,7 @@ public class Colles {
         dos2.writeUTF(String.format(FORMAT_DADES, Integer.toString(colla.numero_membres)));
         dos2.writeUTF(String.format(FORMAT_DADES,Integer.toString(colla.import_colla)));
         dos2.writeUTF(String.format(FORMAT_DADES,Integer.toString(colla.premi_colla)));
+        dos2.writeUTF(String.format(FORMAT_DADES,Integer.toString(colla.distribucio_colla)));
         Utilities.CerrarFicheroBinario(dos1);
         Utilities.CerrarFicheroBinario(dos2);
     }
@@ -395,6 +501,7 @@ public class Colles {
         dos.writeUTF(String.format(FORMAT_DADES,Integer.toString(membre.numero_loteria)));
         dos.writeUTF(String.format(FORMAT_DADES,Integer.toString(membre.import_membre)));
         dos.writeUTF(String.format(FORMAT_DADES,Integer.toString(membre.premi_membre)));
+        dos.writeUTF(String.format(FORMAT_DADES,Integer.toString(0)));
         //raf.close();
         Utilities.CerrarFicheroBinario(dos);
     }
